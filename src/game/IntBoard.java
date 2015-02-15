@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class IntBoard {
+	private static final LinkedList<BoardCell> LinkedList = null;
 	private Map<BoardCell, LinkedList<BoardCell>> adjacencies;
 	private Set<BoardCell> targetList;
 	
@@ -15,69 +16,115 @@ public class IntBoard {
 	}
 	
 	public void calcAdjacencies(){
-		Map<Integer, Integer> adj_matrix = new HashMap<Integer, Integer>();
-		Set<BoardCell> keySet = adjacencies.keySet();
-		
-		
-		for(int i = 0; i < adjacencies.size(); i++ ) { //this makes a map of the matrix (i believe) as long as adjacencies is as large as our board
-			for(int j = i; j < adjacencies.size();j++) {
-				
+		for(int i = 0; i < 4; i++ ) { //this makes a map of the matrix (i believe) as long as adjacencies is as large as our board
+			for(int j = i; j < 4;j++) {
+				BoardCell b = new BoardCell(i, j);
 				if(i == 0 && j == 0){
 					
-					adj_matrix.put(i, j+1);
-					adj_matrix.put(i+1, j);
+					 b = new BoardCell(i, j+1);
+					 LinkedList.add(b);
+					 adjacencies.put(b, LinkedList);
+				     b = new BoardCell(i+1, j);
+					 LinkedList.add(b);
+					 adjacencies.put(b, LinkedList);
 					
 				} else if(i >= 1 && j == 0) {
 					
-					adj_matrix.put(i,j+1);
-					adj_matrix.put(i+1,j);
-					adj_matrix.put(i-1,j);
+					 b = new BoardCell(i,j+1);
+					 LinkedList.add(b);
+					 adjacencies.put(b, LinkedList);
+					b = new BoardCell(i+1,j);
+					 LinkedList.add(b);
+					 adjacencies.put(b, LinkedList);
+					b = new BoardCell(i-1,j);
+					 LinkedList.add(b);
+					 adjacencies.put(b, LinkedList);
 					
 				} else if(i == 0 && j >= 1) {
 					
-					adj_matrix.put(i, j+1);
-					adj_matrix.put(i,j-1);
-					adj_matrix.put(i+1,j);
+					b = new BoardCell(i, j+1);
+					LinkedList.add(b);
+					adjacencies.put(b, LinkedList);
+					b = new BoardCell(i,j-1);
+					LinkedList.add(b);
+					adjacencies.put(b, LinkedList);
+					b = new BoardCell(i+1,j);
+					LinkedList.add(b);
+					adjacencies.put(b, LinkedList);
 					
 				} else if(i >= 1 && j >= 1 && i < adjacencies.size() && j < adjacencies.size() ) {
 					
-					adj_matrix.put(i-1,j);
-					adj_matrix.put(i+1,j);
-					adj_matrix.put(i,j+1);
-					adj_matrix.put(i,j-1);
+				    b = new BoardCell(i-1,j);
+				    LinkedList.add(b);
+				    adjacencies.put(b, LinkedList);
+					b = new BoardCell(i+1,j);
+					LinkedList.add(b);
+					adjacencies.put(b, LinkedList);
+					b = new BoardCell(i,j+1);
+					LinkedList.add(b);
+					adjacencies.put(b, LinkedList);
+					b = new BoardCell(i,j-1);
+					LinkedList.add(b);
+					adjacencies.put(b, LinkedList);
 					
 				} else if(i == adjacencies.size() && j == 0) {
 					
-					adj_matrix.put(i-1, j);
-					adj_matrix.put(i, j+1);
+					b = new BoardCell(i-1, j);
+					LinkedList.add(b);
+					adjacencies.put(b, LinkedList);
+					b = new BoardCell(i, j+1);
+					LinkedList.add(b);
+					adjacencies.put(b, LinkedList);
 					
 				} else if(i == adjacencies.size() && j == adjacencies.size()) {
 					
-					adj_matrix.put(i-1, j);
-					adj_matrix.put(i, j-1);
+					b = new BoardCell(i-1, j);
+					LinkedList.add(b);
+					adjacencies.put(b, LinkedList);
+					b = new BoardCell(i, j-1);
+					LinkedList.add(b);
+					adjacencies.put(b, LinkedList);
 					
 				} else if(i == 0 && j == adjacencies.size()) {
 					
-					adj_matrix.put(i+1, j);
-					adj_matrix.put(i, j-1);
+					b = new BoardCell(i+1, j);
+					LinkedList.add(b);
+					adjacencies.put(b, LinkedList);
+					b = new BoardCell(i, j-1);
+					LinkedList.add(b);
+					adjacencies.put(b, LinkedList);
 					
 				}else if(i >= 1 && j == adjacencies.size()) {
 					
-					adj_matrix.put(i-1, j);
-					adj_matrix.put(i,j-1);
-					adj_matrix.put(i+1,j);
+					b = new BoardCell(i-1, j);
+					LinkedList.add(b);
+					adjacencies.put(b, LinkedList);
+					b = new BoardCell(i,j-1);
+					LinkedList.add(b);
+					adjacencies.put(b, LinkedList);
+					b = new BoardCell(i+1,j);
+					LinkedList.add(b);
+					adjacencies.put(b, LinkedList);
 					
 				}else if(i == adjacencies.size() && j >= 1) {
 					
-					adj_matrix.put(i, j-1);
-					adj_matrix.put(i-1,j);
-					adj_matrix.put(i+1,j);
+					b = new BoardCell(i, j-1);
+					LinkedList.add(b);
+					adjacencies.put(b, LinkedList);
+					b = new BoardCell(i-1,j);
+					LinkedList.add(b);
+					adjacencies.put(b, LinkedList);
+					b = new BoardCell(i+1,j);
+					LinkedList.add(b);
+					adjacencies.put(b, LinkedList);
 					
 				}
+					
 			}
 		}
-		
 	}
+		
+	
 	
 	public void calcTargets(BoardCell currentCell, int moveNum ){
 		
