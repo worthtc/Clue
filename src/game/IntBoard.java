@@ -18,33 +18,61 @@ public class IntBoard {
 		Map<Integer, Integer> adj_matrix = new HashMap<Integer, Integer>();
 		Set<BoardCell> keySet = adjacencies.keySet();
 		
+		
 		for(int i = 0; i < adjacencies.size(); i++ ) { //this makes a map of the matrix (i believe) as long as adjacencies is as large as our board
 			for(int j = i; j < adjacencies.size();j++) {
+				
 				if(i == 0 && j == 0){
-					adj_matrix.put(0, 1);
-					adj_matrix.put(1, 0);
-				}else if(i >= 1 && j == 0) {
+					
+					adj_matrix.put(i, j+1);
+					adj_matrix.put(i+1, j);
+					
+				} else if(i >= 1 && j == 0) {
+					
 					adj_matrix.put(i,j+1);
 					adj_matrix.put(i+1,j);
 					adj_matrix.put(i-1,j);
+					
 				} else if(i == 0 && j >= 1) {
+					
 					adj_matrix.put(i, j+1);
 					adj_matrix.put(i,j-1);
 					adj_matrix.put(i+1,j);
+					
 				} else if(i >= 1 && j >= 1 && i < adjacencies.size() && j < adjacencies.size() ) {
+					
 					adj_matrix.put(i-1,j);
 					adj_matrix.put(i+1,j);
 					adj_matrix.put(i,j+1);
 					adj_matrix.put(i,j-1);
+					
 				} else if(i == adjacencies.size() && j == 0) {
+					
 					adj_matrix.put(i-1, j);
 					adj_matrix.put(i, j+1);
+					
 				} else if(i == adjacencies.size() && j == adjacencies.size()) {
+					
 					adj_matrix.put(i-1, j);
 					adj_matrix.put(i, j-1);
+					
 				} else if(i == 0 && j == adjacencies.size()) {
+					
 					adj_matrix.put(i+1, j);
 					adj_matrix.put(i, j-1);
+					
+				}else if(i >= 1 && j == adjacencies.size()) {
+					
+					adj_matrix.put(i-1, j);
+					adj_matrix.put(i,j-1);
+					adj_matrix.put(i+1,j);
+					
+				}else if(i == adjacencies.size() && j >= 1) {
+					
+					adj_matrix.put(i, j-1);
+					adj_matrix.put(i-1,j);
+					adj_matrix.put(i+1,j);
+					
 				}
 			}
 		}
