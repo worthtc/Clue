@@ -145,6 +145,7 @@ public class IntBoard {
 			  targetList.add(adjCell);
 		  } else {
 			  calcTargets(adjCell,moveNum);
+			  visited.remove(adjCell);
 		  }
 		}
 	}
