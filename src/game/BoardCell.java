@@ -7,5 +7,33 @@ public class BoardCell {
 		this.row = row;
 		this.column = column;
 	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if( obj instanceof BoardCell && this.row == ((BoardCell) obj).row && this.column == ((BoardCell) obj).column ){
+			return true;
+		}
+		return false;
+	}
+
+
+	
+	public int getRow() {
+		return row;
+	}
+
+
+	public int getColumn() {
+		return column;
+	}
+
+
+	@Override
+	public String toString() {
+		return "BoardCell [row=" + row + ", column=" + column + "]";
+	}
+	
+	
 	
 }
