@@ -1,5 +1,6 @@
 package game;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -16,9 +17,12 @@ public class IntBoard {
 	}
 	
 	public void calcAdjacencies(){
-		for(int i = 0; i < 4; i++ ) { //this makes a map of the matrix (i believe) as long as adjacencies is as large as our board
+		
+		for(int i = 0; i < 4; i++ ) { 
+			
 			for(int j = i; j < 4;j++) {
 				BoardCell b = new BoardCell(i, j);
+				
 				if(i == 0 && j == 0){
 					
 					 b = new BoardCell(i, j+1);
@@ -30,7 +34,8 @@ public class IntBoard {
 					
 				} else if(i >= 1 && j == 0) {
 					
-					 b = new BoardCell(i,j+1);
+					 
+					b = new BoardCell(i,j+1);
 					 LinkedList.add(b);
 					 adjacencies.put(b, LinkedList);
 					b = new BoardCell(i+1,j);
@@ -39,6 +44,7 @@ public class IntBoard {
 					b = new BoardCell(i-1,j);
 					 LinkedList.add(b);
 					 adjacencies.put(b, LinkedList);
+					
 					
 				} else if(i == 0 && j >= 1) {
 					
@@ -107,7 +113,8 @@ public class IntBoard {
 					adjacencies.put(b, LinkedList);
 					
 				}else if(i == adjacencies.size() && j >= 1) {
-					
+					b.setColumn(i);
+					b.setRow(j-1);
 					b = new BoardCell(i, j-1);
 					LinkedList.add(b);
 					adjacencies.put(b, LinkedList);
@@ -127,7 +134,19 @@ public class IntBoard {
 	
 	
 	public void calcTargets(BoardCell currentCell, int moveNum ){
-		
+		ArrayList<BoardCell> visited = new ArrayList<BoardCell>();
+		ArrayList<BoardCell> adjacentCells = new ArrayList<BoardCell>();
+		BoardCell start = new BoardCell(0,0);
+		targetList.add(start);
+		adjacentCells.addAll(adjacencies.get(currentCell));
+		for(BoardCell adjCell: adjacentCells ){
+		  visited.add(adjCell);
+		  if(moveNum == 1){
+			  targetList.add(adjCell);
+		  } else {
+			  calcTargets(adjCell,moveNum);
+		  }
+		}
 	}
 	
 	public Set<BoardCell> getTargets(){
@@ -139,7 +158,7 @@ public class IntBoard {
 	}
 	
 	public BoardCell getCell( int row, int column ){
-		return new BoardCell(0, 0);
+		return new BoardCell(row, column);
 	}
 
 }
