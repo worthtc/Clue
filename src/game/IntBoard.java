@@ -74,5 +74,6 @@ public class IntBoard {
 			}
 		}
 		return new BoardCell( -1, -1);
+
 	}
 }
