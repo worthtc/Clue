@@ -15,10 +15,27 @@ public class BoardCell {
 		}
 		return false;
 	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + column;
+		result = prime * result + row;
+		return result;
+	}
 
 	@Override
 	public String toString() {
 		return "BoardCell [row=" + row + ", column=" + column + "]";
+	}
+
+	public int getRow() {
+		return row;
+	}
+
+	public int getColumn() {
+		return column;
 	}
 	
 	

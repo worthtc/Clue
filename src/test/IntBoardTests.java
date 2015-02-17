@@ -85,7 +85,7 @@ public class IntBoardTests {
 		Assert.assertTrue( targets.contains( testBoard.getCell(2, 1)));
 		Assert.assertTrue( targets.contains( testBoard.getCell(1, 0)));
 		Assert.assertTrue( targets.contains( testBoard.getCell(1, 2)));
-		Assert.assertTrue( targets.contains( testBoard.getCell(3, 0)));
+		Assert.assertTrue( targets.contains( testBoard.getCell(0, 3))); 
 		Assert.assertEquals(4, targets.size());
 		
 		testCell = testBoard.getCell(0, 0);
