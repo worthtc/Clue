@@ -30,13 +30,6 @@ public class BoardCell {
 		return "BoardCell [row=" + row + ", column=" + column + "]";
 	}
 
-	public int getRow() {
-		return row;
-	}
-
-	public int getColumn() {
-		return column;
-	}
 	
 	
 
