@@ -1,10 +1,10 @@
-package test;
+package Test;
 import java.util.LinkedList;
 import java.util.Set;
 import org.junit.Test;
 
-import game.BoardCell;
-import game.IntBoard;
+import Game.BoardCell;
+import Game.IntBoard;
 
 import org.junit.*;
 
