@@ -11,12 +11,19 @@ public class IntBoard {
 	private Map<BoardCell, LinkedList<BoardCell>> adjacencies;
 	private Set<BoardCell> targetList;
 	private ArrayList<BoardCell> visited;
+	private BoardCell[][] board;
 	private static final int BOARDSIZE = 4;
 	
 	public IntBoard() {
 		this.adjacencies = new HashMap<BoardCell, LinkedList<BoardCell>>(); 
 		targetList = new HashSet<BoardCell>();
 		visited = new ArrayList<BoardCell>();
+		board = new BoardCell[BOARDSIZE][BOARDSIZE];
+		for( int i = 0; i < BOARDSIZE; i++ ){
+			for( int j = 0; j < BOARDSIZE; j++ ){
+				board[i][j] = new BoardCell(i, j );
+			}
+		}
 	}
 	
 	public void calcAdjacencies(){
@@ -24,18 +31,18 @@ public class IntBoard {
 			for(int j = 0; j < BOARDSIZE;j++) {
 				LinkedList<BoardCell> adjList = new LinkedList<BoardCell>();
 				if( i - 1 >= 0 ){
-					adjList.add( new BoardCell(i-1, j));
+					adjList.add( board[i-1][j]);
 				}
 				if( j - 1 >= 0 ){
-					adjList.add( new BoardCell(i, j-1));
+					adjList.add( board[i][j-1]);
 				}
 				if( i + 1 < BOARDSIZE ){
-					adjList.add( new BoardCell(i+1, j));
+					adjList.add( board[i+1][j]);
 				}
 				if( j + 1 < BOARDSIZE ){
-					adjList.add( new BoardCell(i, j+1));
+					adjList.add( board[i][j+1]);
 				}
-				adjacencies.put( new BoardCell(i, j), adjList);	
+				adjacencies.put( board[i][j], adjList);	
 			}
 			
 		}
@@ -83,7 +90,7 @@ public class IntBoard {
 		visited.clear();
 	}
 	public BoardCell getCell( int row, int column ){
-		return new BoardCell(row, column );
+		return board[row][column];
 
 	}
 }
