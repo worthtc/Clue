@@ -1,0 +1,12 @@
+C =,Chapel
+S =,Solar
+K =,Kitchen
+L =,Lord and Ladies' Room
+D =,Dungeon
+A =,Armory
+B =,Barracks
+E = ,Entryway
+G =,Great Hall
+T =,Throne Room
+O =,Oubliette
+X =,Wardrobe (Impassable)
