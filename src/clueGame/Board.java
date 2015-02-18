@@ -11,7 +11,9 @@ public class Board {
   public void loadBordConfig(){
 	  
   }
-
+  public BoardCell getCell(int x, int y){
+	  return new BoardCell(x,y);
+  }
   public BoardCell[][] getLayout() {
 	return layout;
   }
@@ -26,5 +28,9 @@ public class Board {
 
   public Map<Character, String> getRooms() {
 	return rooms;
+  }
+  public RoomCell getRoom(int x,int y){
+	return new RoomCell(x,y);
+	  
   }
 }
