@@ -1,9 +1,9 @@
-package game;
+package clueGame;
 
 public class RoomCell extends BoardCell {
 	public enum DoorDirection{UP,DOWN,LEFT,RIGHT};
 	private DoorDirection doorDirection;
-	private Character room_initial;
+	private char room_initial;
 	
 	@Override
 	public boolean isRoom(){

@@ -1,12 +1,12 @@
 package test;
 import java.util.LinkedList;
 import java.util.Set;
+
 import org.junit.Test;
-
-import game.BoardCell;
-import game.IntBoard;
-
 import org.junit.*;
+
+import clueGame.BoardCell;
+import clueGame.IntBoard;
 
 public class IntBoardTests {
 	private IntBoard testBoard;

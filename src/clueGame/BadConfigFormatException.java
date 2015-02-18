@@ -1,4 +1,4 @@
-package game;
+package clueGame;
 
 import java.io.File;
 import java.io.FileWriter;

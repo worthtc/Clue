@@ -1,4 +1,4 @@
-package game;
+package clueGame;
 
 public class WalkWayCell extends BoardCell {
     @Override
