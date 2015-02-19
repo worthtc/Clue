@@ -9,7 +9,6 @@ public class ClueGame {
    public ClueGame() {
 	   rooms = new HashMap<Character,String>();
    }
-   
    public void loadConfigFiles(){
 	   
    }

@@ -13,7 +13,7 @@ public class BadConfigFormatException extends Exception {
 	this.columns = columns;
 	 File file = new File("logfile.txt");
 	 FileWriter file_write = new FileWriter(file);
-	 file_write.write(toString());
+	 file_write.write( toString());
 	 file_write.close();
 	}
 
