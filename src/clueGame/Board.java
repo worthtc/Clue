@@ -1,15 +1,36 @@
-	package clueGame;
+package clueGame;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 public class Board {
   private BoardCell layout [][];
   private int numRows,numColumns;
   Map<Character,String> rooms; 
   
-  public void loadBordConfig(){
-	  
+  public Map<Character,String> loadBoardConfig( String boardName, String legendName ) throws BadConfigFormatException {
+	  FileReader legendReader;
+	try {
+		legendReader = new FileReader( legendName );
+		Scanner legendInput = new Scanner( legendReader );
+		while( legendInput.hasNextLine() ){
+			String strParse = legendInput.nextLine();
+			String[] parseArray = strParse.split( "," );
+			if( parseArray.length != 2 || parseArray[0].length() != 1 ){
+				throw new BadConfigFormatException();
+			}
+			Character mapChar = parseArray[0].charAt(0);
+			String mapString = parseArray[1];
+			rooms.put(mapChar, mapString);
+		}
+		
+	} catch (FileNotFoundException e) {
+		e.printStackTrace(); // Added better error reporting
+	}
+	return rooms;
   }
   
   public Board() {
