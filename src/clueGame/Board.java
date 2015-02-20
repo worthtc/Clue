@@ -2,6 +2,8 @@ package clueGame;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
+import java.io.LineNumberReader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -13,6 +15,7 @@ public class Board {
   
   public Map<Character,String> loadBoardConfig( String boardName, String legendName ) throws BadConfigFormatException {
 	  FileReader legendReader;
+	  int line_num =0;
 	try {
 		legendReader = new FileReader( legendName );
 		Scanner legendInput = new Scanner( legendReader );
@@ -35,12 +38,22 @@ public class Board {
 			numColumns = roomParse.length; // Here I would like to put the cells into the layout, but we need to figure out some way to get numRows to initialize the layout variable.
 			
 		}
+		LineNumberReader line_read = new LineNumberReader(legendReader);
+		try{
+		  while(line_read.readLine() != null){ //set up initial Rows
+			line_num++;
+		   }
+		  numRows = line_num;
+		  line_read.close();
+		}catch(IOException e){
+			e.printStackTrace();
+		}
 		while( roomInput.hasNextLine() ){
 			String roomsString = roomInput.nextLine();
 			String[] roomParse = roomsString.split( "," );
 			
 		}
-			
+	    
 	} catch (FileNotFoundException e) {
 		e.printStackTrace(); // Added better error reporting
 	}

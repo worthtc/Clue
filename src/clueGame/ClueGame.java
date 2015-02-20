@@ -2,6 +2,7 @@ package clueGame;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import clueGame.Board;
 
 public class ClueGame {
@@ -14,7 +15,7 @@ public class ClueGame {
 	   rooms = new HashMap<Character,String>();
 	   gameBoard = new Board();
    }
-   public void loadConfigFiles(){
+   public void loadConfigFiles() throws BadConfigFormatException{
 	   gameBoard.loadBoardConfig( boardName, boardLegend);
    }
 }
