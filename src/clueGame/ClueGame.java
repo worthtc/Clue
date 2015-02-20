@@ -15,6 +15,6 @@ public class ClueGame {
 	   gameBoard = new Board();
    }
    public void loadConfigFiles(){
-	   rooms = gameBoard.loadBoardConfig( boardName, boardLegend );
+	   gameBoard.loadBoardConfig( boardName, boardLegend);
    }
 }

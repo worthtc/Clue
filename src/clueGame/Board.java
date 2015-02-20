@@ -25,11 +25,27 @@ public class Board {
 			Character mapChar = parseArray[0].charAt(0);
 			String mapString = parseArray[1];
 			rooms.put(mapChar, mapString);
+			
 		}
-		
+		FileReader roomReader = new FileReader( boardName );
+		Scanner roomInput = new Scanner( roomReader );
+		if( roomInput.hasNextLine() ){ //Set the initial numColumns
+			String roomsString = roomInput.nextLine();
+			String[] roomParse = roomsString.split( "," );
+			numColumns = roomParse.length; // Here I would like to put the cells into the layout, but we need to figure out some way to get numRows to initialize the layout variable.
+			
+		}
+		while( roomInput.hasNextLine() ){
+			String roomsString = roomInput.nextLine();
+			String[] roomParse = roomsString.split( "," );
+			
+		}
+			
 	} catch (FileNotFoundException e) {
 		e.printStackTrace(); // Added better error reporting
 	}
+	
+	
 	return rooms;
   }
   
