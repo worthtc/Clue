@@ -30,14 +30,6 @@ public class Board {
 			rooms.put(mapChar, mapString);
 			
 		}
-		FileReader roomReader = new FileReader( boardName );
-		Scanner roomInput = new Scanner( roomReader );
-		if( roomInput.hasNextLine() ){ //Set the initial numColumns
-			String roomsString = roomInput.nextLine();
-			String[] roomParse = roomsString.split( "," );
-			numColumns = roomParse.length; // Here I would like to put the cells into the layout, but we need to figure out some way to get numRows to initialize the layout variable.
-			
-		}
 		LineNumberReader line_read = new LineNumberReader(legendReader);
 		try{
 		  while(line_read.readLine() != null){ //set up initial Rows
@@ -48,17 +40,42 @@ public class Board {
 		}catch(IOException e){
 			e.printStackTrace();
 		}
+		FileReader roomReader = new FileReader( boardName );
+		Scanner roomInput = new Scanner( roomReader );
+		int currentRow = 0;
+		int currentColumn = 0;
+		if( roomInput.hasNextLine() ){ //Set the initial numColumns
+			String roomsString = roomInput.nextLine();
+			String[] roomParse = roomsString.split( "," );
+			numColumns = roomParse.length; // Here I would like to put the cells into the layout, but we need to figure out some way to get numRows to initialize the layout variable.
+			layout = new BoardCell[numRows][numColumns];
+			for( String s:roomParse){
+				layout[currentRow][currentColumn] = new BoardCell(s); // Might need to throw in currentRow and currentColumn here
+				currentColumn++;
+			}
+			currentColumn = 0;
+			currentRow++;
+		}
+		else{
+			throw new BadConfigFormatException();
+		}
 		while( roomInput.hasNextLine() ){
 			String roomsString = roomInput.nextLine();
 			String[] roomParse = roomsString.split( "," );
-			
+			if( roomParse.length != numColumns ){
+				throw new BadConfigFormatException();
+			}
+			for( String s:roomParse){
+				layout[currentRow][currentColumn] = new BoardCell(s); // Might need to throw in currentRow and currentColumn here
+				currentColumn++;
+			}
+			currentColumn = 0;
+			currentRow++;
 		}
 	    
 	} catch (FileNotFoundException e) {
 		e.printStackTrace(); // Added better error reporting
-	}
-	
-	
+	} 
 	return rooms;
   }
   
