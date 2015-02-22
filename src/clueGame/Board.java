@@ -3,6 +3,7 @@ package clueGame;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Scanner;
@@ -147,21 +148,21 @@ public BoardCell getCellAt(int x, int y){
 	if(layout[x][y].isRoom()){
 		return (RoomCell) layout[x][y];
 	}
-	return new RoomCell(0,0, "a");
+	return new RoomCell( -1, -1, ""); //Return a bad RoomCell if the given location is not a Room Cell
   }
 
   public void calcAdj(){
 	  
   }
   public LinkedList<BoardCell> getAdjList(int x, int y){
-	return null;
+	return new LinkedList<BoardCell>();
 	  
   }
   public void calcTarget(int x,int y, int distance){
 	  
   }
   public Set<BoardCell> getTargs(){
-		return null;
+		return new HashSet<BoardCell>();
 		  
 	  }
 
