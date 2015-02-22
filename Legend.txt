@@ -10,3 +10,4 @@ G,Great Hall
 T,Throne Room
 O,Oubliette
 X,Wardrobe (Impassable)
+W,Walkway

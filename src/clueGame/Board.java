@@ -30,7 +30,7 @@ public class Board {
 			rooms.put(mapChar, mapString);
 			
 		}
-		LineNumberReader line_read = new LineNumberReader(legendReader);
+		/*LineNumberReader line_read = new LineNumberReader(legendReader);
 		try{
 		  while(line_read.readLine() != null){ //set up initial Rows
 			line_num++;
@@ -39,9 +39,17 @@ public class Board {
 		  line_read.close();
 		}catch(IOException e){
 			e.printStackTrace();
-		}
+		}*/
+		
 		FileReader roomReader = new FileReader( boardName );
 		Scanner roomInput = new Scanner( roomReader );
+		while( roomInput.hasNext()){
+			roomInput.nextLine();
+			line_num++;
+		}
+		numRows = line_num;
+		roomReader = new FileReader( boardName );
+		roomInput = new Scanner( roomReader );
 		int currentRow = 0;
 		int currentColumn = 0;
 		if( roomInput.hasNextLine() ){ //Set the initial numColumns
@@ -50,7 +58,15 @@ public class Board {
 			numColumns = roomParse.length; // Here I would like to put the cells into the layout, but we need to figure out some way to get numRows to initialize the layout variable.
 			layout = new BoardCell[numRows][numColumns];
 			for( String s:roomParse){
-				layout[currentRow][currentColumn] = new BoardCell(s); // Might need to throw in currentRow and currentColumn here
+				if( !rooms.containsKey(s.charAt(0) )){
+					throw new BadConfigFormatException();
+				}
+				if( s.charAt(0) == 'W'){
+					layout[currentRow][currentColumn] = new WalkWayCell(currentRow, currentColumn);
+				}
+				else{
+					layout[currentRow][currentColumn] = new RoomCell(currentRow, currentColumn, s); 
+				}
 				currentColumn++;
 			}
 			currentColumn = 0;
@@ -66,7 +82,18 @@ public class Board {
 				throw new BadConfigFormatException();
 			}
 			for( String s:roomParse){
-				layout[currentRow][currentColumn] = new BoardCell(s); // Might need to throw in currentRow and currentColumn here
+				if( !rooms.containsKey(s.charAt(0) )){
+					throw new BadConfigFormatException();
+				}
+				if( s.length() != 1 && s.length() != 2 ){
+					throw new BadConfigFormatException();
+				}
+				if( s.charAt(0) == 'W'){
+					layout[currentRow][currentColumn] = new WalkWayCell(currentRow, currentColumn);
+				}
+				else{
+					layout[currentRow][currentColumn] = new RoomCell(currentRow, currentColumn, s); 
+				}
 				currentColumn++;
 			}
 			currentColumn = 0;
@@ -105,7 +132,10 @@ public BoardCell getCell(int x, int y){
 	return rooms;
   }
   public RoomCell getRoom(int x,int y){
-	return new RoomCell(x,y);
-	  
+	if(layout[x][y].isRoom()){
+		return (RoomCell) layout[x][y];
+	}
+	return new RoomCell(0,0, "a");
   }
+  
 }

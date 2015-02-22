@@ -12,9 +12,21 @@ public class RoomCell extends BoardCell {
 	public DoorDirection getDoorDirection() {
 		return doorDirection;
 	}
-	public RoomCell(int row, int column) {
+	public RoomCell(int row, int column, String initial) {
 		super(row, column);
-		// TODO Auto-generated constructor stub
+		room_initial = initial.charAt(0);
+		if( initial.length() == 2 ){
+			switch(initial.charAt(1)){
+				case 'U':
+					doorDirection = DoorDirection.UP;
+				case 'D':
+					doorDirection = DoorDirection.DOWN;
+				case 'L':
+					doorDirection = DoorDirection.LEFT;
+				case 'R':
+					doorDirection = DoorDirection.RIGHT;
+			}
+		}
 	}
 
 }

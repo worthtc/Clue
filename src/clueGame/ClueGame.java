@@ -14,6 +14,8 @@ public class ClueGame {
    public ClueGame() {
 	   rooms = new HashMap<Character,String>();
 	   gameBoard = new Board();
+	   boardName = "ClueBoard.csv";
+	   boardLegend = "Legend.txt";
    }
    public void loadConfigFiles() throws BadConfigFormatException{
 	   gameBoard.loadBoardConfig( boardName, boardLegend);

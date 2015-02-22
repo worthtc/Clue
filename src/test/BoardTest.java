@@ -20,12 +20,14 @@ public class BoardTest {
     private static Board the_board;
     public static final int total_rooms = 12;
     public static final int total_rows= 26;
-    public static final int total_col = 24;
+    public static final int total_col = 26;
     
     @BeforeClass
-    public static void start(){
+    public static void start() throws BadConfigFormatException{
     	ClueGame testGame = new ClueGame();
     	the_board = new Board();
+    	the_board.loadBoardConfig("ClueBoard.csv", "Legend.txt");
+    	testGame.loadConfigFiles();
     	
     }
     
