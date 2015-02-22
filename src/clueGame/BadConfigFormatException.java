@@ -5,29 +5,41 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class BadConfigFormatException extends Exception {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	//int columns;
 	String message;
-	public BadConfigFormatException () {}
-    
-	/*public BadConfigFormatException (int columns) throws Exception{
-	super();
-	this.columns = columns;
-	 File file = new File("logfile.txt");
-	 FileWriter file_write = new FileWriter(file);
-	 file_write.write( toString());
-	 file_write.close();
-	}*/
-	public BadConfigFormatException (String room_initial) throws Exception{
+	public BadConfigFormatException () {
 		super();
-		this.message = room_initial;
-		File file = new File("logfile.txt");
-		FileWriter file_write = new FileWriter(file);
-		file_write.write(toString());
-		file_write.close();
+		try{
+			this.message = "BadConfigFormatException";
+			File file = new File("logfile.txt");
+			FileWriter file_write = new FileWriter(file);
+			file_write.write(toString());
+			file_write.close();
+		}catch (IOException e ){
+			System.out.println( "Error opening logfile.txt occured in BadConfigFormatException");
+		}
+	}
+    
+	
+	public BadConfigFormatException (String err){
+		super();
+		try{
+			this.message = err;
+			File file = new File("logfile.txt");
+			FileWriter file_write = new FileWriter(file);
+			file_write.write(toString());
+			file_write.close();
+		}catch ( IOException e ){
+			System.out.println( "Error opening logfile.txt occured in BadConfigFormatException");
+		}
 	}
 	@Override
 	public String toString() {
-		return "Error " + message + " occured";
+		return "Error: " + message;
 	}
 	
 	
