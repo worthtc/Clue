@@ -15,7 +15,15 @@ public class ClueGame {
 	   rooms = new HashMap<Character,String>();
 	   gameBoard = new Board();
    }
-   public void loadConfigFiles() throws BadConfigFormatException{
+   public void loadConfigFiles() {
+	  try{
 	   gameBoard.loadBoardConfig( boardName, boardLegend);
+	  }catch(BadConfigFormatException e){
+		 System.out.println(e.message);
+	  }
+   }
+   public Board getBoardLayout(){
+	return gameBoard;
+	   
    }
 }

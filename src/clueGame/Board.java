@@ -5,8 +5,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.LineNumberReader;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 
 public class Board {
   private BoardCell layout [][];
@@ -108,4 +110,18 @@ public BoardCell getCell(int x, int y){
 	return new RoomCell(x,y);
 	  
   }
+  public void calcAdj(){
+	  
+  }
+  public LinkedList<BoardCell> getAdjList(int x, int y){
+	return null;
+	  
+  }
+  public void calcTarget(int x,int y, int distance){
+	  
+  }
+  public Set<BoardCell> getTargs(){
+		return null;
+		  
+	  }
 }
