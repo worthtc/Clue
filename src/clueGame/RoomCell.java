@@ -9,12 +9,40 @@ public class RoomCell extends BoardCell {
 	public boolean isRoom(){
 		return true;
 	}
+	
+	@Override
+	public boolean isDoorway(){
+		if( doorDirection != null ){
+			return true;
+		}
+		return false;
+	}
 	public DoorDirection getDoorDirection() {
 		return doorDirection;
 	}
-	public RoomCell(int row, int column) {
+	
+	public char getInitial() {
+		return room_initial;
+	}
+	public RoomCell(int row, int column, String initial) {
 		super(row, column);
-		// TODO Auto-generated constructor stub
+		room_initial = initial.charAt(0);
+		if( initial.length() == 2 ){
+			switch(initial.charAt(1)){
+				case 'U':
+					doorDirection = DoorDirection.UP;
+					break;
+				case 'D':
+					doorDirection = DoorDirection.DOWN;
+					break;
+				case 'L':
+					doorDirection = DoorDirection.LEFT;
+					break;
+				case 'R':
+					doorDirection = DoorDirection.RIGHT;
+					break;
+			}
+		}
 	}
 
 }

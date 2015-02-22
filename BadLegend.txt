@@ -1,5 +1,4 @@
-C,Chapel
-S,Solar
+C,Chapel S,Solar
 K,Kitchen
 L,Lord and Ladies' Room
 D,Dungeon
