@@ -11,12 +11,27 @@ public class ClueGame {
 	private Board gameBoard;
 	Map<Character,String> rooms;
    
-   public ClueGame() {
+   public Board getBoard() {
+		return gameBoard;
+	}
+public ClueGame(String boardName, String legendName) {
 	   rooms = new HashMap<Character,String>();
 	   gameBoard = new Board();
+	   this.boardName = boardName;
+	   boardLegend = legendName;
    }
    public void loadConfigFiles() {
+<<<<<<< HEAD
 	  try{
+=======
+	   try{
+		   gameBoard.loadBoardConfig( boardName, boardLegend);
+	   }catch (BadConfigFormatException e ){
+		   System.out.println( e.getMessage() );
+	   }
+   }
+   public void loadRoomConfig() throws BadConfigFormatException {
+>>>>>>> origin/master
 	   gameBoard.loadBoardConfig( boardName, boardLegend);
 	  }catch(BadConfigFormatException e){
 		 System.out.println(e.message);
