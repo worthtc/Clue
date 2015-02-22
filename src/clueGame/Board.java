@@ -148,7 +148,7 @@ public BoardCell getCellAt(int x, int y){
 	if(layout[x][y].isRoom()){
 		return (RoomCell) layout[x][y];
 	}
-	return new RoomCell( -1, -1, ""); //Return a bad RoomCell if the given location is not a Room Cell
+	return new RoomCell( -1, -1, " "); //Return a bad RoomCell if the given location is not a Room Cell, We might want to throw an exception here but I am not sure
   }
 
   public void calcAdj(){

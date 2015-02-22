@@ -33,12 +33,8 @@ public ClueGame(String boardName, String legendName) {
 		   System.out.println( e.getMessage() );
 	   }
    }
-   public void loadRoomConfig() {
-    try{
-	   gameBoard.loadBoardConfig( boardName, boardLegend);
-	  }catch(BadConfigFormatException e){
-		 System.out.println(e.message);
-	  }
+   public void loadRoomConfig() throws BadConfigFormatException {
+	  gameBoard.loadBoardConfig( boardName, boardLegend);
    }
    public Board getBoardLayout(){
 	return gameBoard;
