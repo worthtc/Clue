@@ -12,6 +12,10 @@ public class RoomCell extends BoardCell {
 	public DoorDirection getDoorDirection() {
 		return doorDirection;
 	}
+	
+	public char getRoom_initial() {
+		return room_initial;
+	}
 	public RoomCell(int row, int column, String initial) {
 		super(row, column);
 		room_initial = initial.charAt(0);

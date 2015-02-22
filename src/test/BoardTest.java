@@ -18,7 +18,7 @@ import clueGame.RoomCell;
 
 public class BoardTest {
     private static Board the_board;
-    public static final int total_rooms = 12;
+    public static final int total_rooms = 13;
     public static final int total_rows= 26;
     public static final int total_col = 26;
     
@@ -39,7 +39,7 @@ public class BoardTest {
 		assertEquals("Kitchen",room.get('K'));
 		assertEquals("Solar",room.get('S'));
 		assertEquals("Lord and Ladies' Room",room.get('L'));
-		assertEquals("Wardrobe(impassable)",room.get('X'));
+		assertEquals("Wardrobe (Impassable)",room.get('X'));
 		
 	}
     
@@ -74,10 +74,10 @@ public class BoardTest {
     
     @Test
 	public void testIntials(){
-		assertEquals('T',the_board.getRoom(11, 12));
-		assertEquals('G',the_board.getRoom(1, 5));
-		assertEquals('L',the_board.getRoom(22, 8));
-		assertEquals('D',the_board.getRoom(26, 17));
+		assertEquals('T',the_board.getRoom(11, 12).getRoom_initial());
+		assertEquals('G',the_board.getRoom(1, 5).getRoom_initial());
+		assertEquals('L',the_board.getRoom(22, 8).getRoom_initial());
+		assertEquals('D',the_board.getRoom(25, 17).getRoom_initial());
 		
 	}
 	
