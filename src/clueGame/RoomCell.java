@@ -9,6 +9,14 @@ public class RoomCell extends BoardCell {
 	public boolean isRoom(){
 		return true;
 	}
+	
+	@Override
+	public boolean isDoorWay(){
+		if( doorDirection != null ){
+			return true;
+		}
+		return false;
+	}
 	public DoorDirection getDoorDirection() {
 		return doorDirection;
 	}
@@ -23,12 +31,16 @@ public class RoomCell extends BoardCell {
 			switch(initial.charAt(1)){
 				case 'U':
 					doorDirection = DoorDirection.UP;
+					break;
 				case 'D':
 					doorDirection = DoorDirection.DOWN;
+					break;
 				case 'L':
 					doorDirection = DoorDirection.LEFT;
+					break;
 				case 'R':
 					doorDirection = DoorDirection.RIGHT;
+					break;
 			}
 		}
 	}

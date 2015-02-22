@@ -11,11 +11,11 @@ public class ClueGame {
 	private Board gameBoard;
 	Map<Character,String> rooms;
    
-   public ClueGame() {
+   public ClueGame(String boardName, String legendName) {
 	   rooms = new HashMap<Character,String>();
 	   gameBoard = new Board();
-	   boardName = "ClueBoard.csv";
-	   boardLegend = "Legend.txt";
+	   this.boardName = boardName;
+	   boardLegend = legendName;
    }
    public void loadConfigFiles() throws BadConfigFormatException{
 	   gameBoard.loadBoardConfig( boardName, boardLegend);

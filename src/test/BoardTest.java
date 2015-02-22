@@ -24,7 +24,7 @@ public class BoardTest {
     
     @BeforeClass
     public static void start() throws BadConfigFormatException{
-    	ClueGame testGame = new ClueGame();
+    	ClueGame testGame = new ClueGame("ClueBoard.csv", "Legend.txt");
     	the_board = new Board();
     	the_board.loadBoardConfig("ClueBoard.csv", "Legend.txt");
     	testGame.loadConfigFiles();
@@ -88,8 +88,8 @@ public class BoardTest {
 	@Test
 	public void testTotalDoors(){
 		int total_doors = 0;
-		for(int i = 0; i < the_board.getNumRows();i++){
-			for(int j=i;j<the_board.getNumColumns();j++){
+		for(int i = 0; i < the_board.getNumRows(); i++){
+			for(int j=0; j<the_board.getNumColumns(); j++){
 				BoardCell b = the_board.getCell(i, j);
 				if(b.isDoorWay() == true){
 					total_doors++;
@@ -101,13 +101,13 @@ public class BoardTest {
 	
 	@Test (expected = BadConfigFormatException.class)
 	public void badRow() throws BadConfigFormatException{
-		ClueGame game = new ClueGame();
+		ClueGame game = new ClueGame("ClueBoardBadRow.csv","Legend.txt");
 		game.loadConfigFiles();
 	}
 	
 	@Test (expected = BadConfigFormatException.class)
 	public void badLegend() throws BadConfigFormatException{
-		ClueGame game = new ClueGame();
+		ClueGame game = new ClueGame("ClueBoard.csv", "BadLegend.txt");
 		game.loadConfigFiles();
 	}
 	

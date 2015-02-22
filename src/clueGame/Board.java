@@ -114,7 +114,7 @@ public class Board {
 }
 
 public BoardCell getCell(int x, int y){
-	  return new WalkWayCell(x,y); // We have to return a board cell but we can't instantiate the BoardCell class so we just return a WalkWay
+	  return layout[x][y];
   }
   public BoardCell[][] getLayout() {
 	return layout;
