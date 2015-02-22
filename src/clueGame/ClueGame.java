@@ -14,6 +14,9 @@ public class ClueGame {
    public Board getBoard() {
 		return gameBoard;
 	}
+   public ClueGame(){
+	   
+   }
 public ClueGame(String boardName, String legendName) {
 	   rooms = new HashMap<Character,String>();
 	   gameBoard = new Board();
@@ -21,17 +24,17 @@ public ClueGame(String boardName, String legendName) {
 	   boardLegend = legendName;
    }
    public void loadConfigFiles() {
-<<<<<<< HEAD
-	  try{
-=======
+
+	
+
 	   try{
 		   gameBoard.loadBoardConfig( boardName, boardLegend);
 	   }catch (BadConfigFormatException e ){
 		   System.out.println( e.getMessage() );
 	   }
    }
-   public void loadRoomConfig() throws BadConfigFormatException {
->>>>>>> origin/master
+   public void loadRoomConfig() {
+    try{
 	   gameBoard.loadBoardConfig( boardName, boardLegend);
 	  }catch(BadConfigFormatException e){
 		 System.out.println(e.message);

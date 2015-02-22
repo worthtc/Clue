@@ -149,7 +149,7 @@ public BoardCell getCellAt(int x, int y){
 	}
 	return new RoomCell(0,0, "a");
   }
-<<<<<<< HEAD
+
   public void calcAdj(){
 	  
   }
@@ -164,7 +164,5 @@ public BoardCell getCellAt(int x, int y){
 		return null;
 		  
 	  }
-=======
-  
->>>>>>> origin/master
+
 }
