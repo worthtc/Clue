@@ -27,6 +27,7 @@ public class Board {
 			}
 			Character mapChar = parseArray[0].charAt(0);
 			String mapString = parseArray[1];
+			mapString = mapString.trim();
 			rooms.put(mapChar, mapString);
 			
 		}
@@ -113,7 +114,7 @@ public class Board {
 	
 }
 
-public BoardCell getCell(int x, int y){
+public BoardCell getCellAt(int x, int y){
 	  return layout[x][y];
   }
   public BoardCell[][] getLayout() {
@@ -131,7 +132,7 @@ public BoardCell getCell(int x, int y){
   public Map<Character, String> getRooms() {
 	return rooms;
   }
-  public RoomCell getRoom(int x,int y){
+  public RoomCell getRoomCellAt(int x,int y){
 	if(layout[x][y].isRoom()){
 		return (RoomCell) layout[x][y];
 	}

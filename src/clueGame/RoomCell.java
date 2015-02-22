@@ -11,7 +11,7 @@ public class RoomCell extends BoardCell {
 	}
 	
 	@Override
-	public boolean isDoorWay(){
+	public boolean isDoorway(){
 		if( doorDirection != null ){
 			return true;
 		}
@@ -21,7 +21,7 @@ public class RoomCell extends BoardCell {
 		return doorDirection;
 	}
 	
-	public char getRoom_initial() {
+	public char getInitial() {
 		return room_initial;
 	}
 	public RoomCell(int row, int column, String initial) {

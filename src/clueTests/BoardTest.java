@@ -1,4 +1,4 @@
-package test;
+package clueTests;
 
 import static org.junit.Assert.*;
 
@@ -51,33 +51,33 @@ public class BoardTest {
     
     @Test
 	public void testDoorDirection(){
-		RoomCell a_room = the_board.getRoom(7,4);
-		assertTrue(a_room.isDoorWay());
+		RoomCell a_room = the_board.getRoomCellAt(7,4);
+		assertTrue(a_room.isDoorway());
 		assertEquals(RoomCell.DoorDirection.DOWN,a_room.getDoorDirection());
-		a_room = the_board.getRoom(1, 13);
-		assertTrue(a_room.isDoorWay());
+		a_room = the_board.getRoomCellAt(1, 13);
+		assertTrue(a_room.isDoorway());
 		assertEquals(RoomCell.DoorDirection.UP,a_room.getDoorDirection());
-		a_room = the_board.getRoom(16, 3);
-		assertTrue(a_room.isDoorWay());
+		a_room = the_board.getRoomCellAt(16, 3);
+		assertTrue(a_room.isDoorway());
 		assertEquals(RoomCell.DoorDirection.RIGHT,a_room.getDoorDirection());
-		a_room = the_board.getRoom(12, 10);
-		assertTrue(a_room.isDoorWay());
+		a_room = the_board.getRoomCellAt(12, 10);
+		assertTrue(a_room.isDoorway());
 		assertEquals(RoomCell.DoorDirection.LEFT,a_room.getDoorDirection());
 		
-		a_room = the_board.getRoom(0, 0);
-		assertFalse(a_room.isDoorWay());
+		a_room = the_board.getRoomCellAt(0, 0);
+		assertFalse(a_room.isDoorway());
 		
-		a_room = the_board.getRoom(10, 0);
-		assertFalse(a_room.isDoorWay());		
+		a_room = the_board.getRoomCellAt(10, 0);
+		assertFalse(a_room.isDoorway());		
 		
 	}
     
     @Test
 	public void testIntials(){
-		assertEquals('T',the_board.getRoom(11, 12).getRoom_initial());
-		assertEquals('G',the_board.getRoom(1, 5).getRoom_initial());
-		assertEquals('L',the_board.getRoom(22, 8).getRoom_initial());
-		assertEquals('D',the_board.getRoom(25, 17).getRoom_initial());
+		assertEquals('T',the_board.getRoomCellAt(11, 12).getInitial());
+		assertEquals('G',the_board.getRoomCellAt(1, 5).getInitial());
+		assertEquals('L',the_board.getRoomCellAt(22, 8).getInitial());
+		assertEquals('D',the_board.getRoomCellAt(25, 17).getInitial());
 		
 	}
 	
@@ -90,8 +90,8 @@ public class BoardTest {
 		int total_doors = 0;
 		for(int i = 0; i < the_board.getNumRows(); i++){
 			for(int j=0; j<the_board.getNumColumns(); j++){
-				BoardCell b = the_board.getCell(i, j);
-				if(b.isDoorWay() == true){
+				BoardCell b = the_board.getCellAt(i, j);
+				if(b.isDoorway() == true){
 					total_doors++;
 				}
 			}
@@ -102,13 +102,13 @@ public class BoardTest {
 	@Test (expected = BadConfigFormatException.class)
 	public void badRow() throws BadConfigFormatException{
 		ClueGame game = new ClueGame("ClueBoardBadRow.csv","Legend.txt");
-		game.loadConfigFiles();
+		game.loadRoomConfig();
 	}
 	
 	@Test (expected = BadConfigFormatException.class)
 	public void badLegend() throws BadConfigFormatException{
 		ClueGame game = new ClueGame("ClueBoard.csv", "BadLegend.txt");
-		game.loadConfigFiles();
+		game.loadRoomConfig();
 	}
 	
 	
