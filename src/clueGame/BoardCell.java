@@ -8,7 +8,7 @@ public abstract class BoardCell {
 		this.column = column;
 	}
 
-	public boolean isDoorway(){
+	public boolean isDoorWay(){
 		return false;
 	}
 	
@@ -18,5 +18,13 @@ public abstract class BoardCell {
 
 	public boolean isRoom(){
 		return false;
+	}
+
+	public int getRow() {
+		return row;
+	}
+
+	public int getColumn() {
+		return column;
 	}
 }

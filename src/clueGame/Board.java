@@ -2,6 +2,7 @@ package clueGame;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -9,10 +10,14 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
+import org.junit.Assert;
+
 public class Board {
   private BoardCell layout [][];
   private int numRows,numColumns;
   Map<Character,String> rooms; 
+  private Map<BoardCell, LinkedList<BoardCell>> adjacencies;
+  private Set<BoardCell> targetList;
   
   public Map<Character,String> loadBoardConfig( String boardName, String legendName ) throws BadConfigFormatException {
 	  FileReader legendReader;
@@ -121,14 +126,18 @@ public class Board {
 	return rooms;
   }
   
+  
   public Board() {
 	rooms = new HashMap<Character,String>();
+	adjacencies = new HashMap<BoardCell, LinkedList<BoardCell>>();
+	targetList = new HashSet<BoardCell>();
 	
 }
 
-public BoardCell getCellAt(int x, int y){
+  public BoardCell getCellAt(int x, int y){
 	  return layout[x][y];
   }
+  
   public BoardCell[][] getLayout() {
 	return layout;
   }
@@ -144,6 +153,7 @@ public BoardCell getCellAt(int x, int y){
   public Map<Character, String> getRooms() {
 	return rooms;
   }
+  
   public RoomCell getRoomCellAt(int x,int y){
 	if(layout[x][y].isRoom()){
 		return (RoomCell) layout[x][y];
@@ -151,19 +161,76 @@ public BoardCell getCellAt(int x, int y){
 	return new RoomCell( -1, -1, " "); //Return a bad RoomCell if the given location is not a Room Cell, We might want to throw an exception here but I am not sure
   }
 
-  public void calcAdj(){
-	  
+  public void calcAdjacencies(){
+	  for(int i = 0; i < numRows; i++ ) { 
+			for(int j = 0; j < numColumns;j++) {
+				LinkedList<BoardCell> adjList = new LinkedList<BoardCell>();
+				if( i - 1 >= 0 && (!(getCellAt(i-1,j).isRoom() ) || (getCellAt(i-1,j).isDoorWay() && getRoomCellAt(i-1,j).getDoorDirection() == RoomCell.DoorDirection.DOWN  ) )){
+					if( !(getCellAt(i,j).isRoom()) || (getCellAt(i,j).isDoorWay())||getCellAt(i-1,j).isDoorWay()){
+						adjList.add( getCellAt(i-1,j));
+					}
+				}
+				if( j - 1 >= 0 && (!(getCellAt(i,j-1).isRoom() ) || (getCellAt(i,j-1).isDoorWay() && getRoomCellAt(i,j-1).getDoorDirection() == RoomCell.DoorDirection.RIGHT  )) ){
+					if( !(getCellAt(i,j).isRoom()) || (getCellAt(i,j).isDoorWay())||getCellAt(i,j-1).isDoorWay()){
+						adjList.add( getCellAt(i,j-1));
+					}
+				}
+				if( i + 1 < numRows && (!(getCellAt(i+1,j).isRoom() ) || (getCellAt(i+1,j).isDoorWay()) && getRoomCellAt(i+1,j).getDoorDirection() == RoomCell.DoorDirection.UP  ) ){
+					if( !(getCellAt(i,j).isRoom()) || (getCellAt(i,j).isDoorWay())||getCellAt(i+1,j).isDoorWay()){
+						adjList.add( getCellAt(i+1,j));
+					}
+				}
+				if( j + 1 < numColumns && (!(getCellAt(i,j+1).isRoom() ) || (getCellAt(i,j+1).isDoorWay()) && getRoomCellAt(i,j+1).getDoorDirection() == RoomCell.DoorDirection.LEFT  )   ){
+					if(!(getCellAt(i,j).isRoom()) || (getCellAt(i,j).isDoorWay())||getCellAt(i,j+1).isDoorWay()){
+						adjList.add( getCellAt(i,j+1));
+					}
+				}
+				adjacencies.put( layout[i][j], adjList);	
+			}
+			
+		}
+		
   }
   public LinkedList<BoardCell> getAdjList(int x, int y){
-	return new LinkedList<BoardCell>();
+	return adjacencies.get( getCellAt(x,y));
 	  
   }
-  public void calcTarget(int x,int y, int distance){
-	  
+  public void calcTargets(int x,int y, int distance){
+	  targetList.clear();
+	  ArrayList<BoardCell> visited = new ArrayList<BoardCell>();
+	  calcAllTargets( x, y, distance, visited);
+	  //targetList.clear();
   }
-  public Set<BoardCell> getTargs(){
-		return new HashSet<BoardCell>();
+  public void calcAllTargets(int x,int y, int distance, ArrayList<BoardCell> visited){
+	  ArrayList<BoardCell> adjacentCells = new ArrayList<BoardCell>();
+	  visited.add(getCellAt(x,y));
+	  adjacentCells.addAll(getAdjList( x,y) );
+	  for(BoardCell adjCell: adjacentCells ){
+
+		  if( !(visited.contains(adjCell))){
+			  visited.add(adjCell);
+			  if( adjCell.isDoorWay()){
+				  targetList.add(adjCell);
+			  }
+			  if(distance == 1){
+
+				  targetList.add(adjCell);
+				  visited.remove(adjCell);
+
+			  } else {
+				  calcAllTargets(adjCell.getRow(), adjCell.getColumn(), distance - 1, visited);
+				  visited.remove(adjCell);
+
+			  }
+
+		  }
+	  }
+	  visited.remove(getCellAt(x,y));
+  }
+  public Set<BoardCell> getTargets(){
+		return targetList;
 		  
 	  }
-
+  
+  
 }

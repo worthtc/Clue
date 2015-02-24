@@ -59,23 +59,23 @@ public class CR_FileInitTests {
 	public void FourDoorDirections() {
 		// Test one each RIGHT/LEFT/UP/DOWN
 		RoomCell room = board.getRoomCellAt(4, 3);
-		assertTrue(room.isDoorway());
+		assertTrue(room.isDoorWay());
 		assertEquals(RoomCell.DoorDirection.RIGHT, room.getDoorDirection());
 		room = board.getRoomCellAt(4, 8);
-		assertTrue(room.isDoorway());
+		assertTrue(room.isDoorWay());
 		assertEquals(RoomCell.DoorDirection.DOWN, room.getDoorDirection());
 		room = board.getRoomCellAt(15, 18);
-		assertTrue(room.isDoorway());
+		assertTrue(room.isDoorWay());
 		assertEquals(RoomCell.DoorDirection.LEFT, room.getDoorDirection());
 		room = board.getRoomCellAt(14, 11);
-		assertTrue(room.isDoorway());
+		assertTrue(room.isDoorWay());
 		assertEquals(RoomCell.DoorDirection.UP, room.getDoorDirection());
 		// Test that room pieces that aren't doors know it
 		room = board.getRoomCellAt(14, 14);
-		assertFalse(room.isDoorway());	
+		assertFalse(room.isDoorWay());	
 		// Test that walkways are not doors
 		BoardCell cell = board.getCellAt(0, 6);
-		assertFalse(cell.isDoorway());		
+		assertFalse(cell.isDoorWay());		
 
 	}
 	
@@ -89,7 +89,7 @@ public class CR_FileInitTests {
 		for (int row=0; row<board.getNumRows(); row++)
 			for (int col=0; col<board.getNumColumns(); col++) {
 				BoardCell cell = board.getCellAt(row, col);
-				if (cell.isDoorway())
+				if (cell.isDoorWay())
 					numDoors++;
 			}
 		Assert.assertEquals(16, numDoors);

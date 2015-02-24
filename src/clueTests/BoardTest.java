@@ -48,23 +48,23 @@ public class BoardTest {
     @Test
 	public void testDoorDirection(){
 		RoomCell a_room = the_board.getRoomCellAt(7,4);
-		assertTrue(a_room.isDoorway());
+		assertTrue(a_room.isDoorWay());
 		assertEquals(RoomCell.DoorDirection.DOWN,a_room.getDoorDirection());
 		a_room = the_board.getRoomCellAt(1, 13);
-		assertTrue(a_room.isDoorway());
+		assertTrue(a_room.isDoorWay());
 		assertEquals(RoomCell.DoorDirection.UP,a_room.getDoorDirection());
 		a_room = the_board.getRoomCellAt(16, 3);
-		assertTrue(a_room.isDoorway());
+		assertTrue(a_room.isDoorWay());
 		assertEquals(RoomCell.DoorDirection.RIGHT,a_room.getDoorDirection());
 		a_room = the_board.getRoomCellAt(12, 10);
-		assertTrue(a_room.isDoorway());
+		assertTrue(a_room.isDoorWay());
 		assertEquals(RoomCell.DoorDirection.LEFT,a_room.getDoorDirection());
 		
 		a_room = the_board.getRoomCellAt(0, 0);
-		assertFalse(a_room.isDoorway());
+		assertFalse(a_room.isDoorWay());
 		
 		a_room = the_board.getRoomCellAt(10, 0);
-		assertFalse(a_room.isDoorway());		
+		assertFalse(a_room.isDoorWay());		
 		
 	}
     
@@ -87,7 +87,7 @@ public class BoardTest {
 		for(int i = 0; i < the_board.getNumRows(); i++){
 			for(int j=0; j<the_board.getNumColumns(); j++){
 				BoardCell b = the_board.getCellAt(i, j);
-				if(b.isDoorway() == true){
+				if(b.isDoorWay() == true){
 					total_doors++;
 				}
 			}
