@@ -1,7 +1,7 @@
 package clueGame;
 
 public class RoomCell extends BoardCell {
-	public enum DoorDirection{UP,DOWN,LEFT,RIGHT};
+	public enum DoorDirection{UP,DOWN,LEFT,RIGHT,NONE};
 	private DoorDirection doorDirection;
 	private char room_initial;
 	
@@ -12,7 +12,7 @@ public class RoomCell extends BoardCell {
 	
 	@Override
 	public boolean isDoorway(){
-		if( doorDirection != null ){
+		if( doorDirection != DoorDirection.NONE ){
 			return true;
 		}
 		return false;
@@ -42,6 +42,9 @@ public class RoomCell extends BoardCell {
 					doorDirection = DoorDirection.RIGHT;
 					break;
 			}
+		}
+		else{
+			doorDirection = DoorDirection.NONE;
 		}
 	}
 
