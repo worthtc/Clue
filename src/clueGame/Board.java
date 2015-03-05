@@ -158,7 +158,7 @@ public class Board {
 	if(layout[x][y].isRoom()){
 		return (RoomCell) layout[x][y];
 	}
-	return new RoomCell( -1, -1, " "); //Return a bad RoomCell if the given location is not a Room Cell, We might want to throw an exception here but I am not sure
+	return null; //Return a bad RoomCell if the given location is not a Room Cell, We might want to throw an exception here but I am not sure
   }
 
   public void calcAdjacencies(){
@@ -166,22 +166,22 @@ public class Board {
 			for(int j = 0; j < numColumns;j++) {
 				LinkedList<BoardCell> adjList = new LinkedList<BoardCell>();
 				if( i - 1 >= 0 && (!(getCellAt(i-1,j).isRoom() ) || (getCellAt(i-1,j).isDoorWay() && getRoomCellAt(i-1,j).getDoorDirection() == RoomCell.DoorDirection.DOWN  ) )){
-					if( !(getCellAt(i,j).isRoom()) || (getCellAt(i,j).isDoorWay())||getCellAt(i-1,j).isDoorWay()){
+					if( !(getCellAt(i,j).isRoom()) || ((getCellAt(i,j).isDoorWay()) && getRoomCellAt(i,j).getDoorDirection() == RoomCell.DoorDirection.UP)||getCellAt(i-1,j).isDoorWay()){
 						adjList.add( getCellAt(i-1,j));
 					}
 				}
 				if( j - 1 >= 0 && (!(getCellAt(i,j-1).isRoom() ) || (getCellAt(i,j-1).isDoorWay() && getRoomCellAt(i,j-1).getDoorDirection() == RoomCell.DoorDirection.RIGHT  )) ){
-					if( !(getCellAt(i,j).isRoom()) || (getCellAt(i,j).isDoorWay())||getCellAt(i,j-1).isDoorWay()){
+					if( !(getCellAt(i,j).isRoom()) || ((getCellAt(i,j).isDoorWay()) && getRoomCellAt(i,j).getDoorDirection() == RoomCell.DoorDirection.LEFT)||getCellAt(i,j-1).isDoorWay()){
 						adjList.add( getCellAt(i,j-1));
 					}
 				}
 				if( i + 1 < numRows && (!(getCellAt(i+1,j).isRoom() ) || (getCellAt(i+1,j).isDoorWay()) && getRoomCellAt(i+1,j).getDoorDirection() == RoomCell.DoorDirection.UP  ) ){
-					if( !(getCellAt(i,j).isRoom()) || (getCellAt(i,j).isDoorWay())||getCellAt(i+1,j).isDoorWay()){
+					if( !(getCellAt(i,j).isRoom()) || ((getCellAt(i,j).isDoorWay()) && getRoomCellAt(i,j).getDoorDirection() == RoomCell.DoorDirection.DOWN)||getCellAt(i+1,j).isDoorWay()){
 						adjList.add( getCellAt(i+1,j));
 					}
 				}
 				if( j + 1 < numColumns && (!(getCellAt(i,j+1).isRoom() ) || (getCellAt(i,j+1).isDoorWay()) && getRoomCellAt(i,j+1).getDoorDirection() == RoomCell.DoorDirection.LEFT  )   ){
-					if(!(getCellAt(i,j).isRoom()) || (getCellAt(i,j).isDoorWay())||getCellAt(i,j+1).isDoorWay()){
+					if(!(getCellAt(i,j).isRoom()) || ((getCellAt(i,j).isDoorWay()) && getRoomCellAt(i,j).getDoorDirection() == RoomCell.DoorDirection.RIGHT)|| getCellAt(i,j+1).isDoorWay()){
 						adjList.add( getCellAt(i,j+1));
 					}
 				}
@@ -191,16 +191,24 @@ public class Board {
 		}
 		
   }
+  
   public LinkedList<BoardCell> getAdjList(int x, int y){
 	return adjacencies.get( getCellAt(x,y));
 	  
   }
+  
+  public LinkedList<BoardCell> getAdjList(BoardCell bc){
+		return adjacencies.get(bc);
+		  
+  }	  
+		
   public void calcTargets(int x,int y, int distance){
 	  targetList.clear();
 	  ArrayList<BoardCell> visited = new ArrayList<BoardCell>();
 	  calcAllTargets( x, y, distance, visited);
 	  //targetList.clear();
   }
+  
   public void calcAllTargets(int x,int y, int distance, ArrayList<BoardCell> visited){
 	  ArrayList<BoardCell> adjacentCells = new ArrayList<BoardCell>();
 	  visited.add(getCellAt(x,y));
