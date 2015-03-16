@@ -43,26 +43,38 @@ public class ClueGame {
 	   
    }
 
-   public void checkAccusation(Solution solution){
-	   if(solution.equals(this.solution)){
+   public ArrayList<Card> getCards() {
+		return cards;
+	}
+	
+	public ArrayList<Player> getPlayers() {
+		return players;
+	}
+	
+	public Solution getSolution() {
+		return solution;
+	}
+
+	public void checkAccusation(Solution solution){
+		   if(solution.equals(this.solution)){
+			   
+		   }
+		   else{
+			   
+		   }
+	   }
+	public void loadConfigFiles() {
+		try{
+			   gameBoard.loadBoardConfig( boardName, boardLegend);
+		   }catch (BadConfigFormatException e ){
+			   System.out.println( e.getMessage() );
+		   }
+	   }
+	   public void loadRoomConfig() throws BadConfigFormatException {
+		  gameBoard.loadBoardConfig( boardName, boardLegend);
+	   }
+	   public Board getBoardLayout(){
+		return gameBoard;
 		   
 	   }
-	   else{
-		   
-	   }
-   }
-   public void loadConfigFiles() {
-	   try{
-		   gameBoard.loadBoardConfig( boardName, boardLegend);
-	   }catch (BadConfigFormatException e ){
-		   System.out.println( e.getMessage() );
-	   }
-   }
-   public void loadRoomConfig() throws BadConfigFormatException {
-	  gameBoard.loadBoardConfig( boardName, boardLegend);
-   }
-   public Board getBoardLayout(){
-	return gameBoard;
-	   
-   }
 }
