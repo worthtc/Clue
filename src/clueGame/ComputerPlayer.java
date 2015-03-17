@@ -19,4 +19,9 @@ public class ComputerPlayer extends Player{
 	public void updateSeen(){
 		
 	}
+	
+	@Override
+	public boolean isComputer(){
+		return true;
+	}
 }

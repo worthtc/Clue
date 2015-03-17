@@ -10,16 +10,16 @@ import clueGame.*;
 
 public class CluePlayerTests {
 	private static ClueGame game;
-	private final int NUM_CARDS = 20; //Number of cards, determined by legend
-	private final int NUM_WEAPONS = 12; //determined by legend
-	private final int NUM_PEOPLE = 8;//determined by legend
+	private final int NUM_CARDS = 23; //Number of cards, determined by legend
+	private final int NUM_WEAPONS = 6; //determined by legend
+	private final int NUM_PEOPLE = 6;//determined by legend
 	private final int NUM_PLAYERS = 5; //determined by legend
 	private final int NUM_HUMAN_PLAYERS = 2;
 	private final int NUM_COMPUTER_PLAYERS = 3;
 	
 	@BeforeClass
 	public static void init(){
-		game = new ClueGame("Clue/map/Clue Map.txt","Clue/map/legend.txt");
+		game = new ClueGame("map/Clue Map.txt","map/legend.txt","map/weaponLegend.txt","map/peopleLegend.txt");
 		game.loadConfigFiles();
 	}
 	//Total cards generated must match the number of cards specified in the legend
@@ -72,6 +72,21 @@ public class CluePlayerTests {
 	//Each player has correct number and type of cards
 	@Test
 	public void testDeal(){
-		
+		ArrayList<Player> players = game.getPlayers();
+		assertTrue(players.get(1).getCards().size() != 0);
+		assertTrue(players.get(3).getCards().size() != 0);
+		assertEquals(players.get(1).getCards().size(), players.get(2).getCards().size(), 1);
+		assertEquals(players.get(2).getCards().size(), players.get(3).getCards().size(), 1);
+		assertEquals(players.get(1).getCards().size(), players.get(3).getCards().size(), 1);
+	}
+	//Testing a solution is created, that it is size 3, and that is has one of each card type
+	@Test
+	public void testSolution(){
+		Solution sol = game.getSolution();
+		assertFalse(sol.getPerson().equals(null));
+		assertFalse(sol.getWeapon().equals(null));
+		assertFalse(sol.getRoom().equals(null));
+		assertTrue(game.getCharacters().contains(sol.getPerson()));
+		assertTrue(game.getWeapons().contains(sol.getWeapon()));	
 	}
 }

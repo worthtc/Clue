@@ -1,7 +1,7 @@
 package clueGame;
 import java.util.ArrayList;
 
-public class Player {
+public abstract class Player {
 	private String name;
 	private ArrayList<Card> myCards;
 	
@@ -22,7 +22,19 @@ public class Player {
 		this.name = name;
 	}
 	
-	public void getCard(Card c){
+	public void giveCard(Card c){
 		myCards.add(c);
+	}
+	
+	public ArrayList<Card> getCards(){
+		return myCards;
+	}
+	
+	public boolean isHuman(){
+		return false;
+	}
+	
+	public boolean isComputer(){
+		return false;
 	}
 }

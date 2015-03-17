@@ -74,6 +74,14 @@ public class ClueGame {
 		return players;
 	}
 	
+	public ArrayList<String> getWeapons() {
+		return weapons;
+	}
+
+	public ArrayList<String> getCharacters() {
+		return characters;
+	}
+	
 	public Solution getSolution() {
 		return solution;
 	}
