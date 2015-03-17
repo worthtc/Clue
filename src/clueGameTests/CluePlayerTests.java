@@ -1,6 +1,8 @@
 package clueGameTests;
 
 import static org.junit.Assert.*;
+
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -16,6 +18,8 @@ public class CluePlayerTests {
 	private final int NUM_PLAYERS = 5; //determined by legend
 	private final int NUM_HUMAN_PLAYERS = 2;
 	private final int NUM_COMPUTER_PLAYERS = 3;
+	
+	private Solution sol;
 	
 	@BeforeClass
 	public static void init(){
@@ -88,5 +92,17 @@ public class CluePlayerTests {
 		assertFalse(sol.getRoom().equals(null));
 		assertTrue(game.getCharacters().contains(sol.getPerson()));
 		assertTrue(game.getWeapons().contains(sol.getWeapon()));	
+	}
+	@Before
+	public void setSolution(){
+		sol = new Solution("Jace the Mind Sculptor", "Batterskull", "Dominaria");
+		game.setSolution(sol);
+	}
+	@Test
+	public void testAccusation(){
+		assertFalse(game.checkAccusation(new Solution("Nicol Bolas", "Batterskull","Dominaria")));
+		assertFalse(game.checkAccusation(new Solution("Jace the Mind Sculptor", "Umezawa's Jitte", "Dominaria")));
+		assertFalse(game.checkAccusation(new Solution("Jace the Mind Sculptor", "Batterskull", "Kamigawa")));
+		assertTrue(game.checkAccusation(new Solution("Jace the Mind Sculptor", "Batterskull", "Dominaria")));
 	}
 }

@@ -86,12 +86,16 @@ public class ClueGame {
 		return solution;
 	}
 	
-	public void checkAccusation(Solution solution){
+	public void setSolution(Solution solution) {
+		this.solution = solution;
+	}
+
+	public boolean checkAccusation(Solution solution){
 		   if(solution.equals(this.solution)){
-			   
+			   return true;
 		   }
 		   else{
-			   
+			   return false;
 		   }
 	}
 	public void playerConfigFiles() throws BadConfigFormatException, FileNotFoundException{
