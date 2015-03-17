@@ -22,6 +22,7 @@ public class ClueGame {
 	private ArrayList<String> weapons;
 	private ArrayList<String> characters;
 	private ArrayList<Card> cards;
+	private ArrayList<Player> referencePlayers;
 	private ArrayList<Player> players;
 	private Solution solution;
    
@@ -40,6 +41,11 @@ public class ClueGame {
 	   boardLegend = legendName;
 	   this.weaponLegend = weaponLegend;
 	   this.characterLegend = characterLegend;
+	   weapons = new ArrayList<String>();
+	   characters = new ArrayList<String>();
+	   cards = new ArrayList<Card>();
+	   referencePlayers = new ArrayList<Player>();
+	   players = new ArrayList<Player>();
    }
 //TODO   
    public void generateDeck(){
@@ -55,7 +61,48 @@ public class ClueGame {
 	   }
    }
    public void deal(){
-	   
+	   ArrayList<Card> weaponsLeft = new ArrayList<Card>();
+	   ArrayList<Card> charactersLeft = new ArrayList<Card>();
+	   ArrayList<Card> roomsLeft = new ArrayList<Card>();
+	   for(String s : weapons){
+		   weaponsLeft.add(new Card(s, Card.CardType.WEAPON));
+	   }
+	   for(String s : characters){
+		   charactersLeft.add(new Card(s, Card.CardType.PERSON));
+	   }
+	   Set<Character> keys = rooms.keySet();
+	   for(Character c : keys){
+		   roomsLeft.add(new Card(rooms.get(c), Card.CardType.ROOM));
+	   }
+	   int weapon = (int) Math.random()*weaponsLeft.size();
+	   int character = (int) Math.random()*charactersLeft.size();
+	   int room = (int) Math.random()*roomsLeft.size();
+	   solution = new Solution(weaponsLeft.get(weapon).getName(), charactersLeft.get(character).getName(), roomsLeft.get(room).getName());
+	   weaponsLeft.remove(weapon);
+	   charactersLeft.remove(character);
+	   roomsLeft.remove(room);
+	   int currentPlayer = 0;
+	   for(Card c :  weaponsLeft){
+		   players.get(currentPlayer).giveCard(c);
+		   currentPlayer++;
+		   if(currentPlayer >= players.size()){
+			   currentPlayer = 0;
+		   }
+	   }
+	   for(Card c : charactersLeft){
+		   players.get(currentPlayer).giveCard(c);
+		   currentPlayer++;
+		   if(currentPlayer >= players.size()){
+			   currentPlayer = 0;
+		   }
+	   }
+	   for(Card c : roomsLeft){
+		   players.get(currentPlayer).giveCard(c);
+		   currentPlayer++;
+		   if(currentPlayer >= players.size()){
+			   currentPlayer = 0;
+		   }
+	   }
    }
    
    public void selectAnswer(){
@@ -114,6 +161,7 @@ public class ClueGame {
 					inf.close();
 					throw new BadConfigFormatException("There was not a semi-colon at the end of line " + currentLine + "in the " + weaponLegend + "file.");
 				}
+				
 			}
 			weapons.add(temp.substring(0,temp.length()-2));
 		}
@@ -128,8 +176,14 @@ public class ClueGame {
 		inf = new Scanner(legends);
 		while(inf.hasNextLine()){
 			String temp  = inf.nextLine();
+			String name = "";
+			int startRow = 0;
+			int startCol = 0;
+			String color = "";
+			int reference = 0;
 			currentLine++;
 			for(int i = 0; i<temp.length(); i++){
+				int numSlashes = 0;
 				if (i != temp.length()-1 && temp.charAt(i) == ';'){
 					inf.close();
 					throw new BadConfigFormatException("There was a semi-colon at a place other than the end of line " + currentLine + "in the " + characterLegend + "file.");
@@ -138,8 +192,28 @@ public class ClueGame {
 					inf.close();
 					throw new BadConfigFormatException("There was not a semi-colon at the end of line " + currentLine + "in the " + characterLegend + "file.");
 				}
+				if(temp.charAt(i) == '/'){
+					numSlashes++;
+					if(numSlashes > 3){
+						inf.close();
+						throw new BadConfigFormatException("There were too many /'s on line " + currentLine + "of the " + characterLegend + "file.");
+					}
+					if(numSlashes == 1){
+						characters.add(temp.substring(0,i));
+						name = temp.substring(0,i);
+						reference = i;
+					}
+					else if(numSlashes == 2){
+						startRow = Integer.parseInt(temp.substring(reference+1, i));
+						reference = i;
+					}
+					else if(numSlashes == 3){
+						startCol = Integer.parseInt(temp.substring(reference+1, i));
+						color = temp.substring(i+1, temp.length()-1);
+					}
+				}
 			}
-			characters.add(temp.substring(0,temp.length()-2));
+			referencePlayers.add(new Player(name, color, startRow, startCol));
 		}
 		inf.close();
 		try{

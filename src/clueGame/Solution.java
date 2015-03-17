@@ -22,4 +22,9 @@ public class Solution {
 	public String getRoom() {
 		return room;
 	}
+	
+	public boolean equals(Solution s){
+		if (person.equals(s.getPerson()) && weapon.equals(s.getWeapon()) && room.equals(s.getRoom())) return true;
+		return false;
+	}
 }

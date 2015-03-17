@@ -25,6 +25,7 @@ public class CluePlayerTests {
 	public static void init(){
 		game = new ClueGame("map/Clue Map.txt","map/legend.txt","map/weaponLegend.txt","map/peopleLegend.txt");
 		game.loadConfigFiles();
+		game.generateDeck();
 	}
 	//Total cards generated must match the number of cards specified in the legend
 	@Test

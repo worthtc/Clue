@@ -1,12 +1,18 @@
 package clueGame;
 import java.util.ArrayList;
 
-public abstract class Player {
+public class Player {
 	private String name;
+	private String color;
+	private int startRow;
+	private int startCol;
 	private ArrayList<Card> myCards;
 	
-	public Player(String name){
+	public Player(String name, String color, int startRow, int startCol){
 		this.name = name;
+		this.color = color;
+		this.startRow = startRow;
+		this.startCol = startCol;
 		myCards = new ArrayList<Card>();
 	}
 
@@ -30,6 +36,14 @@ public abstract class Player {
 		return myCards;
 	}
 	
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
 	public boolean isHuman(){
 		return false;
 	}
