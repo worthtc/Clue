@@ -1,0 +1,6 @@
+Nicol Bolas/7/21/PURPLE;
+Ugin, the Spirit Dragon/11/4/WHITE;
+Jace the Mind Sculptor/15/10/BLUE;
+Karn/5/10/BROWN;
+Urza/15/8/GREY;
+Sorin Markov/6/16/BLACK;
