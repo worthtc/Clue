@@ -71,7 +71,7 @@ public class CluePlayerTests {
 	}
 	//Each player has correct number and type of cards
 	@Test
-	public void tesDeal(){
+	public void testDeal(){
 		
 	}
 }
