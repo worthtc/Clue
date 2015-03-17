@@ -1,0 +1,10 @@
+y,Maelstrom
+if,Innistrad
+z,Zendikar
+r,Ravnica
+a,Alara
+m,Mirrodin,p,Phyrexia
+d,Dominaria
+k,Kamigawa
+s,Shandalar
+x,Blind Eternities
