@@ -30,7 +30,7 @@ public class ClueGame {
 	   this.boardName = boardName;
 	   boardLegend = legendName;
    }
-   
+//TODO   
    public void deal(){
 	   
    }
