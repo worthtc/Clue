@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -57,7 +58,9 @@ public class ClueGame {
 	   }
 	   Set<Character> keys = rooms.keySet();
 	   for(Character c : keys){
-		   cards.add(new Card(rooms.get(c), Card.CardType.ROOM));
+		   if (c != 'W'){
+			   cards.add(new Card(rooms.get(c), Card.CardType.ROOM));
+		   }
 	   }
    }
    public void deal(){
@@ -70,7 +73,7 @@ public class ClueGame {
 	   for(String s : characters){
 		   charactersLeft.add(new Card(s, Card.CardType.PERSON));
 	   }
-	   Set<Character> keys = rooms.keySet();
+	   HashSet<Character> keys = new HashSet<Character>(rooms.keySet());
 	   for(Character c : keys){
 		   roomsLeft.add(new Card(rooms.get(c), Card.CardType.ROOM));
 	   }
@@ -163,7 +166,7 @@ public class ClueGame {
 				}
 				
 			}
-			weapons.add(temp.substring(0,temp.length()-2));
+			weapons.add(temp.substring(0,temp.length()-1));
 		}
 		currentLine = 0;
 		inf.close();
@@ -183,8 +186,8 @@ public class ClueGame {
 			String color = "";
 			int reference = 0;
 			currentLine++;
+			int numSlashes = 0;
 			for(int i = 0; i<temp.length(); i++){
-				int numSlashes = 0;
 				if (i != temp.length()-1 && temp.charAt(i) == ';'){
 					inf.close();
 					throw new BadConfigFormatException("There was a semi-colon at a place other than the end of line " + currentLine + "in the " + characterLegend + "file.");

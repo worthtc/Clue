@@ -12,7 +12,7 @@ import clueGame.*;
 
 public class CluePlayerTests {
 	private static ClueGame game;
-	private final int NUM_CARDS = 23; //Number of cards, determined by legend
+	private final int NUM_CARDS = 22; //Number of cards, determined by legend
 	private final int NUM_WEAPONS = 6; //determined by legend
 	private final int NUM_PEOPLE = 6;//determined by legend
 	private final int NUM_PLAYERS = 5; //determined by legend
@@ -83,11 +83,6 @@ public class CluePlayerTests {
 		assertEquals(players.get(1).getCards().size(), players.get(2).getCards().size(), 1);
 		assertEquals(players.get(2).getCards().size(), players.get(3).getCards().size(), 1);
 		assertEquals(players.get(1).getCards().size(), players.get(3).getCards().size(), 1);
-	}
-	@Before
-	public void Solution(){
-		sol = new Solution("Jace the Mind Sculptor", "Batterskull", "Dominaria");
-		game.setSolution(sol);
 	}
 	//Testing a solution is created, that it is size 3, and that is has one of each card type
 	@Test
