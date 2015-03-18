@@ -62,7 +62,7 @@ public class CluePlayerTests {
 		ArrayList<Player> players = game.getPlayers();
 		int numComps = 0;
 		int numHumans = 0;
-		assertEquals(players.size(), NUM_PLAYERS);
+		assertEquals(NUM_PLAYERS, players.size());
 		for(Player p: players){
 			if(p.isComputer()){
 				numComps++;

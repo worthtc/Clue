@@ -56,7 +56,7 @@ public class ClueGame {
 	   for(String s : characters){
 		   cards.add(new Card(s, Card.CardType.PERSON));
 	   }
-	   Set<Character> keys = rooms.keySet();
+	   HashSet<Character> keys = new HashSet<Character>(rooms.keySet());
 	   for(Character c : keys){
 		   if (c != 'W'){
 			   cards.add(new Card(rooms.get(c), Card.CardType.ROOM));
@@ -229,18 +229,18 @@ public class ClueGame {
 	public void loadConfigFiles() {
 		try{
 			playerConfigFiles();
-			gameBoard.loadBoardConfig( boardName, boardLegend);
+			rooms = gameBoard.loadBoardConfig( boardName, boardLegend);
 		   }catch (BadConfigFormatException e ){
 			   System.out.println(e);
 		   }catch (FileNotFoundException e){
 			   System.out.println(e);
 		   }
 	   }
-	   public void loadRoomConfig() throws BadConfigFormatException {
-		  gameBoard.loadBoardConfig( boardName, boardLegend);
-	   }
-	   public Board getBoardLayout(){
-		return gameBoard;
-		   
-	   }
+   public void loadRoomConfig() throws BadConfigFormatException {
+	  gameBoard.loadBoardConfig( boardName, boardLegend);
+   }
+   public Board getBoardLayout(){
+	return gameBoard;
+	   
+   }
 }
