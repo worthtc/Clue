@@ -46,8 +46,7 @@ public class ClueGame {
 	   cards = new ArrayList<Card>();
 	   referencePlayers = new ArrayList<Player>();
 	   players = new ArrayList<Player>();
-   }
-//TODO   
+   }  
    public void generateDeck(){
 	   for(String s : weapons){
 		   cards.add(new Card(s, Card.CardType.WEAPON));
