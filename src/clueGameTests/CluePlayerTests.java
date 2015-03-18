@@ -15,17 +15,18 @@ public class CluePlayerTests {
 	private final int NUM_CARDS = 22; //Number of cards, determined by legend
 	private final int NUM_WEAPONS = 6; //determined by legend
 	private final int NUM_PEOPLE = 6;//determined by legend
-	private final int NUM_PLAYERS = 5; //determined by legend
-	private final int NUM_HUMAN_PLAYERS = 2;
-	private final int NUM_COMPUTER_PLAYERS = 3;
+	private final int NUM_PLAYERS = 3; //determined by legend
+	private final int NUM_HUMAN_PLAYERS = 1;
+	private final int NUM_COMPUTER_PLAYERS = 2;
 	
 	private Solution sol;
 	
 	@BeforeClass
 	public static void init(){
-		game = new ClueGame("map/Clue Map.txt","map/legend.txt","map/weaponLegend.txt","map/peopleLegend.txt");
+		game = new ClueGame("map/Clue Map.txt","map/legend.txt","map/weaponLegend.txt","map/peopleLegend.txt", 3);
 		game.loadConfigFiles();
 		game.generateDeck();
+		game.makePlayers();
 	}
 	//Total cards generated must match the number of cards specified in the legend
 	@Test

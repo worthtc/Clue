@@ -7,7 +7,9 @@ public class ComputerPlayer extends Player{
 	public ComputerPlayer(String name, String color, int startRow, int startCol){
 		super(name, color, startRow, startCol);
 	}
-	
+	public ComputerPlayer(Player player){
+		super(player);
+	}
 	public void pickLocation(Set<BoardCell> targets){
 		
 	}

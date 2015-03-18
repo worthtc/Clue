@@ -13,6 +13,7 @@ import java.util.Set;
 import clueGame.Board;
 
 public class ClueGame {
+	private int numPlayers;
 	private String boardName;
 	private String boardLegend;
 	private String weaponLegend;
@@ -35,7 +36,7 @@ public class ClueGame {
 	   
    }
    
-   public ClueGame(String boardName, String legendName, String weaponLegend, String characterLegend) {
+   public ClueGame(String boardName, String legendName, String weaponLegend, String characterLegend, int numPlayers) {
 	   rooms = new HashMap<Character,String>();
 	   gameBoard = new Board();
 	   this.boardName = boardName;
@@ -47,6 +48,7 @@ public class ClueGame {
 	   cards = new ArrayList<Card>();
 	   referencePlayers = new ArrayList<Player>();
 	   players = new ArrayList<Player>();
+	   this.numPlayers = numPlayers;
    }
 
    public void generateDeck(){
@@ -236,6 +238,37 @@ public class ClueGame {
 			   System.out.println(e);
 		   }
 	   }
+	public void makePlayers(){//Temporary, simple used to test that players can be made and hold cards
+		for (int i = 0; i < numPlayers; i++){
+			if (i == 0){
+				players.add(new HumanPlayer(referencePlayers.get(findSpecificCharacter("Jace the Mind Sculptor"))));
+			}
+			else if (i == 1){
+				players.add(new ComputerPlayer(referencePlayers.get(findSpecificCharacter("Urza"))));
+			}
+			else if (i == 2){
+				players.add(new ComputerPlayer(referencePlayers.get(findSpecificCharacter("Nicol Bolas"))));
+			}
+			else if (i == 3){
+				players.add(new ComputerPlayer(referencePlayers.get(findSpecificCharacter("Ugin, the Spirit Dragon"))));
+			}
+			else if (i == 4){
+				players.add(new ComputerPlayer(referencePlayers.get(findSpecificCharacter("Karn"))));
+			}
+			else if (i == 5){
+				players.add(new ComputerPlayer(referencePlayers.get(findSpecificCharacter("Sorin Markov"))));
+			}
+		}
+	}
+	public int findSpecificCharacter(String character){
+		int index = 0;
+		for (int i = 0; i < referencePlayers.size(); i++){
+			if (referencePlayers.get(i).getName().equals(character)){
+				index = i;
+			}
+		}
+		return index;
+	}
    public void loadRoomConfig() throws BadConfigFormatException {
 	  gameBoard.loadBoardConfig( boardName, boardLegend);
    }
