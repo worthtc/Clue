@@ -47,7 +47,7 @@ public class ClueGame {
 	   referencePlayers = new ArrayList<Player>();
 	   players = new ArrayList<Player>();
    }
-//TODO   
+
    public void generateDeck(){
 	   for(String s : weapons){
 		   cards.add(new Card(s, Card.CardType.WEAPON));
@@ -169,7 +169,8 @@ public class ClueGame {
 		inf.close();
 		try{
 			legends.close();
-		}catch(IOException e){
+		}
+		catch(IOException e){
 			System.out.println(e.getMessage());
 		}
 		legends = new FileReader(characterLegend);
@@ -227,9 +228,9 @@ public class ClueGame {
 			playerConfigFiles();
 			gameBoard.loadBoardConfig( boardName, boardLegend);
 		   }catch (BadConfigFormatException e ){
-			   System.out.println( e.getMessage() );
+			   System.out.println(e);
 		   }catch (FileNotFoundException e){
-			   System.out.println(e.getMessage());
+			   System.out.println(e);
 		   }
 	   }
 	   public void loadRoomConfig() throws BadConfigFormatException {

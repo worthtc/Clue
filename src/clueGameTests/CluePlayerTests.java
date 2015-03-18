@@ -30,7 +30,7 @@ public class CluePlayerTests {
 	//Total cards generated must match the number of cards specified in the legend
 	@Test
 	public void testNumberOfCards(){
-		assertEquals(game.getCards().size(),NUM_CARDS);
+		assertEquals(NUM_CARDS, game.getCards().size());
 	}
 	//Create the correct number of PEOPLE cards, and contains a random selection of them
 	@Test
@@ -42,7 +42,7 @@ public class CluePlayerTests {
 				test++;
 			}
 		}
-		assertEquals(test, NUM_PEOPLE);
+		assertEquals(NUM_PEOPLE, test);
 	}
 	//Create the correct number of WEAPON cards, and contains a random selection of them
 	@Test
@@ -54,7 +54,7 @@ public class CluePlayerTests {
 				test++;
 			}
 		}
-		assertEquals(test, NUM_WEAPONS);
+		assertEquals(NUM_WEAPONS, test);
 	}
 	//Test correct players/computers created
 	@Test
@@ -71,18 +71,23 @@ public class CluePlayerTests {
 				numHumans++;
 			}
 		}
-		assertEquals(numComps, NUM_COMPUTER_PLAYERS);
-		assertEquals(numHumans, NUM_HUMAN_PLAYERS);
+		assertEquals(NUM_COMPUTER_PLAYERS, numComps);
+		assertEquals(NUM_HUMAN_PLAYERS, numHumans);
 	}
 	//Each player has correct number and type of cards
 	@Test
 	public void testDeal(){
 		ArrayList<Player> players = game.getPlayers();
-		assertTrue(players.get(1).getCards().size() != 0);
-		assertTrue(players.get(3).getCards().size() != 0);
+		assertFalse(players.get(1).getCards().size() == 0);
+		assertFalse(players.get(3).getCards().size() == 0);
 		assertEquals(players.get(1).getCards().size(), players.get(2).getCards().size(), 1);
 		assertEquals(players.get(2).getCards().size(), players.get(3).getCards().size(), 1);
 		assertEquals(players.get(1).getCards().size(), players.get(3).getCards().size(), 1);
+	}
+	@Before
+	public void Solution(){
+		sol = new Solution("Jace the Mind Sculptor", "Batterskull", "Dominaria");
+		game.setSolution(sol);
 	}
 	//Testing a solution is created, that it is size 3, and that is has one of each card type
 	@Test
