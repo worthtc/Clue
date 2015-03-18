@@ -27,6 +27,7 @@ public class CluePlayerTests {
 		game.loadConfigFiles();
 		game.generateDeck();
 		game.makePlayers();
+		game.deal();
 	}
 	//Total cards generated must match the number of cards specified in the legend
 	@Test
@@ -79,11 +80,14 @@ public class CluePlayerTests {
 	@Test
 	public void testDeal(){
 		ArrayList<Player> players = game.getPlayers();
-		assertFalse(players.get(1).getCards().size() == 0);
-		assertFalse(players.get(3).getCards().size() == 0);
-		assertEquals(players.get(1).getCards().size(), players.get(2).getCards().size(), 1);
-		assertEquals(players.get(2).getCards().size(), players.get(3).getCards().size(), 1);
-		assertEquals(players.get(1).getCards().size(), players.get(3).getCards().size(), 1);
+		assertEquals(7, players.get(0).getCards().size());
+		assertEquals(6, players.get(1).getCards().size(), players.get(2).getCards().size());
+		assertEquals(19, players.get(0).getCards().size() + players.get(1).getCards().size() + players.get(2).getCards().size());
+		for (int i = 0; i < 6; i++){
+			assertFalse(players.get(0).getCards().get(i).getName().equals(players.get(1).getCards().get(i).getName()));
+			assertFalse(players.get(1).getCards().get(i).getName().equals(players.get(2).getCards().get(i).getName()));
+			assertFalse(players.get(0).getCards().get(i).getName().equals(players.get(2).getCards().get(i).getName()));
+		}
 	}
 	//Testing a solution is created, that it is size 3, and that is has one of each card type
 	@Test

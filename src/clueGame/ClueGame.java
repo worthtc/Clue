@@ -77,7 +77,9 @@ public class ClueGame {
 	   }
 	   HashSet<Character> keys = new HashSet<Character>(rooms.keySet());
 	   for(Character c : keys){
-		   roomsLeft.add(new Card(rooms.get(c), Card.CardType.ROOM));
+		   if (c != 'W'){
+			   roomsLeft.add(new Card(rooms.get(c), Card.CardType.ROOM));
+		   }
 	   }
 	   int weapon = (int) Math.random()*weaponsLeft.size();
 	   int character = (int) Math.random()*charactersLeft.size();
