@@ -1,25 +1,12 @@
 package clueGameTests;
 
 import static org.junit.Assert.*;
-
-<<<<<<< HEAD
-import org.junit.Test;
-
-public class CluePlayerActionTests {
-
-	@Test
-	public void test() {
-		fail("Not yet implemented");
-	}
-
-=======
-import java.util.*;
-
 import org.junit.Before;
 //import org.junit.BeforeClass;
 import org.junit.Test;
 
 import clueGame.*;
+import java.util.*;
 
 public class CluePlayerActionTests {
 	private ClueGame game;
@@ -98,6 +85,17 @@ public class CluePlayerActionTests {
 		//players need a "seen" list, which we update prior
 		//force player to make a suggestion, make sure that that suggestion falls within acceptable parameters
 		//ie has a a weapon, person, room, and is made of valid entries
+		ComputerPlayer urza = (ComputerPlayer)game.getPlayers().get(1);
+		HashSet<Card> masterList = new HashSet<Card>();
+		masterList.add(new Card("Batterskull", Card.CardType.WEAPON));
+		masterList.add(new Card("Nicol Bolas", Card.CardType.PERSON));
+		masterList.add(new Card("Alara", Card.CardType.ROOM));
+		urza.setMasterListCards(masterList);
+		assertTrue(masterList.equals(urza.createSuggestion()));
+		masterList.add(new Card("Dominaria", Card.CardType.ROOM));
+		urza.setMasterListCards(masterList);
+		assertTrue(urza.createSuggestion().contains(new Card("Batterskull", Card.CardType.WEAPON)));
+		assertTrue(urza.createSuggestion().contains(new Card("Nicol Bolas", Card.CardType.PERSON)));
+		assertTrue(urza.createSuggestion().contains(new Card("Alara", Card.CardType.ROOM)) || urza.createSuggestion().contains(new Card("Dominaria", Card.CardType.ROOM)))
 	}
->>>>>>> 01ce4e1890195c02bb66d92116629e64ec2cc044
 }

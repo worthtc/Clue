@@ -1,11 +1,13 @@
 package clueGame;
-import java.util.Set;
+import java.util.*;
 
 public class ComputerPlayer extends Player{
 	private char lastRoomVisitied;
+	private Set<Card> masterListCards;
 	
 	public ComputerPlayer(String name, String color, int startRow, int startCol){
 		super(name, color, startRow, startCol);
+		masterListCards = new HashSet<Card>();
 	}
 	public ComputerPlayer(Player player){
 		super(player);
@@ -16,8 +18,8 @@ public class ComputerPlayer extends Player{
 		return tar[choice];
 	}
 	
-	public void createSuggestion(){
-		
+	public HashSet<Card> createSuggestion(){
+		return (HashSet<Card>) masterListCards;
 	}
 	
 	public void updateSeen(){
@@ -27,5 +29,18 @@ public class ComputerPlayer extends Player{
 	@Override
 	public boolean isComputer(){
 		return true;
+	}
+	
+	public char getLastRoomVisitied() {
+		return lastRoomVisitied;
+	}
+	public void setLastRoomVisitied(char lastRoomVisitied) {
+		this.lastRoomVisitied = lastRoomVisitied;
+	}
+	public Set<Card> getMasterListCards() {
+		return masterListCards;
+	}
+	public void setMasterListCards(Set<Card> seenCards) {
+		this.masterListCards = seenCards;
 	}
 }
