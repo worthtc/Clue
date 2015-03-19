@@ -106,9 +106,8 @@ public class CluePlayerActionTests {
 	//
 	@Test
 	public void testComputerMakesSuggestion(){
-		//players need a "seen" list, which we update prior
-		//force player to make a suggestion, make sure that that suggestion falls within acceptable parameters
-		//ie has a a weapon, person, room, and is made of valid entries
+		//Computers make suggestions based on a list of cards they have yet to see
+		//we manipulate the cards the player has yet to see to force it to make a specific suggestion
 		ComputerPlayer urza = (ComputerPlayer)game.getPlayers().get(1);
 		HashSet<Card> masterList = new HashSet<Card>();
 		masterList.add(new Card("Batterskull", Card.CardType.WEAPON));
@@ -116,11 +115,16 @@ public class CluePlayerActionTests {
 		masterList.add(new Card("Alara", Card.CardType.ROOM));
 		urza.setMasterListCards(masterList);
 		assertTrue(masterList.equals(urza.createSuggestion()));
-		
+		//We add some extra cards to test variation, but most of the suggestion is known
 		masterList.add(new Card("Dominaria", Card.CardType.ROOM));
 		urza.setMasterListCards(masterList);
-		assertTrue(urza.createSuggestion().contains(new Card("Batterskull", Card.CardType.WEAPON)));
-		assertTrue(urza.createSuggestion().contains(new Card("Nicol Bolas", Card.CardType.PERSON)));
-		assertTrue(urza.createSuggestion().contains(new Card("Alara", Card.CardType.ROOM)) || urza.createSuggestion().contains(new Card("Dominaria", Card.CardType.ROOM)));
+		Set<Card> temp = urza.createSuggestion();
+		ArrayList<String> cardNames = new ArrayList<String>();
+		for(Card c: temp){
+			cardNames.add(c.getName());
+		}
+		assertTrue(cardNames.contains("Nicol Bolas"));
+		assertTrue(cardNames.contains("Batterskull"));
+		assertTrue(cardNames.contains("Alara") || cardNames.contains("Dominaria"));
 	}
 }

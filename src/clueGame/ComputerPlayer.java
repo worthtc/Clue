@@ -31,8 +31,23 @@ public class ComputerPlayer extends Player{
 		return tar[choice];
 	}
 	
-	public HashSet<Card> createSuggestion(){
-		return (HashSet<Card>) masterListCards;
+	public Set<Card> createSuggestion(){
+		ArrayList<Card> personOptions = new ArrayList<Card>();
+		ArrayList<Card> roomOptions = new ArrayList<Card>();
+		ArrayList<Card> weaponOptions = new ArrayList<Card>();
+		for(Card c : masterListCards){
+			if(c.getType() == Card.CardType.PERSON) personOptions.add(c);
+			else if(c.getType() == Card.CardType.ROOM) roomOptions.add(c);
+			else weaponOptions.add(c);
+		}
+		Set<Card> suggestion = new HashSet<Card>();
+		int choice = (int)(Math.random()*personOptions.size());
+		suggestion.add(personOptions.get(choice));
+		choice = (int)(Math.random()*roomOptions.size());
+		suggestion.add(roomOptions.get(choice));
+		choice = (int)(Math.random()*weaponOptions.size());
+		suggestion.add(weaponOptions.get(choice));
+		return suggestion;
 	}
 	
 	public void updateSeen(){
