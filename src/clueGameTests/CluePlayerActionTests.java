@@ -17,6 +17,7 @@ public class CluePlayerActionTests {
 		game.loadConfigFiles();
 		game.generateDeck();
 		game.makePlayers();
+		game.getBoard().calcAdjacencies();
 	}
 	//Testing disporveSuggestion itself, for one player with various cards that player has or does not have
 	@Test

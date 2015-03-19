@@ -13,8 +13,18 @@ public class ComputerPlayer extends Player{
 		super(player);
 	}
 	public BoardCell pickLocation(Set<BoardCell> targets){
-		int choice = (int)(Math.random()*targets.size());
-		BoardCell[] tar = targets.toArray(new BoardCell[1]);
+		boolean flag = true;
+		int choice = 0;
+		BoardCell[] tar = new BoardCell[1];
+		while (flag){
+			choice = (int)(Math.random()*targets.size());
+			tar = targets.toArray(new BoardCell[1]);
+			if (tar[choice].isRoom()){
+				if (((RoomCell)tar[choice]).getInitial() != Character.toTitleCase(lastRoomVisitied)){
+					flag = false;
+				}
+			}
+		}
 		return tar[choice];
 	}
 	
