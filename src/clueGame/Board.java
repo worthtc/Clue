@@ -212,8 +212,8 @@ public class Board {
   public void calcAllTargets(int x,int y, int distance, ArrayList<BoardCell> visited){
 	  ArrayList<BoardCell> adjacentCells = new ArrayList<BoardCell>();
 	  visited.add(getCellAt(x,y));
-	  adjacentCells.addAll(getAdjList( x,y) );
-	  for(BoardCell adjCell: adjacentCells ){
+	  adjacentCells.addAll(getAdjList(x,y));
+	  for(BoardCell adjCell: adjacentCells){
 
 		  if( !(visited.contains(adjCell))){
 			  visited.add(adjCell);
