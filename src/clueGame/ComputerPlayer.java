@@ -10,8 +10,10 @@ public class ComputerPlayer extends Player{
 	public ComputerPlayer(Player player){
 		super(player);
 	}
-	public void pickLocation(Set<BoardCell> targets){
-		
+	public BoardCell pickLocation(Set<BoardCell> targets){
+		int choice = (int)(Math.random()*targets.size());
+		BoardCell[] tar = targets.toArray(new BoardCell[1]);
+		return tar[choice];
 	}
 	
 	public void createSuggestion(){

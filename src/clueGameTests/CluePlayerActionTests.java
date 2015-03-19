@@ -2,6 +2,8 @@ package clueGameTests;
 
 import static org.junit.Assert.*;
 
+import java.util.*;
+
 import org.junit.Before;
 //import org.junit.BeforeClass;
 import org.junit.Test;
@@ -61,6 +63,29 @@ public class CluePlayerActionTests {
 	//Testing the valid targets for player 1 (Urza, who begins at position (15,8))
 	@Test
 	public void testPlayerTargeting(){
+		game.getBoard().calcTargets(game.getPlayers().get(1).getCurrentRow(), game.getPlayers().get(1).getCurrentCol(), 1);
+		Set<BoardCell> tar = game.getBoard().getTargets();
+		BoardCell bc = ((ComputerPlayer) game.getPlayers().get(1)).pickLocation(tar);
+		ArrayList<BoardCell> valids = new ArrayList<BoardCell>();
+		valids.add(game.getBoard().getCellAt(15, 7));
+		valids.add(game.getBoard().getCellAt(14, 8));
+		valids.add(game.getBoard().getCellAt(15, 9));
+		assertTrue(valids.contains(bc));
 		
+		game.getBoard().calcTargets(game.getPlayers().get(1).getCurrentRow(), game.getPlayers().get(1).getCurrentCol(), 3);
+		tar = game.getBoard().getTargets();
+		bc = ((ComputerPlayer) game.getPlayers().get(1)).pickLocation(tar);
+		valids = new ArrayList<BoardCell>();
+		valids.add(game.getBoard().getCellAt(15, 7));
+		valids.add(game.getBoard().getCellAt(14, 8));
+		valids.add(game.getBoard().getCellAt(15, 9));
+		assertTrue(valids.contains(bc));
+	}
+	//
+	@Test
+	public void testComputerMakesSuggestion(){
+		//players need a "seen" list, which we update prior
+		//force player to make a suggestion, make sure that that suggestion falls within acceptable parameters
+		//ie has a a weapon, person, room, and is made of valid entries
 	}
 }

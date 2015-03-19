@@ -1,4 +1,4 @@
-package clueTests;
+package clueTests.TrevorJoshTests;
 
 import static org.junit.Assert.*;
 
@@ -20,7 +20,7 @@ public class BoardTest {
     
     @BeforeClass
     public static void start() throws BadConfigFormatException{
-    	ClueGame testGame = new ClueGame("ClueBoard.csv", "Legend.txt");
+    	ClueGame testGame = new ClueGame("ClueBoard.csv", "Legend.txt", null, null, 0);
     	the_board = new Board();
     	the_board.loadBoardConfig("ClueBoard.csv", "Legend.txt");
     	testGame.loadConfigFiles();
@@ -97,13 +97,13 @@ public class BoardTest {
 	
 	@Test (expected = BadConfigFormatException.class)
 	public void badRow() throws BadConfigFormatException{
-		ClueGame game = new ClueGame("ClueBoardBadRow.csv","Legend.txt");
+		ClueGame game = new ClueGame("ClueBoardBadRow.csv","Legend.txt", null, null, 0);
 		game.loadRoomConfig();
 	}
 	
 	@Test (expected = BadConfigFormatException.class)
 	public void badLegend() throws BadConfigFormatException{
-		ClueGame game = new ClueGame("ClueBoard.csv", "BadLegend.txt");
+		ClueGame game = new ClueGame("ClueBoard.csv", "BadLegend.txt", null, null, 0);
 		game.loadRoomConfig();
 	}
 	

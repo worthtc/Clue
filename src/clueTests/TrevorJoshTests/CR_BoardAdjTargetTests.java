@@ -1,4 +1,4 @@
-package clueTests;
+package clueTests.TrevorJoshTests;
 
 import java.util.LinkedList;
 import java.util.Set;
@@ -15,7 +15,7 @@ public class CR_BoardAdjTargetTests {
 	private static Board board;
 	@BeforeClass
 	public static void setUp() {
-		ClueGame game = new ClueGame("ClueLayout.csv", "ClueLegend.txt");
+		ClueGame game = new ClueGame("ClueLayout.csv", "ClueLegend.txt", null, null, 0);
 		game.loadConfigFiles();
 		board = game.getBoard();
 		board.calcAdjacencies();
