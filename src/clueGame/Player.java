@@ -34,8 +34,17 @@ public class Player {
 	public void setCurrentCol(int currentCol) {
 		this.currentCol = currentCol;
 	}
+	//This method should be specific to ComputerPlayer, and when the GUI is developed it will be moved there
 	public Card disproveSuggestion(String person, String room, String weapon){
-		return new Card("");
+		ArrayList<Card> matches = new ArrayList<Card>();
+		for (Card c : myCards){
+			if(c.getName().equals(person) || c.getName().equals(room) || c.getName().equals(weapon)) matches.add(c);
+		}
+		if(matches.size() != 0){
+			int choice = (int)(Math.random()*matches.size());
+			return matches.get(choice);
+		}
+		else return null;
 	}
 
 	public String getName() {
