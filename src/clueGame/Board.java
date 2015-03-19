@@ -167,22 +167,22 @@ public class Board {
 				LinkedList<BoardCell> adjList = new LinkedList<BoardCell>();
 				if( i - 1 >= 0 && (!(getCellAt(i-1,j).isRoom() ) || (getCellAt(i-1,j).isDoorWay() && getRoomCellAt(i-1,j).getDoorDirection() == RoomCell.DoorDirection.DOWN  ) )){
 					if( !(getCellAt(i,j).isRoom()) || ((getCellAt(i,j).isDoorWay()) && getRoomCellAt(i,j).getDoorDirection() == RoomCell.DoorDirection.UP)||getCellAt(i-1,j).isDoorWay()){
-						adjList.add( getCellAt(i-1,j));
+						if(!getCellAt(i-1, j).getIsOccupied()) adjList.add(getCellAt(i-1,j));
 					}
 				}
 				if( j - 1 >= 0 && (!(getCellAt(i,j-1).isRoom() ) || (getCellAt(i,j-1).isDoorWay() && getRoomCellAt(i,j-1).getDoorDirection() == RoomCell.DoorDirection.RIGHT  )) ){
 					if( !(getCellAt(i,j).isRoom()) || ((getCellAt(i,j).isDoorWay()) && getRoomCellAt(i,j).getDoorDirection() == RoomCell.DoorDirection.LEFT)||getCellAt(i,j-1).isDoorWay()){
-						adjList.add( getCellAt(i,j-1));
+						if(!getCellAt(i, j-1).getIsOccupied()) adjList.add( getCellAt(i,j-1));
 					}
 				}
 				if( i + 1 < numRows && (!(getCellAt(i+1,j).isRoom() ) || (getCellAt(i+1,j).isDoorWay()) && getRoomCellAt(i+1,j).getDoorDirection() == RoomCell.DoorDirection.UP  ) ){
 					if( !(getCellAt(i,j).isRoom()) || ((getCellAt(i,j).isDoorWay()) && getRoomCellAt(i,j).getDoorDirection() == RoomCell.DoorDirection.DOWN)||getCellAt(i+1,j).isDoorWay()){
-						adjList.add( getCellAt(i+1,j));
+						if(!getCellAt(i+1, j).getIsOccupied()) adjList.add( getCellAt(i+1,j));
 					}
 				}
 				if( j + 1 < numColumns && (!(getCellAt(i,j+1).isRoom() ) || (getCellAt(i,j+1).isDoorWay()) && getRoomCellAt(i,j+1).getDoorDirection() == RoomCell.DoorDirection.LEFT  )   ){
 					if(!(getCellAt(i,j).isRoom()) || ((getCellAt(i,j).isDoorWay()) && getRoomCellAt(i,j).getDoorDirection() == RoomCell.DoorDirection.RIGHT)|| getCellAt(i,j+1).isDoorWay()){
-						adjList.add( getCellAt(i,j+1));
+						if(!getCellAt(i, j+1).getIsOccupied()) adjList.add( getCellAt(i,j+1));
 					}
 				}
 				adjacencies.put( layout[i][j], adjList);	

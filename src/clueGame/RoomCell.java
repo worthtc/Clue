@@ -20,6 +20,11 @@ public class RoomCell extends BoardCell {
 	public DoorDirection getDoorDirection() {
 		return doorDirection;
 	}
+	@Override
+	public boolean getIsOccupied(){
+		if( doorDirection != DoorDirection.NONE) return false;
+		return super.getIsOccupied();
+	}
 	
 	public char getInitial() {
 		return room_initial;

@@ -31,6 +31,9 @@ public class Card{
 		this.type = type;
 	}
 	
-	
+	public boolean equals(Card c){
+		if(c.getName().equals(name) && c.getType() == type) return true;
+		return false;
+	}
 	
 }

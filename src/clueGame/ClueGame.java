@@ -116,8 +116,10 @@ public class ClueGame {
 	   
    }
    
-   public void handleSuggestion(String person, String room, String weapon, Player accusingPlayer){
-	   
+   public Card handleSuggestion(String person, String room, String weapon, Player accusingPlayer){
+	   //Card a = p.disproveSuggestion(person, room, weapon);
+	   //if(a != null) return a
+	   return new Card("", Card.CardType.ROOM);
    }
 
    public ArrayList<Card> getCards() {
