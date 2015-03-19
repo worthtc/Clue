@@ -15,6 +15,7 @@ public class CluePlayerActionTests {
 	public void init(){
 		game = new ClueGame("map/Clue Map.txt","map/legend.txt","map/weaponLegend.txt","map/peopleLegend.txt", 3);
 		game.loadConfigFiles();
+		game.getBoard().calcAdjacencies();
 		game.generateDeck();
 		game.makePlayers();
 	}
