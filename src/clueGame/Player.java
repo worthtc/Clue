@@ -15,7 +15,26 @@ public class Player {
 		this.startCol = startCol;
 		myCards = new ArrayList<Card>();
 	}
+	public Player(Player player){
+		name = player.getName();
+		color = player.getColor();
+		startRow = player.getStartRow();
+		startCol = player.getStartCol();
+		myCards = new ArrayList<Card>();
+	}
 
+	public int getStartRow() {
+		return startRow;
+	}
+	public void setStartRow(int startRow) {
+		this.startRow = startRow;
+	}
+	public int getStartCol() {
+		return startCol;
+	}
+	public void setStartCol(int startCol) {
+		this.startCol = startCol;
+	}
 	public Card disproveSuggestion(String person, String room, String weapon){
 		return new Card("");
 	}

@@ -1,6 +1,6 @@
-Umezawa's Jitte
-Batterskull
-Loxodon Warhammer
-Door to Nothingness
-Goblin Charbelcher
-Mindslaver
+Umezawa's Jitte;
+Batterskull;
+Loxodon Warhammer;
+Door to Nothingness;
+Goblin Charbelcher;
+Mindslaver;

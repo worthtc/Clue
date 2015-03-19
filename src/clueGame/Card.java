@@ -1,6 +1,8 @@
 package clueGame;
 
-public class Card {
+import java.util.Comparator;
+
+public class Card{
 	private String name;
 	public enum CardType{ROOM,WEAPON,PERSON};
 	private CardType type;
@@ -13,7 +15,6 @@ public class Card {
 		this.name = name;
 		this.type = type;
 	}
-	
 	public String getName() {
 		return name;
 	}
@@ -29,6 +30,7 @@ public class Card {
 	public void setType(CardType type) {
 		this.type = type;
 	}
+	
 	
 	
 }
