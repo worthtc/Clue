@@ -75,15 +75,15 @@ public class ClueGame {
 	   for(String s : characters){
 		   charactersLeft.add(new Card(s, Card.CardType.PERSON));
 	   }
-	   HashSet<Character> keys = new HashSet<Character>(rooms.keySet());
+	   Set<Character> keys = rooms.keySet();
 	   for(Character c : keys){
 		   if (c != 'W'){
 			   roomsLeft.add(new Card(rooms.get(c), Card.CardType.ROOM));
 		   }
 	   }
-	   int weapon = (int) Math.random()*weaponsLeft.size();
-	   int character = (int) Math.random()*charactersLeft.size();
-	   int room = (int) Math.random()*roomsLeft.size();
+	   int weapon = (int) (Math.random()*weaponsLeft.size());
+	   int character = (int) (Math.random()*charactersLeft.size());
+	   int room = (int) (Math.random()*roomsLeft.size());
 	   solution = new Solution(weaponsLeft.get(weapon).getName(), charactersLeft.get(character).getName(), roomsLeft.get(room).getName());
 	   weaponsLeft.remove(weapon);
 	   charactersLeft.remove(character);
@@ -126,11 +126,11 @@ public class ClueGame {
 		   if(currentPlayer >= players.size()) currentPlayer = 0;
 	   }
 	   return null;
-   }
+    }
 
-   public ArrayList<Card> getCards() {
+    public ArrayList<Card> getCards() {
 		return cards;
-	}
+    }
 	
 	public ArrayList<Player> getPlayers() {
 		return players;
@@ -247,7 +247,7 @@ public class ClueGame {
 		   }catch (FileNotFoundException e){
 			   System.out.println(e);
 		   }
-	   }
+	}
 	public void makePlayers(){//Temporary, simple used to test that players can be made and hold cards
 		for (int i = 0; i < numPlayers; i++){
 			if (i == 0){
