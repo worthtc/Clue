@@ -5,25 +5,6 @@ public class RoomCell extends BoardCell {
 	private DoorDirection doorDirection;
 	private char room_initial;
 	
-	@Override
-	public boolean isRoom(){
-		return true;
-	}
-	
-	@Override
-	public boolean isDoorWay(){
-		if( doorDirection != DoorDirection.NONE && doorDirection != null ){
-			return true;
-		}
-		return false;
-	}
-	public DoorDirection getDoorDirection() {
-		return doorDirection;
-	}
-	
-	public char getInitial() {
-		return room_initial;
-	}
 	public RoomCell(int row, int column, String initial) {
 		super(row, column);
 		room_initial = initial.charAt(0);
@@ -46,6 +27,31 @@ public class RoomCell extends BoardCell {
 		else{
 			doorDirection = DoorDirection.NONE;
 		}
+	}
+	
+	@Override
+	public boolean isRoom(){
+		return true;
+	}
+	
+	@Override
+	public boolean isDoorWay(){
+		if( doorDirection != DoorDirection.NONE && doorDirection != null ){
+			return true;
+		}
+		return false;
+	}
+	public DoorDirection getDoorDirection() {
+		return doorDirection;
+	}
+	@Override
+	public boolean getIsOccupied(){
+		if( doorDirection != DoorDirection.NONE) return false;
+		return super.getIsOccupied();
+	}
+	
+	public char getInitial() {
+		return room_initial;
 	}
 
 }

@@ -1,4 +1,4 @@
-package clueTests;
+package clueTests.TrevorJoshTests;
 
 import static org.junit.Assert.*;
 
@@ -17,7 +17,7 @@ public class board_adj_tests {
     private static Board board;
 	@BeforeClass
 	public static void setUp(){
-		ClueGame game = new ClueGame("ClueBoard.csv", "Legend.txt");
+		ClueGame game = new ClueGame("ClueBoard.csv", "Legend.txt", null, null, 0);
 		game.loadConfigFiles();
 		board = game.getBoardLayout();
 		board.calcAdjacencies();

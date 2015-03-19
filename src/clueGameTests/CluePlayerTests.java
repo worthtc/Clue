@@ -76,7 +76,7 @@ public class CluePlayerTests {
 		assertEquals(NUM_COMPUTER_PLAYERS, numComps);
 		assertEquals(NUM_HUMAN_PLAYERS, numHumans);
 	}
-	//Each player has correct number and type of cards
+	//Each player has correct number and not 2 players have the same card.
 	@Test
 	public void testDeal(){
 		ArrayList<Player> players = game.getPlayers();
