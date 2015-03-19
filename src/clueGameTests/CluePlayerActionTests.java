@@ -63,21 +63,43 @@ public class CluePlayerActionTests {
 	public void testPlayerTargeting(){
 		game.getBoard().calcTargets(game.getPlayers().get(1).getCurrentRow(), game.getPlayers().get(1).getCurrentCol(), 1);
 		Set<BoardCell> tar = game.getBoard().getTargets();
-		BoardCell bc = ((ComputerPlayer) game.getPlayers().get(1)).pickLocation(tar);
+		BoardCell bc;
 		ArrayList<BoardCell> valids = new ArrayList<BoardCell>();
 		valids.add(game.getBoard().getCellAt(15, 7));
 		valids.add(game.getBoard().getCellAt(14, 8));
 		valids.add(game.getBoard().getCellAt(15, 9));
-		assertTrue(valids.contains(bc));
+		for (int i = 0; i < 100; i++){
+			bc = ((ComputerPlayer) game.getPlayers().get(1)).pickLocation(tar);
+			assertTrue(valids.contains(bc));
+		}
 		
 		game.getBoard().calcTargets(game.getPlayers().get(1).getCurrentRow(), game.getPlayers().get(1).getCurrentCol(), 3);
 		tar = game.getBoard().getTargets();
-		bc = ((ComputerPlayer) game.getPlayers().get(1)).pickLocation(tar);
 		valids = new ArrayList<BoardCell>();
+		valids.add(game.getBoard().getCellAt(15,5));
+		valids.add(game.getBoard().getCellAt(16, 6));
+		valids.add(game.getBoard().getCellAt(14, 6));
 		valids.add(game.getBoard().getCellAt(15, 7));
+		valids.add(game.getBoard().getCellAt(13, 7));
+		valids.add(game.getBoard().getCellAt(12, 8));
 		valids.add(game.getBoard().getCellAt(14, 8));
+		valids.add(game.getBoard().getCellAt(13, 9));
 		valids.add(game.getBoard().getCellAt(15, 9));
-		assertTrue(valids.contains(bc));
+		valids.add(game.getBoard().getCellAt(17, 9));
+		valids.add(game.getBoard().getCellAt(14, 10));
+		valids.add(game.getBoard().getCellAt(15, 11));
+		for (int i = 0; i < 100; i++){
+			bc = ((ComputerPlayer) game.getPlayers().get(1)).pickLocation(tar);
+			assertTrue(valids.contains(bc));
+		}
+		
+		((ComputerPlayer) game.getPlayers().get(1)).setLastRoomVisitied('d');
+		game.getBoard().calcTargets(game.getPlayers().get(1).getCurrentRow(), game.getPlayers().get(1).getCurrentCol(), 3);
+		tar = game.getBoard().getTargets();
+		for (int i = 0; i < 100; i++){
+			bc = ((ComputerPlayer) game.getPlayers().get(1)).pickLocation(tar);
+			assertTrue(valids.contains(bc));
+		}
 	}
 	//
 	@Test
@@ -92,10 +114,11 @@ public class CluePlayerActionTests {
 		masterList.add(new Card("Alara", Card.CardType.ROOM));
 		urza.setMasterListCards(masterList);
 		assertTrue(masterList.equals(urza.createSuggestion()));
+		
 		masterList.add(new Card("Dominaria", Card.CardType.ROOM));
 		urza.setMasterListCards(masterList);
 		assertTrue(urza.createSuggestion().contains(new Card("Batterskull", Card.CardType.WEAPON)));
 		assertTrue(urza.createSuggestion().contains(new Card("Nicol Bolas", Card.CardType.PERSON)));
-		assertTrue(urza.createSuggestion().contains(new Card("Alara", Card.CardType.ROOM)) || urza.createSuggestion().contains(new Card("Dominaria", Card.CardType.ROOM)))
+		assertTrue(urza.createSuggestion().contains(new Card("Alara", Card.CardType.ROOM)) || urza.createSuggestion().contains(new Card("Dominaria", Card.CardType.ROOM)));
 	}
 }
