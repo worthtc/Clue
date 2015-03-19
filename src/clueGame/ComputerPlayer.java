@@ -24,6 +24,9 @@ public class ComputerPlayer extends Player{
 					flag = false;
 				}
 			}
+			else{
+				flag = false;
+			}
 		}
 		return tar[choice];
 	}
