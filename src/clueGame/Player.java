@@ -4,36 +4,35 @@ import java.util.ArrayList;
 public class Player {
 	private String name;
 	private String color;
-	private int startRow;
-	private int startCol;
 	private ArrayList<Card> myCards;
+	private int currentCol, currentRow;
 	
 	public Player(String name, String color, int startRow, int startCol){
 		this.name = name;
 		this.color = color;
-		this.startRow = startRow;
-		this.startCol = startCol;
+		currentRow = startRow;
+		currentCol = startCol;
 		myCards = new ArrayList<Card>();
 	}
 	public Player(Player player){
 		name = player.getName();
 		color = player.getColor();
-		startRow = player.getStartRow();
-		startCol = player.getStartCol();
+		currentRow = player.getCurrentRow();
+		currentCol = player.getCurrentCol();
 		myCards = new ArrayList<Card>();
 	}
 
-	public int getStartRow() {
-		return startRow;
+	public int getCurrentRow() {
+		return currentRow;
 	}
-	public void setStartRow(int startRow) {
-		this.startRow = startRow;
+	public void setCurrentRow(int currentRow) {
+		this.currentRow = currentRow;
 	}
-	public int getStartCol() {
-		return startCol;
+	public int getCurrentCol() {
+		return currentCol;
 	}
-	public void setStartCol(int startCol) {
-		this.startCol = startCol;
+	public void setCurrentCol(int currentCol) {
+		this.currentCol = currentCol;
 	}
 	public Card disproveSuggestion(String person, String room, String weapon){
 		return new Card("");

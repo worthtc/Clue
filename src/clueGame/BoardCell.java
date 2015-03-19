@@ -2,10 +2,12 @@ package clueGame;
 
 public abstract class BoardCell {
 	private int row, column;
+	private boolean isOccupied;
     
 	public BoardCell(int row, int column) {
 		this.row = row;
 		this.column = column;
+		isOccupied = false;
 	}
 
 	public boolean isDoorWay(){
@@ -26,5 +28,13 @@ public abstract class BoardCell {
 
 	public int getColumn() {
 		return column;
+	}
+	
+	public void setIsoCcupied(boolean status){
+		isOccupied = status;
+	}
+	
+	public boolean getIsOccupied(){
+		return isOccupied;
 	}
 }
