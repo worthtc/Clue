@@ -89,22 +89,20 @@ public class ClueGame {
 	   charactersLeft.remove(character);
 	   roomsLeft.remove(room);
 	   int currentPlayer = 0;
+	   ArrayList<Card> cardsLeft = new ArrayList<Card>();
 	   for(Card c :  weaponsLeft){
-		   players.get(currentPlayer).giveCard(c);
-		   currentPlayer++;
-		   if(currentPlayer >= players.size()){
-			   currentPlayer = 0;
-		   }
+		   cardsLeft.add(c);
 	   }
 	   for(Card c : charactersLeft){
-		   players.get(currentPlayer).giveCard(c);
-		   currentPlayer++;
-		   if(currentPlayer >= players.size()){
-			   currentPlayer = 0;
-		   }
+		   cardsLeft.add(c);
 	   }
 	   for(Card c : roomsLeft){
-		   players.get(currentPlayer).giveCard(c);
+		   cardsLeft.add(c);
+	   }
+	   while(cardsLeft.size() != 0){
+		   int choice = (int)(Math.random()*cardsLeft.size());
+		   players.get(currentPlayer).giveCard(cardsLeft.get(choice));
+		   cardsLeft.remove(choice);
 		   currentPlayer++;
 		   if(currentPlayer >= players.size()){
 			   currentPlayer = 0;
@@ -117,9 +115,17 @@ public class ClueGame {
    }
    
    public Card handleSuggestion(String person, String room, String weapon, Player accusingPlayer){
-	   //Card a = p.disproveSuggestion(person, room, weapon);
-	   //if(a != null) return a
-	   return new Card("", Card.CardType.ROOM);
+	   int currentPlayer = players.indexOf(accusingPlayer);
+	   currentPlayer++;
+	   if(currentPlayer >= players.size()) currentPlayer = 0;
+	   
+	   while(currentPlayer != players.indexOf(accusingPlayer)){
+		   Card a = players.get(currentPlayer).disproveSuggestion(person, room, weapon);
+		   if(a!= null) return a;
+		   currentPlayer++;
+		   if(currentPlayer >= players.size()) currentPlayer = 0;
+	   }
+	   return null;
    }
 
    public ArrayList<Card> getCards() {
