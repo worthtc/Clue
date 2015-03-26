@@ -40,7 +40,10 @@ public class ClueGame extends JFrame {
    public static void main(String[] args){
 	   ClueGame gui = new ClueGame("map/Clue Map.txt","map/legend.txt","map/weaponLegend.txt","map/peopleLegend.txt", 3);
 	   gui.setVisible(true);
-	   gui.loadConfigFiles();
+	   DetectiveNotes gui2 = new DetectiveNotes(gui.getCards());
+	   gui2.setVisible(true);
+	   GameInterface gui3 = new GameInterface();
+	   gui3.setVisible(true);
    }
    
    public ClueGame(String boardName, String legendName, String weaponLegend, String characterLegend, int numPlayers) {
@@ -59,6 +62,10 @@ public class ClueGame extends JFrame {
 	   referencePlayers = new ArrayList<Player>();
 	   players = new ArrayList<Player>();
 	   this.numPlayers = numPlayers;
+	   loadConfigFiles();
+	   add(gameBoard, BorderLayout.CENTER);
+	   generateDeck();
+	   
    }
 
    public void generateDeck(){
@@ -256,7 +263,6 @@ public class ClueGame extends JFrame {
 		try{
 			playerConfigFiles();
 			rooms = gameBoard.loadBoardConfig( boardName, boardLegend);
-			add(gameBoard, BorderLayout.CENTER);
 		   }catch (BadConfigFormatException e ){
 			   System.out.println(e);
 		   }catch (FileNotFoundException e){

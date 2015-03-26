@@ -1,5 +1,7 @@
 package clueGame;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 
 public class RoomCell extends BoardCell {
@@ -58,7 +60,27 @@ public class RoomCell extends BoardCell {
 
 	@Override
 	public void Draw(Graphics g, Board b, int currentRow, int currentColumn) {
-		
+		if(b.getRoomPrintNames().containsKey(b.getRooms().get(getInitial())) && currentRow == b.getRoomPrintNames().get(b.getRooms().get(getInitial()))){
+			g.setColor(Color.WHITE);
+			g.setFont(new Font("Times New Roman", Font.BOLD, /*(int)(b.getCellSize().getHeight())*/12));
+			g.drawString(b.getRooms().get(getInitial()), (int)(currentRow*b.getCellSize().getWidth()), (int)(b.getCellSize().getHeight()));
+			b.getRoomPrintNames().remove(b.getRooms().get(getInitial()));
+		}
+		if(isDoorWay()){
+			g.setColor(Color.BLUE);
+			if(getDoorDirection() == DoorDirection.LEFT){
+				g.fillRect((int)(currentColumn*b.getCellSize().getWidth()), (int)(currentRow*b.getCellSize().getHeight()), (int)(b.getCellSize().getWidth()/8), (int)(b.getCellSize().getHeight()));
+			}
+			else if(getDoorDirection() == DoorDirection.RIGHT){
+				g.fillRect((int)(currentColumn*b.getCellSize().getWidth() + b.getCellSize().getWidth()), (int)(currentRow*b.getCellSize().getHeight()), (int)(-1*b.getCellSize().getWidth()/8), (int)(b.getCellSize().getHeight()));
+			}
+			else if(getDoorDirection() == DoorDirection.UP){
+				g.fillRect((int)(currentColumn*b.getCellSize().getWidth()), (int)(currentRow*b.getCellSize().getHeight()), (int)(b.getCellSize().getWidth()), (int)(b.getCellSize().getHeight()/8));
+			}
+			else{
+				g.fillRect((int)(currentColumn*b.getCellSize().getWidth()), (int)(currentRow*b.getCellSize().getHeight() + b.getCellSize().getHeight()), (int)(b.getCellSize().getWidth()), (int)(-1*b.getCellSize().getHeight()/8));
+			}
+		}
 	}
 
 }

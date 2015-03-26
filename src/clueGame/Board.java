@@ -17,6 +17,7 @@ public class Board extends JPanel {
   private int numRows,numColumns;
   Map<Character,String> rooms; 
   private Map<BoardCell, LinkedList<BoardCell>> adjacencies;
+  private Map<String, Integer> roomPrintNames;
   private Set<BoardCell> targetList;
   
   private Dimension panelSize, cellSize;
@@ -25,6 +26,18 @@ public class Board extends JPanel {
   @Override
   public void paintComponent(Graphics g){
 	  super.paintComponent(g);
+	  fixSize();
+	  g.setColor(Color.GRAY);
+	  g.fillRect(0, 0, getWidth(), getHeight());
+	  if(layout != null) paintCells(g);
+  }
+  
+  public void paintCells(Graphics g){
+	  for(int i = 0; i<layout.length; i++){
+		  for(int j = 0; j<layout[i].length; j++){
+			  layout[i][j].Draw(g, this, i, j);
+		  }
+	  }
   }
 
   public Map<Character,String> loadBoardConfig( String boardName, String legendName ) throws BadConfigFormatException {
@@ -65,9 +78,11 @@ public class Board extends JPanel {
 		roomInput = new Scanner( roomReader );
 		int currentRow = 0;
 		int currentColumn = 0;
+		int consecutive = 0;
 		if( roomInput.hasNextLine() ){ //Set the initial numColumns and read in the first line of values
 			String roomsString = roomInput.nextLine();
 			String[] roomParse = roomsString.split( "," );
+			char lastRoom = ' ';
 			numColumns = roomParse.length; 
 			layout = new BoardCell[numRows][numColumns];
 			for( String s:roomParse){
@@ -85,7 +100,20 @@ public class Board extends JPanel {
 					layout[currentRow][currentColumn] = new WalkWayCell(currentRow, currentColumn);
 				}
 				else{
-					layout[currentRow][currentColumn] = new RoomCell(currentRow, currentColumn, s); 
+					layout[currentRow][currentColumn] = new RoomCell(currentRow, currentColumn, s);
+					if(((RoomCell)layout[currentRow][currentColumn]).getInitial() == lastRoom && !roomPrintNames.containsKey(rooms.get(((RoomCell)layout[currentRow][currentColumn]).getInitial()))){
+						consecutive++;
+						lastRoom = ((RoomCell)layout[currentRow][currentColumn]).getInitial();
+					}
+					else {
+						consecutive = 0;
+						lastRoom = ((RoomCell)layout[currentRow][currentColumn]).getInitial();
+					}
+					if(consecutive >= 4){
+						roomPrintNames.put(rooms.get(((RoomCell)layout[currentRow][currentColumn]).getInitial()), currentRow);
+						consecutive = 0;
+						lastRoom = ((RoomCell)layout[currentRow][currentColumn]).getInitial();
+					}
 				}
 				currentColumn++;
 			}
@@ -117,11 +145,9 @@ public class Board extends JPanel {
 				//Check to see if the boardCell is a Walkway or RoomCell
 				if( s.charAt(0) == 'W'){
 					layout[currentRow][currentColumn] = new WalkWayCell(currentRow, currentColumn);
-					layout[currentRow][currentColumn].Draw(getGraphics(), this, currentRow, currentColumn);
 				}
 				else{
 					layout[currentRow][currentColumn] = new RoomCell(currentRow, currentColumn, s); 
-					layout[currentRow][currentColumn].Draw(getGraphics(), this, currentRow, currentColumn);
 				}
 				currentColumn++;
 			}
@@ -140,10 +166,17 @@ public class Board extends JPanel {
 	rooms = new HashMap<Character,String>();
 	adjacencies = new HashMap<BoardCell, LinkedList<BoardCell>>();
 	targetList = new HashSet<BoardCell>();
-	panelSize = getSize();
-	cellSize = new Dimension(1,1);
-	cellSize.setSize((int) (panelSize.getHeight()/numRows), (int) (panelSize.getWidth()/numColumns));
+	roomPrintNames = new HashMap<String, Integer>();
 }
+  public void fixSize(){
+	  panelSize = getSize();
+	  cellSize = new Dimension(1,1);
+	  cellSize.setSize((int) (panelSize.getWidth()/numColumns), (int) (panelSize.getHeight()/numRows));
+  }
+  
+  public Map<String, Integer> getRoomPrintNames(){
+	  return roomPrintNames;
+  }
 
   public BoardCell getCellAt(int x, int y){
 	  return layout[x][y];

@@ -16,8 +16,8 @@ public class WalkWayCell extends BoardCell {
 	@Override
 	public void Draw(Graphics g, Board b, int currentRow, int currentColumn) {
 		g.setColor(Color.YELLOW);
-		g.fillRect((int)(currentRow*b.getCellSize().getHeight()),(int)(currentColumn*b.getCellSize().getWidth()), (int)(b.getCellSize().getHeight()), (int)(b.getCellSize().getWidth()));
+		g.fillRect((int)(currentColumn*b.getCellSize().getWidth()),(int)(currentRow*b.getCellSize().getHeight()), (int)(b.getCellSize().getWidth()),(int)(b.getCellSize().getHeight()));
 		g.setColor(Color.BLACK);
-		g.drawRect((int)(currentRow*b.getCellSize().getHeight()),(int)(currentColumn*b.getCellSize().getWidth()), (int)(b.getCellSize().getHeight()), (int)(b.getCellSize().getWidth()));
+		g.drawRect((int)(currentColumn*b.getCellSize().getWidth()),(int)(currentRow*b.getCellSize().getHeight()), (int)(b.getCellSize().getWidth()),(int)(b.getCellSize().getHeight()));
 	}
 }
