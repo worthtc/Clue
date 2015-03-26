@@ -1,5 +1,6 @@
 package clueGame;
 
+import java.awt.*;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -9,16 +10,23 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+import javax.swing.JPanel;
 
-import org.junit.Assert;
-
-public class Board {
+public class Board extends JPanel {
   private BoardCell layout [][];
   private int numRows,numColumns;
   Map<Character,String> rooms; 
   private Map<BoardCell, LinkedList<BoardCell>> adjacencies;
   private Set<BoardCell> targetList;
   
+  private Dimension panelSize, cellSize;
+  
+  
+  @Override
+  public void paintComponent(Graphics g){
+	  super.paintComponent(g);
+  }
+
   public Map<Character,String> loadBoardConfig( String boardName, String legendName ) throws BadConfigFormatException {
 	  FileReader legendReader;
 	  int rowNum = 0;
@@ -109,9 +117,11 @@ public class Board {
 				//Check to see if the boardCell is a Walkway or RoomCell
 				if( s.charAt(0) == 'W'){
 					layout[currentRow][currentColumn] = new WalkWayCell(currentRow, currentColumn);
+					layout[currentRow][currentColumn].Draw(getGraphics(), this, currentRow, currentColumn);
 				}
 				else{
 					layout[currentRow][currentColumn] = new RoomCell(currentRow, currentColumn, s); 
+					layout[currentRow][currentColumn].Draw(getGraphics(), this, currentRow, currentColumn);
 				}
 				currentColumn++;
 			}
@@ -126,19 +136,20 @@ public class Board {
 	return rooms;
   }
   
-  
   public Board() {
 	rooms = new HashMap<Character,String>();
 	adjacencies = new HashMap<BoardCell, LinkedList<BoardCell>>();
 	targetList = new HashSet<BoardCell>();
-	
+	panelSize = getSize();
+	cellSize = new Dimension(1,1);
+	cellSize.setSize((int) (panelSize.getHeight()/numRows), (int) (panelSize.getWidth()/numColumns));
 }
 
   public BoardCell getCellAt(int x, int y){
 	  return layout[x][y];
   }
   
-  public BoardCell[][] getLayout() {
+  public BoardCell[][] getBoard() {
 	return layout;
   }
 
@@ -149,6 +160,10 @@ public class Board {
   public int getNumColumns() {
 	return numColumns;
   }
+
+	public Dimension getCellSize() {
+		return cellSize;
+	}
 
   public Map<Character, String> getRooms() {
 	return rooms;

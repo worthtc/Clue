@@ -1,5 +1,6 @@
 package clueGame;
 
+import java.awt.BorderLayout;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -10,9 +11,11 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Set;
 
+import javax.swing.JFrame;
+
 import clueGame.Board;
 
-public class ClueGame {
+public class ClueGame extends JFrame {
 	private int numPlayers;
 	private String boardName;
 	private String boardLegend;
@@ -28,15 +31,22 @@ public class ClueGame {
 	private ArrayList<Player> players;
 	private Solution solution;
    
-   public Board getBoard() {
-		return gameBoard;
+   public ClueGame(){
+	   	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setTitle("Clue Board");
+		setSize(500,500);
    }
    
-   public ClueGame(){
-	   
+   public static void main(String[] args){
+	   ClueGame gui = new ClueGame("map/Clue Map.txt","map/legend.txt","map/weaponLegend.txt","map/peopleLegend.txt", 3);
+	   gui.setVisible(true);
+	   gui.loadConfigFiles();
    }
    
    public ClueGame(String boardName, String legendName, String weaponLegend, String characterLegend, int numPlayers) {
+	   setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	   setTitle("Clue Board");
+	   setSize(500,500);
 	   rooms = new HashMap<Character,String>();
 	   gameBoard = new Board();
 	   this.boardName = boardName;
@@ -127,10 +137,14 @@ public class ClueGame {
 	   }
 	   return null;
     }
-
-    public ArrayList<Card> getCards() {
+   
+   public Board getBoard() {
+		return gameBoard;
+   }
+   
+   public ArrayList<Card> getCards() {
 		return cards;
-    }
+   }
 	
 	public ArrayList<Player> getPlayers() {
 		return players;
@@ -242,6 +256,7 @@ public class ClueGame {
 		try{
 			playerConfigFiles();
 			rooms = gameBoard.loadBoardConfig( boardName, boardLegend);
+			add(gameBoard, BorderLayout.CENTER);
 		   }catch (BadConfigFormatException e ){
 			   System.out.println(e);
 		   }catch (FileNotFoundException e){
