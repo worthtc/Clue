@@ -1,10 +1,12 @@
 package clueGame;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 public abstract class BoardCell {
 	private int row, column;
 	private boolean isOccupied;
+	private Color playerColor;
     
 	public BoardCell(int row, int column) {
 		this.row = row;
@@ -32,12 +34,20 @@ public abstract class BoardCell {
 		return column;
 	}
 	
-	public void setIsoCcupied(boolean status){
+	public void setIsOccupied(boolean status){
 		isOccupied = status;
 	}
 	
 	public boolean getIsOccupied(){
 		return isOccupied;
+	}
+	
+	public Color getPlayerColor(){
+		return playerColor;
+	}
+	
+	public void setPlayerColor(Color c){
+		playerColor = c;
 	}
 	
 	public abstract void Draw(Graphics g, Board b, int currentRow, int currentColumn);

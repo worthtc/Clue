@@ -27,8 +27,10 @@ public class Board extends JPanel {
   public void paintComponent(Graphics g){
 	  super.paintComponent(g);
 	  fixSize();
-	  g.setColor(Color.GRAY);
-	  g.fillRect(0, 0, getWidth(), getHeight());
+	  g.setColor(Color.GREEN);
+	  g.fillRect(0, 0, (int)(getCellSize().getWidth()*numColumns),(int)( getCellSize().getHeight()*numRows));
+	  g.setColor(Color.BLACK);
+	  g.drawRect(0, 0, (int)(getCellSize().getWidth()*numColumns),(int)( getCellSize().getHeight()*numRows));
 	  if(layout != null) paintCells(g);
   }
   
