@@ -28,21 +28,17 @@ public class Board extends JPanel {
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 		fixSize();
+		//Draw a background for the board and give it a black border
 		g.setColor(Color.GREEN);
 		g.fillRect(0, 0, (int)(getCellSize().getWidth()*numColumns),(int)( getCellSize().getHeight()*numRows));
 		g.setColor(Color.BLACK);
 		g.drawRect(0, 0, (int)(getCellSize().getWidth()*numColumns),(int)( getCellSize().getHeight()*numRows));
-		if(layout != null){
-			for(int i = 0; i<layout.length; i++){
-				for(int j = 0; j<layout[i].length; j++){
-					layout[i][j].Draw(g, this, i, j);
-				}
+		//Then we have every room cell draw itself
+		for(int i = 0; i<layout.length; i++){
+			for(int j = 0; j<layout[i].length; j++){
+				layout[i][j].Draw(g, this, i, j);
 			}
 		}
-	}
-
-	public void paintCells(Graphics g){
-		
 	}
 
 	public Map<Character,String> loadBoardConfig( String boardName, String legendName ) throws BadConfigFormatException {
@@ -104,19 +100,6 @@ public class Board extends JPanel {
 					}
 					else{
 						layout[currentRow][currentColumn] = new RoomCell(currentRow, currentColumn, s);
-						/*if(((RoomCell)layout[currentRow][currentColumn]).getInitial() == lastRoom && !roomPrintNames.containsKey(rooms.get(((RoomCell)layout[currentRow][currentColumn]).getInitial()))){
-							consecutive++;
-							lastRoom = ((RoomCell)layout[currentRow][currentColumn]).getInitial();
-						}
-						else {
-							consecutive = 0;
-							lastRoom = ((RoomCell)layout[currentRow][currentColumn]).getInitial();
-						}
-						if(consecutive >= 4){
-							roomPrintNames.put(rooms.get(((RoomCell)layout[currentRow][currentColumn]).getInitial()), currentRow);
-							consecutive = 0;
-							lastRoom = ((RoomCell)layout[currentRow][currentColumn]).getInitial();
-						}*/
 					}
 					currentColumn++;
 				}
@@ -169,7 +152,6 @@ public class Board extends JPanel {
 		rooms = new HashMap<Character,String>();
 		adjacencies = new HashMap<BoardCell, LinkedList<BoardCell>>();
 		targetList = new HashSet<BoardCell>();
-		//roomPrintNames = new HashMap<String, Integer>();
 	}
 	public void fixSize(){
 		cellSize = new Dimension(1,1);
@@ -200,30 +182,42 @@ public class Board extends JPanel {
 		if(layout[x][y].isRoom()){
 			return (RoomCell) layout[x][y];
 		}
-		return null; //Return a bad RoomCell if the given location is not a Room Cell, We might want to throw an exception here but I am not sure
+		return null; //Return a null value if the given location is not a Room Cell
 	}
 
 	public void calcAdjacencies(){
 		for(int i = 0; i < numRows; i++ ) { 
 			for(int j = 0; j < numColumns;j++) {
 				LinkedList<BoardCell> adjList = new LinkedList<BoardCell>();
+				//This if statement check to see if the cell at i-1 is either not a room or is a door way with the door facing in the correct direction
 				if( i - 1 >= 0 && (!(getCellAt(i-1,j).isRoom() ) || (getCellAt(i-1,j).isDoorWay() && getRoomCellAt(i-1,j).getDoorDirection() == RoomCell.DoorDirection.DOWN  ) )){
+					//this if statement makes sure that we are either not currently in a room or that we are currently in a door way and the door is facing in the correct direction
 					if( !(getCellAt(i,j).isRoom()) || ((getCellAt(i,j).isDoorWay()) && getRoomCellAt(i,j).getDoorDirection() == RoomCell.DoorDirection.UP)||getCellAt(i-1,j).isDoorWay()){
+						//Finally we make sure that the room we are moving to is not occupied, if it is not, we add it to the adjacency list
 						if(!getCellAt(i-1, j).getIsOccupied()) adjList.add(getCellAt(i-1,j));
 					}
 				}
+				//This if statement check to see if the cell at j-1 is either not a room or is a door way with the door facing in the correct direction
 				if( j - 1 >= 0 && (!(getCellAt(i,j-1).isRoom() ) || (getCellAt(i,j-1).isDoorWay() && getRoomCellAt(i,j-1).getDoorDirection() == RoomCell.DoorDirection.RIGHT  )) ){
+					//this if statement makes sure that we are either not currently in a room or that we are currently in a door way and the door is facing in the correct direction
 					if( !(getCellAt(i,j).isRoom()) || ((getCellAt(i,j).isDoorWay()) && getRoomCellAt(i,j).getDoorDirection() == RoomCell.DoorDirection.LEFT)||getCellAt(i,j-1).isDoorWay()){
+						//Finally we make sure that the room we are moving to is not occupied, if it is not, we add it to the adjacency list
 						if(!getCellAt(i, j-1).getIsOccupied()) adjList.add( getCellAt(i,j-1));
 					}
 				}
+				//This if statement check to see if the cell at i+1 is either not a room or is a door way with the door facing in the correct direction
 				if( i + 1 < numRows && (!(getCellAt(i+1,j).isRoom() ) || (getCellAt(i+1,j).isDoorWay()) && getRoomCellAt(i+1,j).getDoorDirection() == RoomCell.DoorDirection.UP  ) ){
+					//this if statement makes sure that we are either not currently in a room or that we are currently in a door way and the door is facing in the correct direction
 					if( !(getCellAt(i,j).isRoom()) || ((getCellAt(i,j).isDoorWay()) && getRoomCellAt(i,j).getDoorDirection() == RoomCell.DoorDirection.DOWN)||getCellAt(i+1,j).isDoorWay()){
+						//Finally we make sure that the room we are moving to is not occupied, if it is not, we add it to the adjacency list
 						if(!getCellAt(i+1, j).getIsOccupied()) adjList.add( getCellAt(i+1,j));
 					}
 				}
+				//This if statement check to see if the cell at j+1 is either not a room or is a door way with the door facing in the correct direction
 				if( j + 1 < numColumns && (!(getCellAt(i,j+1).isRoom() ) || (getCellAt(i,j+1).isDoorWay()) && getRoomCellAt(i,j+1).getDoorDirection() == RoomCell.DoorDirection.LEFT  )   ){
+					//this if statement makes sure that we are either not currently in a room or that we are currently in a door way and the door is facing in the correct direction
 					if(!(getCellAt(i,j).isRoom()) || ((getCellAt(i,j).isDoorWay()) && getRoomCellAt(i,j).getDoorDirection() == RoomCell.DoorDirection.RIGHT)|| getCellAt(i,j+1).isDoorWay()){
+						//Finally we make sure that the room we are moving to is not occupied, if it is not, we add it to the adjacency list
 						if(!getCellAt(i, j+1).getIsOccupied()) adjList.add( getCellAt(i,j+1));
 					}
 				}
@@ -251,18 +245,18 @@ public class Board extends JPanel {
 		visited.add(getCellAt(x,y));
 		adjacentCells.addAll(getAdjList(x,y));
 		for(BoardCell adjCell: adjacentCells){
-
+			// Check to see if we have not already visited the adjacent cell
 			if( !(visited.contains(adjCell))){
+				//Add this cell to the visited list
 				visited.add(adjCell);
+				// If the cell is a door way or we are at a distance of 1, we just add the cell to the adjacency list
 				if( adjCell.isDoorWay()){
 					targetList.add(adjCell);
 				}
 				if(distance == 1){
-
 					targetList.add(adjCell);
 					visited.remove(adjCell);
-
-				} else {
+				} else { //Otherwise we run calcAllTargets again with the adjacent cell
 					calcAllTargets(adjCell.getRow(), adjCell.getColumn(), distance - 1, visited);
 					visited.remove(adjCell);
 
