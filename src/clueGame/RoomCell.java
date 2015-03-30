@@ -8,10 +8,11 @@ public class RoomCell extends BoardCell {
 	public enum DoorDirection{UP,DOWN,LEFT,RIGHT,NONE};
 	private DoorDirection doorDirection;
 	private char room_initial;
-	
+	private boolean isNamed;
 	public RoomCell(int row, int column, String initial) {
 		super(row, column);
 		room_initial = initial.charAt(0);
+		isNamed = false;
 		if( initial.length() == 2 ){
 			switch(initial.charAt(1)){
 				case 'U':
@@ -25,6 +26,10 @@ public class RoomCell extends BoardCell {
 					break;
 				case 'R':
 					doorDirection = DoorDirection.RIGHT;
+					break;
+				default:
+					doorDirection = DoorDirection.NONE;
+					isNamed = true;
 					break;
 			}
 		}
@@ -60,7 +65,7 @@ public class RoomCell extends BoardCell {
 
 	@Override
 	public void Draw(Graphics g, Board b, int currentRow, int currentColumn) {
-		if(b.getRoomPrintNames().containsKey(b.getRooms().get(getInitial())) && currentRow == b.getRoomPrintNames().get(b.getRooms().get(getInitial()))){
+		if( isNamed ){
 			g.setColor(Color.BLACK);
 			g.setFont(new Font("Times New Roman", Font.BOLD, (int)(b.getCellSize().getHeight()*2/3)));
 			g.drawString(b.getRooms().get(getInitial()), (int)(currentColumn*b.getCellSize().getHeight()), (int)(currentRow*b.getCellSize().getWidth()));

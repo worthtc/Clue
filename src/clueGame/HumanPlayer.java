@@ -6,7 +6,7 @@ public class HumanPlayer extends Player{
 		super(name, color, startRow, startCol);
 	}
 	public HumanPlayer(Player player){
-		super(player);
+		super(player); 
 	}
 	@Override
 	public boolean isHuman(){

@@ -38,7 +38,7 @@ public class ClueGame extends JFrame {
    }
    
    public static void main(String[] args){
-	   ClueGame gui = new ClueGame("map/Clue Map.txt","map/legend.txt","map/weaponLegend.txt","map/peopleLegend.txt", 6);
+	   ClueGame gui = new ClueGame("map/Clue Map2.txt","map/legend.txt","map/weaponLegend.txt","map/peopleLegend.txt", 6);
 	   gui.setVisible(true);
 	   DetectiveNotes gui2 = new DetectiveNotes(gui.getCards());
 	   gui2.setVisible(true);
