@@ -10,8 +10,10 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+
 import javax.swing.JPanel;
 
+@SuppressWarnings("serial")
 public class Board extends JPanel {
 	private BoardCell layout [][];
 	private int numRows,numColumns;
@@ -30,15 +32,17 @@ public class Board extends JPanel {
 		g.fillRect(0, 0, (int)(getCellSize().getWidth()*numColumns),(int)( getCellSize().getHeight()*numRows));
 		g.setColor(Color.BLACK);
 		g.drawRect(0, 0, (int)(getCellSize().getWidth()*numColumns),(int)( getCellSize().getHeight()*numRows));
-		if(layout != null) paintCells(g);
+		if(layout != null){
+			for(int i = 0; i<layout.length; i++){
+				for(int j = 0; j<layout[i].length; j++){
+					layout[i][j].Draw(g, this, i, j);
+				}
+			}
+		}
 	}
 
 	public void paintCells(Graphics g){
-		for(int i = 0; i<layout.length; i++){
-			for(int j = 0; j<layout[i].length; j++){
-				layout[i][j].Draw(g, this, i, j);
-			}
-		}
+		
 	}
 
 	public Map<Character,String> loadBoardConfig( String boardName, String legendName ) throws BadConfigFormatException {
@@ -79,11 +83,9 @@ public class Board extends JPanel {
 			roomInput = new Scanner( roomReader );
 			int currentRow = 0;
 			int currentColumn = 0;
-			int consecutive = 0;
 			if( roomInput.hasNextLine() ){ //Set the initial numColumns and read in the first line of values
 				String roomsString = roomInput.nextLine();
 				String[] roomParse = roomsString.split( "," );
-				char lastRoom = ' ';
 				numColumns = roomParse.length; 
 				layout = new BoardCell[numRows][numColumns];
 				for( String s:roomParse){
@@ -178,10 +180,6 @@ public class Board extends JPanel {
 		return layout[x][y];
 	}
 
-	public BoardCell[][] getBoard() {
-		return layout;
-	}
-
 	public int getNumRows() {
 		return numRows;
 	}
@@ -193,7 +191,7 @@ public class Board extends JPanel {
 	public Dimension getCellSize() {
 		return cellSize;
 	}
-
+	
 	public Map<Character, String> getRooms() {
 		return rooms;
 	}
@@ -240,11 +238,6 @@ public class Board extends JPanel {
 		return adjacencies.get( getCellAt(x,y));
 
 	}
-
-	public LinkedList<BoardCell> getAdjList(BoardCell bc){
-		return adjacencies.get(bc);
-
-	}	  
 
 	public void calcTargets(int x,int y, int distance){
 		targetList.clear();

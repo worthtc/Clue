@@ -17,7 +17,7 @@ public class ClueGame_Tests {
 	
 	@BeforeClass
 	public static void setUp(){
-		ClueGame game = new ClueGame("map/Clue Map.txt", "map/legend.txt", null, null, 0);
+		ClueGame game = new ClueGame("map/Clue Map.txt", "map/legend.txt", "map/weaponLegend.txt","map/peopleLegend.txt", 6);
 		game.loadConfigFiles();
 		board = game.getBoard();
 		board.calcAdjacencies();
@@ -58,12 +58,12 @@ public class ClueGame_Tests {
 	
 	@Test (expected = BadConfigFormatException.class) 
 	public void testBadColums() throws BadConfigFormatException, FileNotFoundException {
-		ClueGame game = new ClueGame("map/ClueBadMap.txt", "map/legend.txt", null, null, 0);
+		ClueGame game = new ClueGame("map/ClueBadMap.txt", "map/legend.txt","map/weaponLegend.txt","map/peopleLegend.txt", 6);
 		game.loadRoomConfig();
 	}
 	@Test (expected = BadConfigFormatException.class)
 	public void testBadRoomsFormat() throws BadConfigFormatException, FileNotFoundException{
-		ClueGame game = new ClueGame("map/Clue Map.txt", "map/Badlegend.txt", null, null, 0);
+		ClueGame game = new ClueGame("map/Clue Map.txt", "map/Badlegend.txt","map/weaponLegend.txt","map/peopleLegend.txt", 6);
 		game.loadRoomConfig();
 	}
 	
@@ -84,7 +84,7 @@ public class ClueGame_Tests {
 	}
 	@Test
 	public void WalkwayAdjTest7_5(){
-		LinkedList<BoardCell> adj = board.getAdjList(board.getCellAt(7,5));
+		LinkedList<BoardCell> adj = board.getAdjList(7,5);
 		assertEquals(4, adj.size());
 		assertTrue(board.getCellAt(7, 5).isWalkWay());
 		assertTrue(adj.contains(board.getCellAt(6,5)));//above
@@ -94,27 +94,27 @@ public class ClueGame_Tests {
 	}
 	@Test
 	public void AdjTestEdge0_0(){
-		LinkedList<BoardCell> adj = board.getAdjList(board.getCellAt(0,0));
+		LinkedList<BoardCell> adj = board.getAdjList(0,0);
 		assertTrue(board.getCellAt(0,0).isRoom());
 		assertEquals(0,adj.size());
 	}
 	@Test
 	public void AdjTestEdge8_0(){
-		LinkedList<BoardCell> adj = board.getAdjList(board.getCellAt(8,0));
+		LinkedList<BoardCell> adj = board.getAdjList(8,0);
 		assertTrue(board.getCellAt(8,0).isDoorWay());
 		assertEquals(1,adj.size());
 		assertTrue(adj.contains(board.getCellAt(7,0)));
 	}
 	@Test
 	public void AdjTestEdge20_9(){
-		LinkedList<BoardCell> adj = board.getAdjList(board.getCellAt(20,9));
+		LinkedList<BoardCell> adj = board.getAdjList(20,9);
 		assertTrue(board.getCellAt(20, 9).isWalkWay());
 		assertEquals(1,adj.size());
 		assertTrue(adj.contains(board.getCellAt(19,9)));
 	}
 	@Test
 	public void AdjTestEdge0_12(){
-		LinkedList<BoardCell> adj = board.getAdjList(board.getCellAt(0,12));
+		LinkedList<BoardCell> adj = board.getAdjList(0,12);
 		assertTrue(board.getCellAt(0,12).isWalkWay());
 		assertEquals(2,adj.size());
 		assertTrue(adj.contains(board.getCellAt(0,11)));
@@ -122,7 +122,7 @@ public class ClueGame_Tests {
 	}
 	@Test
 	public void AdjTestEdge12_24(){
-		LinkedList<BoardCell> adj = board.getAdjList(board.getCellAt(12,24));
+		LinkedList<BoardCell> adj = board.getAdjList(12,24);
 		assertTrue(board.getCellAt(12,24).isWalkWay());
 		assertEquals(3,adj.size());
 		assertTrue(adj.contains(board.getCellAt(11,24)));
@@ -131,7 +131,7 @@ public class ClueGame_Tests {
 	}
 	@Test
 	public void AdjTestRoomNotDoorway16_9(){
-		LinkedList<BoardCell> adj = board.getAdjList(board.getCellAt(16,9));
+		LinkedList<BoardCell> adj = board.getAdjList(16,9);
 		assertTrue(board.getCellAt(16, 9).isWalkWay());
 		assertEquals(2, adj.size());
 		assertFalse(adj.contains(board.getCellAt(16,8)));
@@ -139,13 +139,13 @@ public class ClueGame_Tests {
 	}
 	@Test
 	public void AdjTestRoomNotDoorway6_15(){
-		LinkedList<BoardCell> adj = board.getAdjList(board.getCellAt(6,15));
+		LinkedList<BoardCell> adj = board.getAdjList(6,15);
 		assertEquals(3,adj.size());
 		assertFalse(adj.contains(board.getCellAt(5,15)));
 	}
 	@Test
 	public void AdjTestContainsDoorway14_11(){
-		LinkedList<BoardCell> adj = board.getAdjList(board.getCellAt(14,11));
+		LinkedList<BoardCell> adj = board.getAdjList(14,11);
 		assertTrue(board.getCellAt(14, 11).isWalkWay());
 		assertTrue(adj.contains(board.getCellAt(14,12)));
 		assertTrue(adj.contains(board.getCellAt(14,10)));
@@ -154,7 +154,7 @@ public class ClueGame_Tests {
 	}
 	@Test
 	public void AdjTestContainsDoorway6_17(){
-		LinkedList<BoardCell> adj = board.getAdjList(board.getCellAt(6,17));
+		LinkedList<BoardCell> adj = board.getAdjList(6,17);
 		assertEquals(4,adj.size());
 		assertTrue(adj.contains(board.getCellAt(5,17)));
 		assertTrue(adj.contains(board.getCellAt(7,17)));
@@ -163,7 +163,7 @@ public class ClueGame_Tests {
 	}
 	@Test
 	public void AdjTestContainsDoorway7_22(){
-		LinkedList<BoardCell> adj = board.getAdjList(board.getCellAt(7,22));
+		LinkedList<BoardCell> adj = board.getAdjList(7,22);
 		assertEquals(3,adj.size());
 		assertTrue(adj.contains(board.getCellAt(7,21)));
 		assertTrue(adj.contains(board.getCellAt(7,23)));
@@ -171,7 +171,7 @@ public class ClueGame_Tests {
 	}
 	@Test
 	public void AdjTestContainsDoorway14_23(){
-		LinkedList<BoardCell> adj = board.getAdjList(board.getCellAt(14,23));
+		LinkedList<BoardCell> adj = board.getAdjList(14,23);
 		assertEquals(4,adj.size());
 		assertTrue(adj.contains(board.getCellAt(14,22)));
 		assertTrue(adj.contains(board.getCellAt(14,24)));
@@ -180,13 +180,13 @@ public class ClueGame_Tests {
 	}
 	@Test
 	public void AdjTestIsDoorway14_12(){
-		LinkedList<BoardCell> adj = board.getAdjList(board.getCellAt(14,12));
+		LinkedList<BoardCell> adj = board.getAdjList(14,12);
 		assertEquals(1,adj.size());
 		assertTrue(adj.contains(board.getCellAt(14,11)));
 	}
 	@Test
 	public void AdjTestIsDoorway4_6(){
-		LinkedList<BoardCell> adj = board.getAdjList(board.getCellAt(4,6));
+		LinkedList<BoardCell> adj = board.getAdjList(4,6);
 		assertEquals(1,adj.size());
 		assertTrue(adj.contains(board.getCellAt(5,6)));
 	}

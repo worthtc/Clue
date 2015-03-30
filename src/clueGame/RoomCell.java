@@ -69,7 +69,6 @@ public class RoomCell extends BoardCell {
 			g.setColor(Color.BLACK);
 			g.setFont(new Font("Times New Roman", Font.BOLD, (int)(b.getCellSize().getHeight()*2/3)));
 			g.drawString(b.getRooms().get(getInitial()), (int)(currentColumn*b.getCellSize().getHeight()), (int)(currentRow*b.getCellSize().getWidth()));
-			//b.getRoomPrintNames().remove(b.getRooms().get(getInitial()));
 		}
 		if(isDoorWay()){
 			g.setColor(Color.BLUE);
