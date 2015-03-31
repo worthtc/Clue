@@ -1,7 +1,5 @@
 package clueGame;
 
-import java.util.Comparator;
-
 public class Card{
 	private String name;
 	public enum CardType{ROOM,WEAPON,PERSON};

@@ -237,7 +237,6 @@ public class Board extends JPanel {
 		targetList.clear();
 		ArrayList<BoardCell> visited = new ArrayList<BoardCell>();
 		calcAllTargets( x, y, distance, visited);
-		//targetList.clear();
 	}
 
 	public void calcAllTargets(int x,int y, int distance, ArrayList<BoardCell> visited){

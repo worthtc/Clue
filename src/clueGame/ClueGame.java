@@ -1,6 +1,8 @@
 package clueGame;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -12,6 +14,9 @@ import java.util.Scanner;
 import java.util.Set;
 
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 
 import clueGame.Board;
 
@@ -23,55 +28,92 @@ public class ClueGame extends JFrame {
 	private String characterLegend;
 	private Board gameBoard;
 	private Map<Character,String> rooms;
-	
+
 	private ArrayList<String> weapons;
 	private ArrayList<String> characters;
 	private ArrayList<Card> cards;
 	private ArrayList<Player> referencePlayers;
 	private ArrayList<Player> players;
 	private Solution solution;
-   
-   public ClueGame(){
-	   	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+	public ClueGame(){
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Clue Board");
 		setSize(500,500);
-   }
-   
-   public static void main(String[] args){
-	   ClueGame gui = new ClueGame("map/Clue Map2.txt","map/legend.txt","map/weaponLegend.txt","map/peopleLegend.txt", 6);
-	   gui.setVisible(true);
-	   DetectiveNotes gui2 = new DetectiveNotes(gui.getCards());
-	   gui2.setVisible(true);
-	   GameInterface gui3 = new GameInterface();
-	   gui3.setVisible(true);
-   }
-   
-   public ClueGame(String boardName, String legendName, String weaponLegend, String characterLegend, int numPlayers) {
-	   setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	   setTitle("Clue Board");
-	   setSize(500,500);
-	   rooms = new HashMap<Character,String>();
-	   gameBoard = new Board();
-	   this.boardName = boardName;
-	   boardLegend = legendName;
-	   this.weaponLegend = weaponLegend;
-	   this.characterLegend = characterLegend;
-	   weapons = new ArrayList<String>();
-	   characters = new ArrayList<String>();
-	   cards = new ArrayList<Card>();
-	   referencePlayers = new ArrayList<Player>();
-	   players = new ArrayList<Player>();
-	   this.numPlayers = numPlayers;
-	   loadConfigFiles();
-	   add(gameBoard, BorderLayout.CENTER);
-	   generateDeck();
-	   makePlayers();
-	   for(Player p : players){
-		   gameBoard.getCellAt(p.getCurrentRow(), p.getCurrentCol()).setIsOccupied(true);
-		   gameBoard.getCellAt(p.getCurrentRow(), p.getCurrentCol()).setPlayerColor(p.getColor());
-	   }
-	   
-   }
+	}
+
+	public static void main(String[] args){
+		ClueGame gui = new ClueGame("map/Clue Map2.txt","map/legend.txt","map/weaponLegend.txt","map/peopleLegend.txt", 6);
+		gui.setVisible(true);
+	}
+
+	public ClueGame(String boardName, String legendName, String weaponLegend, String characterLegend, int numPlayers) {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setTitle("Magical Clue!"); // Note: title is a work in progress
+		setSize(500,500);
+		rooms = new HashMap<Character,String>();
+		gameBoard = new Board();
+		this.boardName = boardName;
+		boardLegend = legendName;
+		this.weaponLegend = weaponLegend;
+		this.characterLegend = characterLegend;
+		weapons = new ArrayList<String>();
+		characters = new ArrayList<String>();
+		cards = new ArrayList<Card>();
+		referencePlayers = new ArrayList<Player>();
+		players = new ArrayList<Player>();
+		this.numPlayers = numPlayers;
+		loadConfigFiles();
+		add(gameBoard, BorderLayout.CENTER);
+		generateDeck();
+		makePlayers();
+		for(Player p : players){
+			gameBoard.getCellAt(p.getCurrentRow(), p.getCurrentCol()).setIsOccupied(true);
+			gameBoard.getCellAt(p.getCurrentRow(), p.getCurrentCol()).setPlayerColor(p.getColor());
+		}
+		JMenuBar menuBar = new JMenuBar();
+		JMenu menu = new JMenu("File");
+		setJMenuBar(menuBar);
+		JMenuItem notes = new JMenuItem("Toggle Detective Notes");
+		JMenuItem exit = new JMenuItem("Exit");
+		class DetectivePadListener implements ActionListener {
+			private DetectiveNotes currentFrame;
+			ArrayList<Card> cards;
+
+			DetectivePadListener( ArrayList<Card> c ){
+				super();
+				cards = c;
+			}
+			public void actionPerformed(ActionEvent e)
+			{
+				if( currentFrame != null){
+					if( currentFrame.isVisible() ){
+						currentFrame.setVisible(false);
+					}
+					else{
+						currentFrame.setVisible(true);
+					}
+				}
+				else{
+					currentFrame = new DetectiveNotes(cards);
+					currentFrame.setVisible(true);
+				}
+
+			}
+		}
+		class ExitListener implements ActionListener {
+			public void actionPerformed(ActionEvent e)
+			{
+				System.exit(0);
+			}
+		}
+		notes.addActionListener( new DetectivePadListener(this.getCards()));
+		menu.add(notes);
+		exit.addActionListener(new ExitListener());
+		menu.add(exit);
+		menuBar.add(menu);
+		setVisible(true);
+	}
 
    public void generateDeck(){
 	   for(String s : weapons){
