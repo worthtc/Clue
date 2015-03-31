@@ -25,7 +25,6 @@ public class ComputerPlayer extends Player{
 	}
 	
 	 // Generates a random suggestion based on a list of cards not yet seen by the computer
-	 
 	public Set<Card> createSuggestion(){
 		ArrayList<Card> personOptions = new ArrayList<Card>();
 		ArrayList<Card> roomOptions = new ArrayList<Card>();
@@ -49,6 +48,18 @@ public class ComputerPlayer extends Player{
 		if(masterListCards.contains(c)){
 			masterListCards.remove(c);
 		}
+	}
+	//Checks each of the cards in  myCards to see if they match any of the cards asserted by this method, then chooses a random one if any are found to match. If none match, returns null
+	public Card disproveSuggestion(String person, String room, String weapon){
+		ArrayList<Card> matches = new ArrayList<Card>();
+		for (Card c : getCards()){
+			if(c.getName().equals(person) || c.getName().equals(room) || c.getName().equals(weapon)) matches.add(c);
+		}
+		if(matches.size() != 0){
+			int choice = (int)(Math.random()*matches.size());
+			return matches.get(choice);
+		}
+		else return null;
 	}
 	
 	@Override

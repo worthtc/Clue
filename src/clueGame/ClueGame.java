@@ -283,7 +283,7 @@ public class ClueGame extends JFrame {
 			int startCol = Integer.parseInt(stringParse[2]);
 			String color = stringParse[3];
 			characters.add(stringParse[0]);
-			referencePlayers.add(new Player(name, color, startRow, startCol));
+			referencePlayers.add(new HumanPlayer(name, color, startRow, startCol));
 		}
 		inf.close();
 		try{

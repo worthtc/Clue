@@ -3,19 +3,19 @@ import java.awt.Color;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
-public class Player {
+public abstract class Player {
 	private String name;
 	private Color color;
 	private ArrayList<Card> myCards;
 	private int currentCol, currentRow;
-	
+	//Generic constructor.
 	public Player(String name, String color, int startRow, int startCol){
 		this.name = name;
 		this.color = convertColor(color);
 		currentRow = startRow;
 		currentCol = startCol;
 		myCards = new ArrayList<Card>();
-	}
+	}//Copy constructor.
 	public Player(Player player){
 		name = player.getName();
 		color = player.getColor();
@@ -31,7 +31,7 @@ public class Player {
 			Field field = Class.forName("java.awt.Color").getField(strColor.trim());     
 			color = (Color)field.get(null); } 
 		catch (Exception e) {  
-			color = null; // Not defined } 
+			color = null; // Not defined  
 		}
 		return color;
 	}
@@ -48,19 +48,9 @@ public class Player {
 	public void setCurrentCol(int currentCol) {
 		this.currentCol = currentCol;
 	}
-	//This method should be specific to ComputerPlayer, and when the GUI is developed it will be moved there
-	public Card disproveSuggestion(String person, String room, String weapon){
-		ArrayList<Card> matches = new ArrayList<Card>();
-		for (Card c : myCards){
-			if(c.getName().equals(person) || c.getName().equals(room) || c.getName().equals(weapon)) matches.add(c);
-		}
-		if(matches.size() != 0){
-			int choice = (int)(Math.random()*matches.size());
-			return matches.get(choice);
-		}
-		else return null;
-	}
-
+	//All players must have a disproveSuggestion method for handleSuggestion, though this is implemented differently for computer and humna players.
+	public abstract Card disproveSuggestion(String person, String room, String weapon);
+		
 	public String getName() {
 		return name;
 	}

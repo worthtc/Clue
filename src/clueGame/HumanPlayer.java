@@ -12,4 +12,7 @@ public class HumanPlayer extends Player{
 	public boolean isHuman(){
 		return true;
 	}
+	public Card disproveSuggestion(String person, String room, String weapon){
+		return getCards().get(1); //TODO: gui prompt to return a disproving card
+	}
 }

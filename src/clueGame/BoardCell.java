@@ -49,6 +49,9 @@ public abstract class BoardCell {
 	public void setPlayerColor(Color c){
 		playerColor = c;
 	}
-	
+	/*
+	 * Each board cell draws itself in board. All cells are a simple rectangle determined by the dimensions of the window, as can be seen in clueGame.Board#fixSize()
+	 * roomCells draw themselves slightly differently, in that specific cells are tagged in the legend files to print the name of the room to which they belong. 
+	 */
 	public abstract void Draw(Graphics g, Board b, int currentRow, int currentColumn);
 }

@@ -62,7 +62,9 @@ public class RoomCell extends BoardCell {
 	public char getInitial() {
 		return room_initial;
 	}
-
+	/*
+	 * @see clueGame.BoardCell#Draw(java.awt.Graphics, clueGame.Board, int, int)
+	 */
 	@Override
 	public void Draw(Graphics g, Board b, int currentRow, int currentColumn) {
 		if( isNamed ){
