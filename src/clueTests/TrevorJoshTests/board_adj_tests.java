@@ -19,7 +19,7 @@ public class board_adj_tests {
 	public static void setUp(){
 		ClueGame game = new ClueGame("ClueBoard.csv", "Legend.txt", null, null, 0);
 		game.loadConfigFiles();
-		board = game.getBoardLayout();
+		board = game.getBoard();
 		board.calcAdjacencies();
 	}
 	@Test

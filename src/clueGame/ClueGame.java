@@ -234,19 +234,12 @@ public class ClueGame extends JFrame {
 		int currentLine = 0;
 		while(inf.hasNextLine()){
 			String temp  = inf.nextLine();
-			currentLine++;
-			for(int i = 0; i<temp.length(); i++){
-				if (i != temp.length()-1 && temp.charAt(i) == ';'){
-					inf.close();
-					throw new BadConfigFormatException("There was a semi-colon at a place other than the end of line " + currentLine + "in the" + weaponLegend + "file.");
-				}
-				else if (i == temp.length()-1 && temp.charAt(i) != ';'){
-					inf.close();
-					throw new BadConfigFormatException("There was not a semi-colon at the end of line " + currentLine + "in the " + weaponLegend + "file.");
-				}
-				
+			String[] splitTemp = temp.split(";");
+			if( splitTemp.length != 1 ){
+				inf.close();
+				throw new BadConfigFormatException(weaponLegend + "was not correctly formatted, more than 1 semicolon was found");
 			}
-			weapons.add(temp.substring(0,temp.length()-1));
+			weapons.add(splitTemp[0]);
 		}
 		currentLine = 0;
 		inf.close();
@@ -260,43 +253,20 @@ public class ClueGame extends JFrame {
 		inf = new Scanner(legends);
 		while(inf.hasNextLine()){
 			String temp  = inf.nextLine();
-			String name = "";
-			int startRow = 0;
-			int startCol = 0;
-			String color = "";
-			int reference = 0;
-			currentLine++;
-			int numSlashes = 0;
-			for(int i = 0; i<temp.length(); i++){
-				if (i != temp.length()-1 && temp.charAt(i) == ';'){
-					inf.close();
-					throw new BadConfigFormatException("There was a semi-colon at a place other than the end of line " + currentLine + "in the " + characterLegend + "file.");
-				}
-				else if (i == temp.length()-1 && temp.charAt(i) != ';'){
-					inf.close();
-					throw new BadConfigFormatException("There was not a semi-colon at the end of line " + currentLine + "in the " + characterLegend + "file.");
-				}
-				if(temp.charAt(i) == '/'){
-					numSlashes++;
-					if(numSlashes > 3){
-						inf.close();
-						throw new BadConfigFormatException("There were too many /'s on line " + currentLine + "of the " + characterLegend + "file.");
-					}
-					if(numSlashes == 1){
-						characters.add(temp.substring(0,i));
-						name = temp.substring(0,i);
-						reference = i;
-					}
-					else if(numSlashes == 2){
-						startRow = Integer.parseInt(temp.substring(reference+1, i));
-						reference = i;
-					}
-					else if(numSlashes == 3){
-						startCol = Integer.parseInt(temp.substring(reference+1, i));
-						color = temp.substring(i+1, temp.length()-1);
-					}
-				}
+			String[] splitTemp = temp.split(";");
+			if( splitTemp.length != 1 ){
+				inf.close();
+				throw new BadConfigFormatException(characterLegend + "was not correctly formatted, more than 1 semicolon was found");
 			}
+			String[] stringParse = splitTemp[0].split("/");
+			if( stringParse.length != 4 ){
+				inf.close();
+				throw new BadConfigFormatException(characterLegend + "was not correctly formatted, more than 1 semicolon was found");
+			}
+			String name = stringParse[0];
+			int startRow = Integer.parseInt(stringParse[1]);
+			int startCol = Integer.parseInt(stringParse[2]);
+			String color = stringParse[3];
 			referencePlayers.add(new Player(name, color, startRow, startCol));
 		}
 		inf.close();
@@ -349,9 +319,5 @@ public class ClueGame extends JFrame {
 	}
    public void loadRoomConfig() throws BadConfigFormatException {
 	  gameBoard.loadBoardConfig( boardName, boardLegend);
-   }
-   public Board getBoardLayout(){
-	return gameBoard;
-	   
    }
 }
