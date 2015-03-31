@@ -2,7 +2,7 @@ package clueGame;
 import java.util.*;
 
 public class ComputerPlayer extends Player{
-	private char lastRoomVisitied;
+	private char lastRoomVisited;
 	private Set<Card> masterListCards;
 	
 	public ComputerPlayer(String name, String color, int startRow, int startCol){
@@ -13,22 +13,15 @@ public class ComputerPlayer extends Player{
 		super(player);
 	}
 	public BoardCell pickLocation(Set<BoardCell> targets){
-		boolean flag = true;
-		int choice = 0;
-		BoardCell[] tar = new BoardCell[1];
-		while (flag){
-			choice = (int)(Math.random()*targets.size());
-			tar = targets.toArray(new BoardCell[1]);
-			if (tar[choice].isRoom()){
-				if (((RoomCell)tar[choice]).getInitial() != Character.toTitleCase(lastRoomVisitied)){
-					flag = false;
-				}
-			}
-			else{
-				flag = false;
+		// Check to see if one of the targets is a room that we were not just in
+		for( BoardCell roomTest: targets){
+			if( roomTest.isRoom() && ((RoomCell)roomTest).getInitial()  != lastRoomVisited){
+				return roomTest;
 			}
 		}
-		return tar[choice];
+		//Otherwise we just pick a board Cell at random
+		Object[] targetArray = targets.toArray();
+		return ((BoardCell)targetArray[(int) (Math.random()*targets.size())]);
 	}
 	
 	public Set<Card> createSuggestion(){
@@ -60,10 +53,10 @@ public class ComputerPlayer extends Player{
 	}
 	
 	public char getLastRoomVisitied() {
-		return lastRoomVisitied;
+		return lastRoomVisited;
 	}
-	public void setLastRoomVisitied(char lastRoomVisitied) {
-		this.lastRoomVisitied = lastRoomVisitied;
+	public void setLastRoomVisitied(char lastRoomVisited) {
+		this.lastRoomVisited = lastRoomVisited;
 	}
 	public Set<Card> getMasterListCards() {
 		return masterListCards;

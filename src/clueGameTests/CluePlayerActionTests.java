@@ -13,10 +13,10 @@ public class CluePlayerActionTests {
 	
 	@Before
 	public void init(){
-		game = new ClueGame("map/Clue Map.txt","map/legend.txt","map/weaponLegend.txt","map/peopleLegend.txt", 3);
+		game = new ClueGame("map/Clue Map2.txt","map/legend.txt","map/weaponLegend.txt","map/peopleLegend.txt", 3);
 		game.loadConfigFiles();
 		game.getBoard().calcAdjacencies();
-		game.generateDeck();
+		//game.generateDeck();
 		game.makePlayers();
 		game.getBoard().calcAdjacencies();
 	}

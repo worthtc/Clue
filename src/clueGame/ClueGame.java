@@ -36,18 +36,13 @@ public class ClueGame extends JFrame {
 	private ArrayList<Player> players;
 	private Solution solution;
 
-	public ClueGame(){
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("Clue Board");
-		setSize(500,500);
-	}
-
 	public static void main(String[] args){
 		ClueGame gui = new ClueGame("map/Clue Map2.txt","map/legend.txt","map/weaponLegend.txt","map/peopleLegend.txt", 6);
 		gui.setVisible(true);
 	}
 
 	public ClueGame(String boardName, String legendName, String weaponLegend, String characterLegend, int numPlayers) {
+		//Initialize the JFrame and all of the variables
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Magical Clue!"); // Note: title is a work in progress
 		setSize(500,500);
@@ -63,14 +58,19 @@ public class ClueGame extends JFrame {
 		referencePlayers = new ArrayList<Player>();
 		players = new ArrayList<Player>();
 		this.numPlayers = numPlayers;
+		
+		//Get the config files and add the board to the center
 		loadConfigFiles();
 		add(gameBoard, BorderLayout.CENTER);
-		generateDeck();
+		
+		//Make the players
 		makePlayers();
 		for(Player p : players){
 			gameBoard.getCellAt(p.getCurrentRow(), p.getCurrentCol()).setIsOccupied(true);
 			gameBoard.getCellAt(p.getCurrentRow(), p.getCurrentCol()).setPlayerColor(p.getColor());
 		}
+		
+		//Create the menu for exit and the Detective Notes
 		JMenuBar menuBar = new JMenuBar();
 		JMenu menu = new JMenu("File");
 		setJMenuBar(menuBar);
@@ -112,23 +112,11 @@ public class ClueGame extends JFrame {
 		exit.addActionListener(new ExitListener());
 		menu.add(exit);
 		menuBar.add(menu);
+		
+		//Set the frame to be visible
 		setVisible(true);
 	}
-
-   public void generateDeck(){
-	   for(String s : weapons){
-		   cards.add(new Card(s, Card.CardType.WEAPON));
-	   }
-	   for(String s : characters){
-		   cards.add(new Card(s, Card.CardType.PERSON));
-	   }
-	   HashSet<Character> keys = new HashSet<Character>(rooms.keySet());
-	   for(Character c : keys){
-		   if (c != 'W'){
-			   cards.add(new Card(rooms.get(c), Card.CardType.ROOM));
-		   }
-	   }
-   }
+   
    public void deal(){
 	   ArrayList<Card> weaponsLeft = new ArrayList<Card>();
 	   ArrayList<Card> charactersLeft = new ArrayList<Card>();
@@ -174,10 +162,7 @@ public class ClueGame extends JFrame {
 	   }
    }
    
-   public void selectAnswer(){
-	   
-   }
-   
+ 
    public Card handleSuggestion(String person, String room, String weapon, Player accusingPlayer){
 	   int currentPlayer = players.indexOf(accusingPlayer);
 	   currentPlayer++;
@@ -267,6 +252,7 @@ public class ClueGame extends JFrame {
 			int startRow = Integer.parseInt(stringParse[1]);
 			int startCol = Integer.parseInt(stringParse[2]);
 			String color = stringParse[3];
+			characters.add(stringParse[0]);
 			referencePlayers.add(new Player(name, color, startRow, startCol));
 		}
 		inf.close();

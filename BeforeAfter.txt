@@ -105,5 +105,6 @@ while(inf.hasNextLine()){
 			int startRow = Integer.parseInt(stringParse[1]);
 			int startCol = Integer.parseInt(stringParse[2]);
 			String color = stringParse[3];
+			characters.add(stringParse[0]);
 			referencePlayers.add(new Player(name, color, startRow, startCol));
 		}

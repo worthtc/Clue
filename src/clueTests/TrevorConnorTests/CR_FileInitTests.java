@@ -15,7 +15,7 @@ public class CR_FileInitTests {
 	private static Board board;
 	@BeforeClass
 	public static void setUp() {
-		ClueGame game = new ClueGame("map/ClueLayout.csv","map/ClueLegend.txt", null, null, 0);
+		ClueGame game = new ClueGame("map/ClueLayout.csv","map/ClueLegend.txt", "map/weaponLegend.txt","map/peopleLegend.txt", 6);
 		game.loadConfigFiles();
 		board = game.getBoard();
 		board.calcAdjacencies();

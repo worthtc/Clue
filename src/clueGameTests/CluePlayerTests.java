@@ -23,11 +23,11 @@ public class CluePlayerTests {
 	
 	@BeforeClass
 	public static void init(){
-		game = new ClueGame("map/Clue Map.txt","map/legend.txt","map/weaponLegend.txt","map/peopleLegend.txt", 3);
-		game.loadConfigFiles();
-		game.generateDeck();
-		game.makePlayers();
-		game.deal();
+		game = new ClueGame("map/Clue Map2.txt","map/legend.txt","map/weaponLegend.txt","map/peopleLegend.txt", 3);
+		//game.loadConfigFiles();
+		//game.generateDeck();
+		//game.makePlayers();
+		//game.deal();
 	}
 	//Total cards generated must match the number of cards specified in the legend
 	@Test
