@@ -47,10 +47,10 @@ public class ClueGame extends JFrame {
    }
    
    public ClueGame(String boardName, String legendName, String weaponLegend, String characterLegend, int numPlayers) {
-	   setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	   setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Set basic load functions for the JFrame
 	   setTitle("Clue Board");
 	   setSize(500,500);
-	   rooms = new HashMap<Character,String>();
+	   rooms = new HashMap<Character,String>(); //Initialize all generic global variables
 	   gameBoard = new Board();
 	   this.boardName = boardName;
 	   boardLegend = legendName;
@@ -62,11 +62,11 @@ public class ClueGame extends JFrame {
 	   referencePlayers = new ArrayList<Player>();
 	   players = new ArrayList<Player>();
 	   this.numPlayers = numPlayers;
-	   loadConfigFiles();
+	   loadConfigFiles(); //Fill global variables with actual information, necessary to build subsequent JPanels
 	   add(gameBoard, BorderLayout.CENTER);
 	   generateDeck();
 	   makePlayers();
-	   for(Player p : players){
+	   for(Player p : players){//Initialize board with current players
 		   gameBoard.getCellAt(p.getCurrentRow(), p.getCurrentCol()).setIsOccupied(true);
 		   gameBoard.getCellAt(p.getCurrentRow(), p.getCurrentCol()).setPlayerColor(p.getColor());
 	   }
@@ -74,19 +74,24 @@ public class ClueGame extends JFrame {
    }
 
    public void generateDeck(){
-	   for(String s : weapons){
+	   for(String s : weapons){//For every string encountered as a weapon, make a WEAPON card
 		   cards.add(new Card(s, Card.CardType.WEAPON));
 	   }
-	   for(String s : characters){
+	   for(String s : characters){//For every string encountered as a player name, make a PERSON card
 		   cards.add(new Card(s, Card.CardType.PERSON));
 	   }
 	   HashSet<Character> keys = new HashSet<Character>(rooms.keySet());
-	   for(Character c : keys){
+	   for(Character c : keys){//For every element in the rooms map (generated in Board), make a ROOM card
 		   if (c != 'W'){
 			   cards.add(new Card(rooms.get(c), Card.CardType.ROOM));
 		   }
 	   }
    }
+   /* We create three temporary ArrayLists to pick a new random Solution from the lists
+    * We add each card to a master list of cards left after removing the cards chosen for the solution
+    * For each card in the list of cards left, we choose a random one, deal it out to the player in turn order, then remove it from the list and continue
+    * until there are no elements left in cardsLeft.
+    */
    public void deal(){
 	   ArrayList<Card> weaponsLeft = new ArrayList<Card>();
 	   ArrayList<Card> charactersLeft = new ArrayList<Card>();
@@ -135,7 +140,12 @@ public class ClueGame extends JFrame {
    public void selectAnswer(){
 	   
    }
-   
+   /*
+    * Called when a player creates a suggestion. Goes through the list of players in turn order after the initiating player
+    * calls to the players to disprove the suggestion; if they cannot, they return null and we continue through turn order, if they do they return any card, 
+    * and this method returns that card to be revealed.
+    * If we make it back to the suggesting player's turn, we return null and follow-up methods are called to prompt the player to make an accusation
+    */
    public Card handleSuggestion(String person, String room, String weapon, Player accusingPlayer){
 	   int currentPlayer = players.indexOf(accusingPlayer);
 	   currentPlayer++;
@@ -149,7 +159,7 @@ public class ClueGame extends JFrame {
 	   }
 	   return null;
     }
-   
+   //Various getters/setters
    public Board getBoard() {
 		return gameBoard;
    }
@@ -177,7 +187,7 @@ public class ClueGame extends JFrame {
 	public void setSolution(Solution solution) {
 		this.solution = solution;
 	}
-
+	//Checks the current solution to see if it matches the accusation
 	public boolean checkAccusation(Solution solution){
 		   if(solution.equals(this.solution)){
 			   return true;
@@ -186,6 +196,12 @@ public class ClueGame extends JFrame {
 			   return false;
 		   }
 	}
+	/*
+	 * A pair method to LoadConfigFiles(), which is called in board. This loads the legend files associated with the players and the weapons, and loads them into related ArrayLists.
+	 * First opens the legend file associated with weapons, reads each line, adds it to 'weapons' list.
+	 * Then we iterate through the player list, check for various bad formatting exceptions related to delimiting characters, adding the name, color and starting position
+	 * into the player list and Player objects related to each. 
+	 */
 	public void playerConfigFiles() throws BadConfigFormatException, FileNotFoundException{
 		FileReader legends = new FileReader(weaponLegend);
 		Scanner inf = new Scanner(legends);
@@ -264,6 +280,7 @@ public class ClueGame extends JFrame {
 			System.out.println(e.getMessage());
 		}
 	}
+	//Loads the information from each legend file into associated structures. See specific methods for more information.
 	public void loadConfigFiles() {
 		try{
 			playerConfigFiles();
