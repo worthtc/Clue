@@ -138,47 +138,48 @@ public class ClueGame extends JFrame {
     * until there are no elements left in cardsLeft.
     */
    public void deal(){
-	   ArrayList<Card> weaponsLeft = new ArrayList<Card>();
-	   ArrayList<Card> charactersLeft = new ArrayList<Card>();
-	   ArrayList<Card> roomsLeft = new ArrayList<Card>();
+	   ArrayList<Card> cardsLeft = new ArrayList<Card>();
+	   String weaponChoice = ""; //Initialized to blank strings to satisfy compiler message regarding initialization in following loops.
+	   String personChoice = "";
+	   String roomChoice = "";
+	   int random =(int) Math.random()*weapons.size();
 	   for(String s : weapons){
-		   weaponsLeft.add(new Card(s, Card.CardType.WEAPON));
-	   }
-	   for(String s : characters){
-		   charactersLeft.add(new Card(s, Card.CardType.PERSON));
-	   }
-	   Set<Character> keys = rooms.keySet();
-	   for(Character c : keys){
-		   if (c != 'W'){
-			   roomsLeft.add(new Card(rooms.get(c), Card.CardType.ROOM));
+		   if(weapons.indexOf(s) == random){ //guaranteed to enter this statement
+			   weaponChoice = s;
+		   }
+		   else{
+			   cardsLeft.add(new Card(s, Card.CardType.WEAPON));
 		   }
 	   }
-	   int weapon = (int) (Math.random()*weaponsLeft.size());
-	   int character = (int) (Math.random()*charactersLeft.size());
-	   int room = (int) (Math.random()*roomsLeft.size());
-	   solution = new Solution(weaponsLeft.get(weapon).getName(), charactersLeft.get(character).getName(), roomsLeft.get(room).getName());
-	   weaponsLeft.remove(weapon);
-	   charactersLeft.remove(character);
-	   roomsLeft.remove(room);
+	   random =(int) Math.random()*characters.size();
+	   for(String s : characters){
+		   if(characters.indexOf(s) == random){
+			   personChoice = s;
+		   }
+		   else{
+			   cardsLeft.add(new Card(s, Card.CardType.PERSON));
+		   }
+	   }
+	   Set<Character> keys = rooms.keySet();
+	   random = (int) Math.random()*keys.size();
+	   for(Character c : keys){
+		   if (c != 'W'){
+			   if(characters.indexOf(rooms.get(c)) == random){
+				   roomChoice = rooms.get(c);
+			   }
+			   else{
+				   cardsLeft.add(new Card(rooms.get(c), Card.CardType.ROOM));
+			   }
+		   }
+	   }
+	   solution = new Solution(weaponChoice, personChoice, roomChoice);
 	   int currentPlayer = 0;
-	   ArrayList<Card> cardsLeft = new ArrayList<Card>();
-	   for(Card c :  weaponsLeft){
-		   cardsLeft.add(c);
-	   }
-	   for(Card c : charactersLeft){
-		   cardsLeft.add(c);
-	   }
-	   for(Card c : roomsLeft){
-		   cardsLeft.add(c);
-	   }
 	   while(cardsLeft.size() != 0){
 		   int choice = (int)(Math.random()*cardsLeft.size());
 		   players.get(currentPlayer).giveCard(cardsLeft.get(choice));
 		   cardsLeft.remove(choice);
 		   currentPlayer++;
-		   if(currentPlayer >= players.size()){
-			   currentPlayer = 0;
-		   }
+		   currentPlayer = currentPlayer&players.size();
 	   }
    }
    
@@ -247,7 +248,6 @@ public class ClueGame extends JFrame {
 	public void playerConfigFiles() throws BadConfigFormatException, FileNotFoundException{
 		FileReader legends = new FileReader(weaponLegend);
 		Scanner inf = new Scanner(legends);
-		int currentLine = 0;
 		while(inf.hasNextLine()){
 			String temp  = inf.nextLine();
 			String[] splitTemp = temp.split(";");
@@ -257,7 +257,6 @@ public class ClueGame extends JFrame {
 			}
 			weapons.add(splitTemp[0]);
 		}
-		currentLine = 0;
 		inf.close();
 		try{
 			legends.close();
