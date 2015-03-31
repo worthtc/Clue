@@ -14,10 +14,10 @@ public class CluePlayerActionTests {
 	@Before
 	public void init(){
 		game = new ClueGame("map/Clue Map2.txt","map/legend.txt","map/weaponLegend.txt","map/peopleLegend.txt", 3);
-		game.loadConfigFiles();
+		//game.loadConfigFiles();
 		game.getBoard().calcAdjacencies();
 		//game.generateDeck();
-		game.makePlayers();
+		//game.makePlayers();
 		game.getBoard().calcAdjacencies();
 	}
 	//Testing disporveSuggestion itself, for one player with various cards that player has or does not have
