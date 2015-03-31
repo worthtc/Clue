@@ -24,6 +24,8 @@ public class ComputerPlayer extends Player{
 		return ((BoardCell)targetArray[(int) (Math.random()*targets.size())]);
 	}
 	
+	 // Generates a random suggestion based on a list of cards not yet seen by the computer
+	 
 	public Set<Card> createSuggestion(){
 		ArrayList<Card> personOptions = new ArrayList<Card>();
 		ArrayList<Card> roomOptions = new ArrayList<Card>();
@@ -42,9 +44,11 @@ public class ComputerPlayer extends Player{
 		suggestion.add(weaponOptions.get(choice));
 		return suggestion;
 	}
-	
-	public void updateSeen(){
-		
+	//Removes cards as they are revealed from the master list of cards, if it has not previously been seen
+	public void updateSeen(Card c){
+		if(masterListCards.contains(c)){
+			masterListCards.remove(c);
+		}
 	}
 	
 	@Override
