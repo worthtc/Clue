@@ -261,7 +261,7 @@ public class ClueGame extends JFrame {
 			String[] stringParse = splitTemp[0].split("/");
 			if( stringParse.length != 4 ){
 				inf.close();
-				throw new BadConfigFormatException(characterLegend + "was not correctly formatted, more than 1 semicolon was found");
+				throw new BadConfigFormatException(characterLegend + "was not correctly formatted, not all of the player data fields were found");
 			}
 			String name = stringParse[0];
 			int startRow = Integer.parseInt(stringParse[1]);
