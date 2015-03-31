@@ -179,7 +179,7 @@ public class ClueGame extends JFrame {
 		   players.get(currentPlayer).giveCard(cardsLeft.get(choice));
 		   cardsLeft.remove(choice);
 		   currentPlayer++;
-		   currentPlayer = currentPlayer&players.size();
+		   currentPlayer = currentPlayer%players.size();
 	   }
    }
    
