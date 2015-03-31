@@ -61,8 +61,11 @@ public class ClueGame extends JFrame {
 		
 		loadConfigFiles();//Fill global variables with actual information, necessary to build subsequent JPanels
 		add(gameBoard, BorderLayout.CENTER);
-		
-		makePlayers();
+		try{ //Tries to make a number of players. If that number exceeds the total number of possible players, an exception is thrown.
+			makePlayers(1,2);
+		}catch(Exception e){
+			System.out.println(e);
+		}
 		for(Player p : players){//Initialize board with current players
 			gameBoard.getCellAt(p.getCurrentRow(), p.getCurrentCol()).setIsOccupied(true);
 			gameBoard.getCellAt(p.getCurrentRow(), p.getCurrentCol()).setPlayerColor(p.getColor());
@@ -179,9 +182,6 @@ public class ClueGame extends JFrame {
 	   }
    }
    
-   public void selectAnswer(){
-	   
-   }
    /*
     * Called when a player creates a suggestion. Goes through the list of players in turn order after the initiating player
     * calls to the players to disprove the suggestion; if they cannot, they return null and we continue through turn order, if they do they return any card, 
@@ -191,13 +191,13 @@ public class ClueGame extends JFrame {
    public Card handleSuggestion(String person, String room, String weapon, Player accusingPlayer){
 	   int currentPlayer = players.indexOf(accusingPlayer);
 	   currentPlayer++;
-	   if(currentPlayer >= players.size()) currentPlayer = 0;
+	   currentPlayer = currentPlayer%players.size();
 	   
 	   while(currentPlayer != players.indexOf(accusingPlayer)){
 		   Card a = players.get(currentPlayer).disproveSuggestion(person, room, weapon);
 		   if(a!= null) return a;
 		   currentPlayer++;
-		   if(currentPlayer >= players.size()) currentPlayer = 0;
+		   currentPlayer = currentPlayer%players.size();
 	   }
 	   return null;
     }
@@ -304,37 +304,21 @@ public class ClueGame extends JFrame {
 			   System.out.println(e);
 		   }
 	}
-	public void makePlayers(){//Temporary, simple used to test that players can be made and hold cards
-		for (int i = 0; i < numPlayers; i++){
-			if (i == 0){
-				players.add(new HumanPlayer(referencePlayers.get(findSpecificCharacter("Jace the Mind Sculptor"))));
-			}
-			else if (i == 1){
-				players.add(new ComputerPlayer(referencePlayers.get(findSpecificCharacter("Urza"))));
-			}
-			else if (i == 2){
-				players.add(new ComputerPlayer(referencePlayers.get(findSpecificCharacter("Nicol Bolas"))));
-			}
-			else if (i == 3){
-				players.add(new ComputerPlayer(referencePlayers.get(findSpecificCharacter("Ugin, the Spirit Dragon"))));
-			}
-			else if (i == 4){
-				players.add(new ComputerPlayer(referencePlayers.get(findSpecificCharacter("Karn"))));
-			}
-			else if (i == 5){
-				players.add(new ComputerPlayer(referencePlayers.get(findSpecificCharacter("Sorin Markov"))));
-			}
+	public void makePlayers(int humans, int computers) throws Exception{//Temporary, simple used to test that players can be made and hold cards
+		if(humans + computers > referencePlayers.size()){
+			throw new Exception("Too many players! Total players can only add up to " + referencePlayers.size() + ".");
+		}
+		int currentPlayer = 0;
+		for(int i = 0; i<humans; i++){
+			players.add(new HumanPlayer(referencePlayers.get(currentPlayer)));
+			currentPlayer++;
+		}
+		for(int i = 0; i<computers; i++){
+			players.add(new ComputerPlayer(referencePlayers.get(currentPlayer)));
+			currentPlayer++;
 		}
 	}
-	public int findSpecificCharacter(String character){
-		int index = 0;
-		for (int i = 0; i < referencePlayers.size(); i++){
-			if (referencePlayers.get(i).getName().equals(character)){
-				index = i;
-			}
-		}
-		return index;
-	}
+	
    public void loadRoomConfig() throws BadConfigFormatException {
 	  gameBoard.loadBoardConfig( boardName, boardLegend);
    }
