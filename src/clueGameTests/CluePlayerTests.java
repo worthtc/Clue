@@ -23,7 +23,7 @@ public class CluePlayerTests {
 	
 	@BeforeClass
 	public static void init(){
-		game = new ClueGame("map/Clue Map2.txt","map/legend.txt","map/weaponLegend.txt","map/peopleLegend.txt", 3);
+		game = new ClueGame("map/Clue Map2.txt","map/legend.txt","map/weaponLegend.txt","map/peopleLegend.txt");
 		//game.loadConfigFiles();
 		game.generateDeck();
 		//game.makePlayers();

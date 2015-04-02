@@ -20,8 +20,8 @@ import javax.swing.JMenuItem;
 
 import clueGame.Board;
 
+@SuppressWarnings("serial")
 public class ClueGame extends JFrame {
-	private int numPlayers;
 	private String boardName;
 	private String boardLegend;
 	private String weaponLegend;
@@ -37,11 +37,11 @@ public class ClueGame extends JFrame {
 	private Solution solution;
 
 	public static void main(String[] args){
-		ClueGame gui = new ClueGame("map/Clue Map2.txt","map/legend.txt","map/weaponLegend.txt","map/peopleLegend.txt", 6);
+		ClueGame gui = new ClueGame("map/Clue Map2.txt","map/legend.txt","map/weaponLegend.txt","map/peopleLegend.txt");
 		gui.setVisible(true);
 	}
 
-	public ClueGame(String boardName, String legendName, String weaponLegend, String characterLegend, int numPlayers) {
+	public ClueGame(String boardName, String legendName, String weaponLegend, String characterLegend) {
 		//Initialize the JFrame and all of the variables
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Magical Clue!"); // Note: title is a work in progress
@@ -57,8 +57,6 @@ public class ClueGame extends JFrame {
 		cards = new ArrayList<Card>();
 		referencePlayers = new ArrayList<Player>();
 		players = new ArrayList<Player>();
-		this.numPlayers = numPlayers;
-		
 		loadConfigFiles();//Fill global variables with actual information, necessary to build subsequent JPanels
 		add(gameBoard, BorderLayout.CENTER);
 		try{ //Tries to make a number of players. If that number exceeds the total number of possible players, an exception is thrown.
@@ -114,6 +112,8 @@ public class ClueGame extends JFrame {
 		menu.add(exit);
 		menuBar.add(menu);
 		
+		GameInterface gameControl = new GameInterface();
+		add(gameControl, BorderLayout.SOUTH);
 		//Set the frame to be visible
 		setVisible(true);
 	}

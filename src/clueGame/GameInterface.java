@@ -4,10 +4,12 @@ import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
+
 //????
 import java.awt.*;
 
-public class GameInterface extends JFrame {
+@SuppressWarnings("serial")
+public class GameInterface extends JPanel {
 	private JPanel buttonLayout;
 	private JPanel messageLayout;
 	private JButton suggest;
@@ -21,9 +23,7 @@ public class GameInterface extends JFrame {
 	private JTextField suggestionResponse;
 	
 	public GameInterface(){
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("Clue!");
-		setSize(500,300);
+		setLayout(new BorderLayout());
 		buttonLayout = buttonLayoutSetup();
 		add(buttonLayout, BorderLayout.EAST);
 		messageLayout = messageLayoutSetup();
@@ -37,12 +37,6 @@ public class GameInterface extends JFrame {
 		suggestionResponsePanel = suggestionResponseSetup();
 		lowerLeftText.add(suggestionResponsePanel);
 	}
-
-	public static void main(String[] args) {
-		GameInterface gui = new GameInterface();
-		gui.setVisible(true);
-	}
-	
 	private JPanel buttonLayoutSetup(){
 		JPanel temp = new JPanel();
 		temp.setLayout(new GridLayout(2,1));

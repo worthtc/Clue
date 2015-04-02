@@ -13,6 +13,7 @@ import javax.swing.border.TitledBorder;
 
 import clueGame.Card.CardType;
 
+@SuppressWarnings("serial")
 public class DetectiveNotes extends JDialog {
 	
 	JPanel people, rooms, weapons, personGuess, roomGuess, weaponGuess;
