@@ -37,6 +37,7 @@ public class ClueGame extends JFrame {
 	private ArrayList<Player> players;
 	private Solution solution;
 
+	@SuppressWarnings("unused")
 	public static void main(String[] args){
 		ClueGame gui = new ClueGame("map/Clue Map2.txt","map/legend.txt","map/weaponLegend.txt","map/peopleLegend.txt");
 		

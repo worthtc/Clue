@@ -5,15 +5,21 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 
+
+
+
 //????
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Random;
 
 @SuppressWarnings("serial")
 public class GameInterface extends JPanel {
 	private JPanel buttonLayout;
 	private JPanel messageLayout;
 	private JButton suggest;
-	private JButton endTurn;
+	private JButton nextPlayer;
 	private JPanel currentPlayerTurn;
 	private JPanel lowerLeftText;
 	private JTextField player;
@@ -42,8 +48,16 @@ public class GameInterface extends JPanel {
 		temp.setLayout(new GridLayout(2,1));
 		suggest = new JButton("Make a Suggestion");
 		temp.add(suggest);
-		endTurn = new JButton("End Your Turn");
-		temp.add(endTurn);
+		nextPlayer = new JButton("Next Player");
+		class NextPlayerListener implements ActionListener {
+			public void actionPerformed(ActionEvent e)
+			{
+				int roll = (int)Math.floor(Math.random()*6 + 1);
+				dieRoll.setText((new Integer(roll).toString()) );
+			}
+		}
+		nextPlayer.addActionListener(new NextPlayerListener());
+		temp.add(nextPlayer);
 		return temp;
 	}
 	private JPanel messageLayoutSetup(){
@@ -93,5 +107,6 @@ public class GameInterface extends JPanel {
 		temp.add(suggestionResponse);
 		temp.setBorder(new TitledBorder(new EtchedBorder(), "What was the response?"));
 		return temp;
-	}
+	}	
+	
 }
