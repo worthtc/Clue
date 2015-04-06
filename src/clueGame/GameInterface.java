@@ -8,11 +8,13 @@ import javax.swing.border.TitledBorder;
 
 
 
+
+
 //????
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Random;
+import java.util.ArrayList;
 
 @SuppressWarnings("serial")
 public class GameInterface extends JPanel {
@@ -27,8 +29,12 @@ public class GameInterface extends JPanel {
 	private JTextField dieRoll;
 	private JPanel suggestionResponsePanel;
 	private JTextField suggestionResponse;
+	private ArrayList<Player> players;
+	private int currentIndex;
 	
-	public GameInterface(){
+	public GameInterface( ArrayList<Player> playerList){
+		players = playerList;
+		currentIndex = 0;
 		setLayout(new BorderLayout());
 		buttonLayout = buttonLayoutSetup();
 		add(buttonLayout, BorderLayout.EAST);
@@ -52,6 +58,8 @@ public class GameInterface extends JPanel {
 		class NextPlayerListener implements ActionListener {
 			public void actionPerformed(ActionEvent e)
 			{
+				player.setText(players.get(currentIndex).toString());
+				currentIndex = (currentIndex + 1)%players.size();
 				int roll = (int)Math.floor(Math.random()*6 + 1);
 				dieRoll.setText((new Integer(roll).toString()) );
 			}

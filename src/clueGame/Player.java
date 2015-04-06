@@ -82,4 +82,9 @@ public abstract class Player {
 	public boolean isComputer(){
 		return false;
 	}
+	@Override
+	public String toString() {
+		return name;
+	}
+	
 }

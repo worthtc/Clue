@@ -114,7 +114,7 @@ public class ClueGame extends JFrame {
 		menu.add(exit);
 		menuBar.add(menu);
 		
-		GameInterface gameControl = new GameInterface();
+		GameInterface gameControl = new GameInterface(players);
 		add(gameControl, BorderLayout.SOUTH);
 		
 		JOptionPane.showMessageDialog(this, "INSERT MESSAGE HERE PLZ", "Clue Intro", JOptionPane.INFORMATION_MESSAGE);
