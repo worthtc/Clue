@@ -117,7 +117,7 @@ public class ClueGame extends JFrame {
 		GameInterface gameControl = new GameInterface(players);
 		add(gameControl, BorderLayout.SOUTH);
 		
-		JOptionPane.showMessageDialog(this, "INSERT MESSAGE HERE PLZ", "Clue Intro", JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(this, "You are Nicol Bolas, press the Next Player button to start!", "Clue Intro", JOptionPane.INFORMATION_MESSAGE);
 		//Set the frame to be visible
 		setVisible(true);
 	}
