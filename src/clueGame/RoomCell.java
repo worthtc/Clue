@@ -68,9 +68,10 @@ public class RoomCell extends BoardCell {
 	@Override
 	public void Draw(Graphics g, Board b, int currentRow, int currentColumn) {
 		if( isNamed ){
+			
 			g.setColor(Color.BLACK);
 			g.setFont(new Font("Times New Roman", Font.BOLD, (int)(b.getCellSize().getHeight()*2/3)));
-			g.drawString(b.getRooms().get(getInitial()), (int)(currentColumn*b.getCellSize().getHeight()), (int)(currentRow*b.getCellSize().getWidth()));
+			g.drawString(b.getRooms().get(getInitial()), (int)(currentColumn*b.getCellSize().getWidth()), (int)(currentRow*b.getCellSize().getHeight()));
 		}
 		if(isDoorWay()){
 			g.setColor(Color.BLUE);

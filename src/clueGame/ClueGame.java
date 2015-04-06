@@ -17,6 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 import clueGame.Board;
 
@@ -38,7 +39,7 @@ public class ClueGame extends JFrame {
 
 	public static void main(String[] args){
 		ClueGame gui = new ClueGame("map/Clue Map2.txt","map/legend.txt","map/weaponLegend.txt","map/peopleLegend.txt");
-		gui.setVisible(true);
+		
 	}
 
 	public ClueGame(String boardName, String legendName, String weaponLegend, String characterLegend) {
@@ -114,6 +115,8 @@ public class ClueGame extends JFrame {
 		
 		GameInterface gameControl = new GameInterface();
 		add(gameControl, BorderLayout.SOUTH);
+		
+		JOptionPane.showMessageDialog(this, "INSERT MESSAGE HERE PLZ", "Clue Intro", JOptionPane.INFORMATION_MESSAGE);
 		//Set the frame to be visible
 		setVisible(true);
 	}
