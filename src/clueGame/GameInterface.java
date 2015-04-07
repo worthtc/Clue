@@ -13,6 +13,8 @@ import javax.swing.border.TitledBorder;
 
 
 
+
+
 //????
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -38,6 +40,8 @@ public class GameInterface extends JPanel {
 	private Board currentBoard;
 	private Set<BoardCell> targetSet;
 	
+	
+	
 	public GameInterface( ArrayList<Player> playerList, Board board){
 		players = playerList;
 		currentIndex = 0;
@@ -56,6 +60,7 @@ public class GameInterface extends JPanel {
 		lowerLeftText.add(dieRollPanel);
 		suggestionResponsePanel = suggestionResponseSetup();
 		lowerLeftText.add(suggestionResponsePanel);
+		
 	}
 	private JPanel buttonLayoutSetup(){
 		JPanel temp = new JPanel();
@@ -65,6 +70,7 @@ public class GameInterface extends JPanel {
 		nextPlayer = new JButton("Next Player");
 		//Create the listener for the Next player button
 		class NextPlayerListener implements ActionListener {
+			private GameInterface game;
 			public void actionPerformed(ActionEvent e)
 			{
 				currentBoard.setPlayers( players );
@@ -72,7 +78,16 @@ public class GameInterface extends JPanel {
 				player.setText(players.get(currentIndex).toString());
 				//If we are currently on a human player and that player is not finished we stop doing the action
 				if( players.get(currentIndex).isHuman() && !(((HumanPlayer)players.get(currentIndex)).isFinished())){
-					System.out.println( "Not Yet!"); //Display a message box here
+					JOptionPane.showMessageDialog(game, "Please Choose a cell to move to!", "", JOptionPane.INFORMATION_MESSAGE);
+					return;
+				}
+				if( players.get(currentIndex).isHuman() && currentBoard.isHumanFinished()){
+					currentBoard.repaint();
+					currentIndex = (currentIndex + 1)%players.size();
+					currentBoard.setHumanFinished(false);
+					for( BoardCell b: targetSet ){
+						b.setHighlighted(false);
+					}
 					return;
 				}
 				//Create a random integer for the dice roll
@@ -88,17 +103,21 @@ public class GameInterface extends JPanel {
 				currentBoard.repaint();
 				//Before we increment we make sure that the current player is finished
 				if( players.get(currentIndex).isHuman() && !(((HumanPlayer)players.get(currentIndex)).isFinished())){
-					System.out.println( "Not Yet!"); //Display a message box here
-					//return;
+					return;
 				}
 				currentIndex = (currentIndex + 1)%players.size();
 				
 			}
+			
+			NextPlayerListener(GameInterface g){
+				game = g;
+			}
 		}
-		nextPlayer.addActionListener(new NextPlayerListener());
+		nextPlayer.addActionListener(new NextPlayerListener(this));
 		temp.add(nextPlayer);
 		return temp;
 	}
+	
 	private JPanel messageLayoutSetup(){
 		JPanel temp = new JPanel();
 		temp.setLayout(new GridLayout(2,1));
