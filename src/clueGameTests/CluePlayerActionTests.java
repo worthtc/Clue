@@ -23,6 +23,7 @@ public class CluePlayerActionTests {
 	//Testing disporveSuggestion itself, for one player with various cards that player has or does not have
 	@Test
 	public void disproveSuggestionTest() {
+		game.getPlayers().get(1).clearCards();
 		game.getPlayers().get(1).giveCard(new Card("Mindslaver", Card.CardType.WEAPON));
 		game.getPlayers().get(1).giveCard(new Card("Karn", Card.CardType.PERSON));
 		game.getPlayers().get(1).giveCard(new Card("Alara", Card.CardType.ROOM));
@@ -38,6 +39,9 @@ public class CluePlayerActionTests {
 	//Giving each player a specific set of cards, then testing an accusation that each player can refute
 	@Test
 	public void handleSuggestionInOrderTest(){
+		for(Player p: game.getPlayers()){
+			p.clearCards();
+		}
 		game.getPlayers().get(0).giveCard(new Card("Door to Nothingness", Card.CardType.WEAPON));
 		game.getPlayers().get(0).giveCard(new Card("Nicol Bolas", Card.CardType.PERSON));
 		game.getPlayers().get(0).giveCard(new Card("Zendikar", Card.CardType.ROOM));

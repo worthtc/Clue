@@ -87,6 +87,9 @@ public abstract class Player {
 	public String toString() {
 		return name;
 	}
+	public void clearCards(){
+		myCards = new ArrayList<Card>();
+	}
 	public abstract void makeAMove(Set<BoardCell> targetSet);
 	
 }

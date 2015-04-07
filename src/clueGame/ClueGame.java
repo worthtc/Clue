@@ -134,7 +134,7 @@ public class ClueGame extends JFrame {
 	   }
 	   HashSet<Character> keys = new HashSet<Character>(rooms.keySet());
 	   for(Character c : keys){//For every element in the rooms map (generated in Board), make a ROOM card
-		   if (c != 'W'){
+		   if (c != 'W' && c!= 'y'){
 			   cards.add(new Card(rooms.get(c), Card.CardType.ROOM));
 		   }
 	   }
@@ -169,14 +169,16 @@ public class ClueGame extends JFrame {
 	   }
 	   Set<Character> keys = rooms.keySet();
 	   random = (int) Math.random()*keys.size();
+	   int count = 0;
 	   for(Character c : keys){
-		   if (c != 'W'){
-			   if(characters.indexOf(rooms.get(c)) == random){
+		   if(c != 'W' && c != 'y'){
+			   if(count == random){
 				   roomChoice = rooms.get(c);
 			   }
 			   else{
 				   cardsLeft.add(new Card(rooms.get(c), Card.CardType.ROOM));
 			   }
+			   count++;
 		   }
 	   }
 	   solution = new Solution(weaponChoice, personChoice, roomChoice);
