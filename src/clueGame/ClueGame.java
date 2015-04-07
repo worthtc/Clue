@@ -60,12 +60,14 @@ public class ClueGame extends JFrame {
 		referencePlayers = new ArrayList<Player>();
 		players = new ArrayList<Player>();
 		loadConfigFiles();//Fill global variables with actual information, necessary to build subsequent JPanels
+		generateDeck();
 		add(gameBoard, BorderLayout.CENTER);
 		try{ //Tries to make a number of players. If that number exceeds the total number of possible players, an exception is thrown.
 			makePlayers(1,2);
 		}catch(Exception e){
 			System.out.println(e);
 		}
+		deal();
 		for(Player p : players){//Initialize board with current players
 			gameBoard.getCellAt(p.getCurrentRow(), p.getCurrentCol()).setIsOccupied(true);
 			gameBoard.getCellAt(p.getCurrentRow(), p.getCurrentCol()).setPlayerColor(p.getColor());
@@ -116,7 +118,8 @@ public class ClueGame extends JFrame {
 		
 		GameInterface gameControl = new GameInterface(players, gameBoard);
 		add(gameControl, BorderLayout.SOUTH);
-		
+		CardDisplayPanel cardDisplay = new CardDisplayPanel(players.get(0).getCards());
+		add(cardDisplay, BorderLayout.EAST);
 		JOptionPane.showMessageDialog(this, "You are Nicol Bolas, press the Next Player button to start!", "Clue Intro", JOptionPane.INFORMATION_MESSAGE);
 		//Set the frame to be visible
 		setVisible(true);

@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
@@ -309,10 +310,11 @@ public class Board extends JPanel implements MouseListener {
 				for( BoardCell b: targetList ){
 					if (new Rectangle((int)(b.getColumn()*getCellSize().getWidth()),(int)(b.getRow()*getCellSize().getHeight()), (int)(getCellSize().getWidth()),(int)(getCellSize().getHeight())).contains(e.getX(), e.getY())) {
 				    	((HumanPlayer)players.get(currentIndex)).finishMove( b, targetList);
+				    	repaint();
 				    	return;
 				    }
 				}
-				System.out.println( "Pick a different Cell!");
+				JOptionPane.showMessageDialog(this, "Pick a different cell!", "Move Error.", JOptionPane.INFORMATION_MESSAGE);
 			}
 		}
 		
