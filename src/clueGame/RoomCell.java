@@ -55,7 +55,7 @@ public class RoomCell extends BoardCell {
 	}
 	@Override
 	public boolean getIsOccupied(){
-		if( doorDirection != DoorDirection.NONE) return false;
+		//if( doorDirection != DoorDirection.NONE) return false;
 		return super.getIsOccupied();
 	}
 	
@@ -67,6 +67,10 @@ public class RoomCell extends BoardCell {
 	 */
 	@Override
 	public void Draw(Graphics g, Board b, int currentRow, int currentColumn) {
+		if( isHighlighted() ){
+			g.setColor(Color.MAGENTA);
+			g.fillRect((int)(currentColumn*b.getCellSize().getWidth()),(int)(currentRow*b.getCellSize().getHeight()), (int)(b.getCellSize().getWidth()),(int)(b.getCellSize().getHeight()));
+		}
 		if( isNamed ){
 			
 			g.setColor(Color.BLACK);
@@ -87,6 +91,10 @@ public class RoomCell extends BoardCell {
 			else{
 				g.fillRect((int)(currentColumn*b.getCellSize().getWidth()), (int)(currentRow*b.getCellSize().getHeight() + b.getCellSize().getHeight()), (int)(b.getCellSize().getWidth()), (int)(-1*b.getCellSize().getHeight()/8));
 			}
+		}
+		if(getIsOccupied()){
+			g.setColor(getPlayerColor());
+			g.fillOval((int)(currentColumn*b.getCellSize().getWidth()),(int)(currentRow*b.getCellSize().getHeight()), (int)(b.getCellSize().getWidth()),(int)(b.getCellSize().getHeight()));
 		}
 	}
 

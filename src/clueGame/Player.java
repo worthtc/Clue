@@ -2,6 +2,7 @@ package clueGame;
 import java.awt.Color;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Set;
 
 public abstract class Player {
 	private String name;
@@ -86,5 +87,6 @@ public abstract class Player {
 	public String toString() {
 		return name;
 	}
+	public abstract void makeAMove(Set<BoardCell> targetSet);
 	
 }

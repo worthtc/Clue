@@ -15,8 +15,14 @@ public class WalkWayCell extends BoardCell {
 	
 	@Override
 	public void Draw(Graphics g, Board b, int currentRow, int currentColumn) {
-		g.setColor(Color.YELLOW);
-		g.fillRect((int)(currentColumn*b.getCellSize().getWidth()),(int)(currentRow*b.getCellSize().getHeight()), (int)(b.getCellSize().getWidth()),(int)(b.getCellSize().getHeight()));
+		if( isHighlighted() ){
+			g.setColor(Color.MAGENTA);
+			g.fillRect((int)(currentColumn*b.getCellSize().getWidth()),(int)(currentRow*b.getCellSize().getHeight()), (int)(b.getCellSize().getWidth()),(int)(b.getCellSize().getHeight()));
+		}
+		else{
+			g.setColor(Color.YELLOW);
+			g.fillRect((int)(currentColumn*b.getCellSize().getWidth()),(int)(currentRow*b.getCellSize().getHeight()), (int)(b.getCellSize().getWidth()),(int)(b.getCellSize().getHeight()));
+		}
 		g.setColor(Color.BLACK);
 		g.drawRect((int)(currentColumn*b.getCellSize().getWidth()),(int)(currentRow*b.getCellSize().getHeight()), (int)(b.getCellSize().getWidth()),(int)(b.getCellSize().getHeight()));
 		if(getIsOccupied()){

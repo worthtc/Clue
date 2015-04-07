@@ -114,7 +114,7 @@ public class ClueGame extends JFrame {
 		menu.add(exit);
 		menuBar.add(menu);
 		
-		GameInterface gameControl = new GameInterface(players);
+		GameInterface gameControl = new GameInterface(players, gameBoard);
 		add(gameControl, BorderLayout.SOUTH);
 		
 		JOptionPane.showMessageDialog(this, "You are Nicol Bolas, press the Next Player button to start!", "Clue Intro", JOptionPane.INFORMATION_MESSAGE);

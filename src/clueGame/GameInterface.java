@@ -10,11 +10,15 @@ import javax.swing.border.TitledBorder;
 
 
 
+
+
+
 //????
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Set;
 
 @SuppressWarnings("serial")
 public class GameInterface extends JPanel {
@@ -31,10 +35,13 @@ public class GameInterface extends JPanel {
 	private JTextField suggestionResponse;
 	private ArrayList<Player> players;
 	private int currentIndex;
+	private Board currentBoard;
 	
-	public GameInterface( ArrayList<Player> playerList){
+	public GameInterface( ArrayList<Player> playerList, Board board){
 		players = playerList;
 		currentIndex = 0;
+		currentBoard = board;
+		
 		setLayout(new BorderLayout());
 		buttonLayout = buttonLayoutSetup();
 		add(buttonLayout, BorderLayout.EAST);
@@ -55,13 +62,23 @@ public class GameInterface extends JPanel {
 		suggest = new JButton("Make a Suggestion");
 		temp.add(suggest);
 		nextPlayer = new JButton("Next Player");
+		//Create the listener for the Next player button
 		class NextPlayerListener implements ActionListener {
 			public void actionPerformed(ActionEvent e)
 			{
 				player.setText(players.get(currentIndex).toString());
-				currentIndex = (currentIndex + 1)%players.size();
-				int roll = (int)Math.floor(Math.random()*6 + 1);
+				
+				//Create a random integer for the dice roll
+				int roll = (int)(Math.random()*6 + 1);
 				dieRoll.setText((new Integer(roll).toString()) );
+				//Get the target list for the given dice roll
+				currentBoard.calcAdjacencies();
+				currentBoard.calcTargets(players.get(currentIndex).getCurrentRow(), players.get(currentIndex).getCurrentCol(), roll);
+				Set<BoardCell> targetSet = currentBoard.getTargets();
+				currentBoard.getCellAt(players.get(currentIndex).getCurrentRow(), players.get(currentIndex).getCurrentCol()).setIsOccupied(false);
+				players.get(currentIndex).makeAMove(targetSet);
+				currentIndex = (currentIndex + 1)%players.size();
+				currentBoard.repaint();
 			}
 		}
 		nextPlayer.addActionListener(new NextPlayerListener());

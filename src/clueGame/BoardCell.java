@@ -7,11 +7,21 @@ public abstract class BoardCell {
 	private int row, column;
 	private boolean isOccupied;
 	private Color playerColor;
+	private boolean isHighlighted;
     
 	public BoardCell(int row, int column) {
 		this.row = row;
 		this.column = column;
 		isOccupied = false;
+		isHighlighted = false;
+	}
+
+	public boolean isHighlighted() {
+		return isHighlighted;
+	}
+
+	public void setHighlighted(boolean isHighlighted) {
+		this.isHighlighted = isHighlighted;
 	}
 
 	public boolean isDoorWay(){
@@ -54,4 +64,6 @@ public abstract class BoardCell {
 	 * roomCells draw themselves slightly differently, in that specific cells are tagged in the legend files to print the name of the room to which they belong. 
 	 */
 	public abstract void Draw(Graphics g, Board b, int currentRow, int currentColumn);
+	
+		
 }

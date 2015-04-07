@@ -15,13 +15,13 @@ public class ComputerPlayer extends Player{
 	public BoardCell pickLocation(Set<BoardCell> targets){
 		// Check to see if one of the targets is a room that we were not just in
 		for( BoardCell roomTest: targets){
-			if( roomTest.isRoom() && ((RoomCell)roomTest).getInitial()  != lastRoomVisited){
+			if( roomTest.isRoom() && ((RoomCell)roomTest).getInitial() != lastRoomVisited){
 				return roomTest;
 			}
 		}
 		//Otherwise we just pick a board Cell at random
 		Object[] targetArray = targets.toArray();
-		return ((BoardCell)targetArray[(int) (Math.random()*targets.size())]);
+		return ((BoardCell)targetArray[(int) (Math.random()*(targets.size()))]);
 	}
 	
 	 // Generates a random suggestion based on a list of cards not yet seen by the computer
@@ -78,5 +78,18 @@ public class ComputerPlayer extends Player{
 	}
 	public void setMasterListCards(Set<Card> seenCards) {
 		this.masterListCards = seenCards;
+	}
+
+	@Override
+	public void makeAMove(Set<BoardCell> targetSet) {
+		
+		BoardCell chosenCell = pickLocation(targetSet);
+		setCurrentRow(chosenCell.getRow());
+		setCurrentCol(chosenCell.getColumn());
+		chosenCell.setPlayerColor(getColor());
+		chosenCell.setIsOccupied(true);
+		if(chosenCell.isRoom()){
+			lastRoomVisited = ((RoomCell)chosenCell).getInitial();
+		}
 	}
 }
