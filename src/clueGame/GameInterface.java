@@ -36,6 +36,7 @@ public class GameInterface extends JPanel {
 	private ArrayList<Player> players;
 	private int currentIndex;
 	private Board currentBoard;
+	private Set<BoardCell> targetSet;
 	
 	public GameInterface( ArrayList<Player> playerList, Board board){
 		players = playerList;
@@ -66,22 +67,32 @@ public class GameInterface extends JPanel {
 		class NextPlayerListener implements ActionListener {
 			public void actionPerformed(ActionEvent e)
 			{
+				currentBoard.setPlayers( players );
+				currentBoard.setCurrentIndex( currentIndex );
 				player.setText(players.get(currentIndex).toString());
-				/*if( players.get(currentIndex).isHuman() && !(((HumanPlayer)players.get(currentIndex)).isFinished())){
-					System.out.println( "Not Yet!");
+				//If we are currently on a human player and that player is not finished we stop doing the action
+				if( players.get(currentIndex).isHuman() && !(((HumanPlayer)players.get(currentIndex)).isFinished())){
+					System.out.println( "Not Yet!"); //Display a message box here
 					return;
-				}*/
+				}
 				//Create a random integer for the dice roll
 				int roll = (int)(Math.random()*6 + 1);
 				dieRoll.setText((new Integer(roll).toString()) );
 				//Get the target list for the given dice roll
 				currentBoard.calcAdjacencies();
 				currentBoard.calcTargets(players.get(currentIndex).getCurrentRow(), players.get(currentIndex).getCurrentCol(), roll);
-				Set<BoardCell> targetSet = currentBoard.getTargets();
+				targetSet = currentBoard.getTargets();
+				//Set the last location the player was at to be unoccupied
 				currentBoard.getCellAt(players.get(currentIndex).getCurrentRow(), players.get(currentIndex).getCurrentCol()).setIsOccupied(false);
-				players.get(currentIndex).makeAMove(targetSet, currentBoard);
-				currentIndex = (currentIndex + 1)%players.size();
+				players.get(currentIndex).makeAMove(targetSet);
 				currentBoard.repaint();
+				//Before we increment we make sure that the current player is finished
+				if( players.get(currentIndex).isHuman() && !(((HumanPlayer)players.get(currentIndex)).isFinished())){
+					System.out.println( "Not Yet!"); //Display a message box here
+					//return;
+				}
+				currentIndex = (currentIndex + 1)%players.size();
+				
 			}
 		}
 		nextPlayer.addActionListener(new NextPlayerListener());

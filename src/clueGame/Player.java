@@ -87,6 +87,6 @@ public abstract class Player {
 	public String toString() {
 		return name;
 	}
-	public abstract void makeAMove(Set<BoardCell> targetSet, Board board);
+	public abstract void makeAMove(Set<BoardCell> targetSet);
 	
 }

@@ -1,6 +1,8 @@
 package clueGame;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -14,7 +16,7 @@ import java.util.Set;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
-public class Board extends JPanel {
+public class Board extends JPanel implements MouseListener {
 	private BoardCell layout [][];
 	private int numRows,numColumns;
 	Map<Character,String> rooms; 
@@ -23,7 +25,9 @@ public class Board extends JPanel {
 
 	private Dimension cellSize;
 	private boolean targetSelected;
-
+	
+	private ArrayList<Player> players;
+	private int currentIndex;
 
 	@Override
 	public void paintComponent(Graphics g){
@@ -43,6 +47,16 @@ public class Board extends JPanel {
 	}
 	
 	
+	public void setPlayers(ArrayList<Player> players) {
+		this.players = players;
+	}
+
+
+	public void setCurrentIndex(int currentIndex) {
+		this.currentIndex = currentIndex;
+	}
+
+
 	public boolean isTargetSelected() {
 		return targetSelected;
 	}
@@ -165,6 +179,8 @@ public class Board extends JPanel {
 		adjacencies = new HashMap<BoardCell, LinkedList<BoardCell>>();
 		targetList = new HashSet<BoardCell>();
 		targetSelected = false;
+		currentIndex = 0;
+		addMouseListener(this);
 	}
 	public void fixSize(){
 		cellSize = new Dimension(1,1);
@@ -282,6 +298,33 @@ public class Board extends JPanel {
 		return targetList;
 
 	}
+
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		//see if the list of players is not null and we are currently looking at a human player 
+		if( players != null ){
+			if( players.get(currentIndex).isHuman() && !(((HumanPlayer)players.get(currentIndex)).isFinished())){
+				//Make a list of rectangles
+				for( BoardCell b: targetList ){
+					if (new Rectangle((int)(b.getColumn()*getCellSize().getWidth()),(int)(b.getRow()*getCellSize().getHeight()), (int)(getCellSize().getWidth()),(int)(getCellSize().getHeight())).contains(e.getX(), e.getY())) {
+				    	((HumanPlayer)players.get(currentIndex)).finishMove( b, targetList);
+				    	return;
+				    }
+				}
+				System.out.println( "Pick a different Cell!");
+			}
+		}
+		
+	}
+	@Override
+	public void mouseEntered(MouseEvent e) {}
+	@Override
+	public void mouseExited(MouseEvent e) {}
+	@Override
+	public void mousePressed(MouseEvent e) {}
+	@Override
+	public void mouseReleased(MouseEvent e) {}
 
 
 }
