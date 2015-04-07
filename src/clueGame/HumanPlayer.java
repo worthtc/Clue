@@ -37,9 +37,6 @@ public class HumanPlayer extends Player{
 		setCurrentCol(chosenCell.getColumn());
 		chosenCell.setPlayerColor(getColor());
 		chosenCell.setIsOccupied(true);
-		for( BoardCell b: targetSet ){
-			b.setHighlighted(false);
-		}
 		isFinished = true;
 	}
 }

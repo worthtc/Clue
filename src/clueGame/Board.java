@@ -28,7 +28,8 @@ public class Board extends JPanel implements MouseListener {
 	
 	private ArrayList<Player> players;
 	private int currentIndex;
-
+	
+	private boolean humanFinished;
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
@@ -47,6 +48,16 @@ public class Board extends JPanel implements MouseListener {
 	}
 	
 	
+	public boolean isHumanFinished() {
+		return humanFinished;
+	}
+
+
+	public void setHumanFinished(boolean humanFinished) {
+		this.humanFinished = humanFinished;
+	}
+
+
 	public void setPlayers(ArrayList<Player> players) {
 		this.players = players;
 	}
@@ -181,6 +192,7 @@ public class Board extends JPanel implements MouseListener {
 		targetSelected = false;
 		currentIndex = 0;
 		addMouseListener(this);
+		humanFinished = false;
 	}
 	public void fixSize(){
 		cellSize = new Dimension(1,1);
@@ -306,8 +318,11 @@ public class Board extends JPanel implements MouseListener {
 		if( players != null ){
 			if( players.get(currentIndex).isHuman() && !(((HumanPlayer)players.get(currentIndex)).isFinished())){
 				//Make a list of rectangles
+				
+				repaint();
 				for( BoardCell b: targetList ){
 					if (new Rectangle((int)(b.getColumn()*getCellSize().getWidth()),(int)(b.getRow()*getCellSize().getHeight()), (int)(getCellSize().getWidth()),(int)(getCellSize().getHeight())).contains(e.getX(), e.getY())) {
+				    	humanFinished = true;
 				    	((HumanPlayer)players.get(currentIndex)).finishMove( b, targetList);
 				    	return;
 				    }

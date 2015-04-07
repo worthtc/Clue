@@ -13,6 +13,7 @@ import javax.swing.border.TitledBorder;
 
 
 
+
 //????
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -38,6 +39,8 @@ public class GameInterface extends JPanel {
 	private Board currentBoard;
 	private Set<BoardCell> targetSet;
 	
+	
+	
 	public GameInterface( ArrayList<Player> playerList, Board board){
 		players = playerList;
 		currentIndex = 0;
@@ -56,6 +59,7 @@ public class GameInterface extends JPanel {
 		lowerLeftText.add(dieRollPanel);
 		suggestionResponsePanel = suggestionResponseSetup();
 		lowerLeftText.add(suggestionResponsePanel);
+		
 	}
 	private JPanel buttonLayoutSetup(){
 		JPanel temp = new JPanel();
@@ -75,6 +79,15 @@ public class GameInterface extends JPanel {
 					System.out.println( "Not Yet!"); //Display a message box here
 					return;
 				}
+				if( players.get(currentIndex).isHuman() && currentBoard.isHumanFinished()){
+					currentBoard.repaint();
+					currentIndex = (currentIndex + 1)%players.size();
+					currentBoard.setHumanFinished(false);
+					for( BoardCell b: targetSet ){
+						b.setHighlighted(false);
+					}
+					return;
+				}
 				//Create a random integer for the dice roll
 				int roll = (int)(Math.random()*6 + 1);
 				dieRoll.setText((new Integer(roll).toString()) );
@@ -88,8 +101,8 @@ public class GameInterface extends JPanel {
 				currentBoard.repaint();
 				//Before we increment we make sure that the current player is finished
 				if( players.get(currentIndex).isHuman() && !(((HumanPlayer)players.get(currentIndex)).isFinished())){
-					System.out.println( "Not Yet!"); //Display a message box here
-					//return;
+					//System.out.println( "Not Yet!"); //Display a message box here
+					return;
 				}
 				currentIndex = (currentIndex + 1)%players.size();
 				
@@ -99,6 +112,7 @@ public class GameInterface extends JPanel {
 		temp.add(nextPlayer);
 		return temp;
 	}
+	
 	private JPanel messageLayoutSetup(){
 		JPanel temp = new JPanel();
 		temp.setLayout(new GridLayout(2,1));
