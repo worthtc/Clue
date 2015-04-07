@@ -81,7 +81,7 @@ public class ComputerPlayer extends Player{
 	}
 
 	@Override
-	public void makeAMove(Set<BoardCell> targetSet) {
+	public void makeAMove(Set<BoardCell> targetSet, Board board) {
 		
 		BoardCell chosenCell = pickLocation(targetSet);
 		setCurrentRow(chosenCell.getRow());

@@ -22,6 +22,7 @@ public class Board extends JPanel {
 	private Set<BoardCell> targetList;
 
 	private Dimension cellSize;
+	private boolean targetSelected;
 
 
 	@Override
@@ -40,6 +41,17 @@ public class Board extends JPanel {
 			}
 		}
 	}
+	
+	
+	public boolean isTargetSelected() {
+		return targetSelected;
+	}
+
+
+	public void setTargetSelected(boolean targetSelected) {
+		this.targetSelected = targetSelected;
+	}
+
 
 	public Map<Character,String> loadBoardConfig( String boardName, String legendName ) throws BadConfigFormatException {
 		FileReader legendReader;
@@ -152,6 +164,7 @@ public class Board extends JPanel {
 		rooms = new HashMap<Character,String>();
 		adjacencies = new HashMap<BoardCell, LinkedList<BoardCell>>();
 		targetList = new HashSet<BoardCell>();
+		targetSelected = false;
 	}
 	public void fixSize(){
 		cellSize = new Dimension(1,1);

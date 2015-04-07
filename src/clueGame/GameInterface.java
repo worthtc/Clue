@@ -67,7 +67,10 @@ public class GameInterface extends JPanel {
 			public void actionPerformed(ActionEvent e)
 			{
 				player.setText(players.get(currentIndex).toString());
-				
+				/*if( players.get(currentIndex).isHuman() && !(((HumanPlayer)players.get(currentIndex)).isFinished())){
+					System.out.println( "Not Yet!");
+					return;
+				}*/
 				//Create a random integer for the dice roll
 				int roll = (int)(Math.random()*6 + 1);
 				dieRoll.setText((new Integer(roll).toString()) );
@@ -76,7 +79,7 @@ public class GameInterface extends JPanel {
 				currentBoard.calcTargets(players.get(currentIndex).getCurrentRow(), players.get(currentIndex).getCurrentCol(), roll);
 				Set<BoardCell> targetSet = currentBoard.getTargets();
 				currentBoard.getCellAt(players.get(currentIndex).getCurrentRow(), players.get(currentIndex).getCurrentCol()).setIsOccupied(false);
-				players.get(currentIndex).makeAMove(targetSet);
+				players.get(currentIndex).makeAMove(targetSet, currentBoard);
 				currentIndex = (currentIndex + 1)%players.size();
 				currentBoard.repaint();
 			}
