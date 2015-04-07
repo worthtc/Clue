@@ -14,6 +14,7 @@ import javax.swing.border.TitledBorder;
 
 
 
+
 //????
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -69,6 +70,7 @@ public class GameInterface extends JPanel {
 		nextPlayer = new JButton("Next Player");
 		//Create the listener for the Next player button
 		class NextPlayerListener implements ActionListener {
+			private GameInterface game;
 			public void actionPerformed(ActionEvent e)
 			{
 				currentBoard.setPlayers( players );
@@ -76,7 +78,7 @@ public class GameInterface extends JPanel {
 				player.setText(players.get(currentIndex).toString());
 				//If we are currently on a human player and that player is not finished we stop doing the action
 				if( players.get(currentIndex).isHuman() && !(((HumanPlayer)players.get(currentIndex)).isFinished())){
-					System.out.println( "Not Yet!"); //Display a message box here
+					JOptionPane.showMessageDialog(game, "Please Choose a cell to move to!", "", JOptionPane.INFORMATION_MESSAGE);
 					return;
 				}
 				if( players.get(currentIndex).isHuman() && currentBoard.isHumanFinished()){
@@ -101,14 +103,17 @@ public class GameInterface extends JPanel {
 				currentBoard.repaint();
 				//Before we increment we make sure that the current player is finished
 				if( players.get(currentIndex).isHuman() && !(((HumanPlayer)players.get(currentIndex)).isFinished())){
-					//System.out.println( "Not Yet!"); //Display a message box here
 					return;
 				}
 				currentIndex = (currentIndex + 1)%players.size();
 				
 			}
+			
+			NextPlayerListener(GameInterface g){
+				game = g;
+			}
 		}
-		nextPlayer.addActionListener(new NextPlayerListener());
+		nextPlayer.addActionListener(new NextPlayerListener(this));
 		temp.add(nextPlayer);
 		return temp;
 	}
