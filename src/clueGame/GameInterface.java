@@ -37,16 +37,17 @@ public class GameInterface extends JPanel {
 	private JTextField suggestionResponse;
 	private ArrayList<Player> players;
 	private int currentIndex;
+	private ClueGame game;
 	private Board currentBoard;
 	private Set<BoardCell> targetSet;
 	
 	
 	
-	public GameInterface( ArrayList<Player> playerList, Board board){
+	public GameInterface( ArrayList<Player> playerList, Board board, ClueGame game){
 		players = playerList;
 		currentIndex = 0;
 		currentBoard = board;
-		
+		this.game = game;
 		setLayout(new BorderLayout());
 		buttonLayout = buttonLayoutSetup();
 		add(buttonLayout, BorderLayout.EAST);
@@ -66,6 +67,24 @@ public class GameInterface extends JPanel {
 		JPanel temp = new JPanel();
 		temp.setLayout(new GridLayout(2,1));
 		suggest = new JButton("Make a Suggestion");
+		class SuggestionListener implements ActionListener {
+			private ClueGame game;
+			
+			public SuggestionListener(ClueGame g){
+				g = game;
+			}
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(currentBoard.getCellAt(game.getPlayers().get(currentBoard.getCurrentIndex()).getCurrentRow(),game.getPlayers().get(currentBoard.getCurrentIndex()).getCurrentCol()).isRoom() && ((HumanPlayer)game.getPlayers().get(currentBoard.getCurrentIndex())).isFinished()){
+					SuggestionPanel gui = new SuggestionPanel(game.getPlayers().get(currentBoard.getCurrentIndex()), currentBoard);
+					gui.setVisible(true);
+				}
+				
+			}
+			
+		}
+		suggest.addActionListener(new SuggestionListener(game));
 		temp.add(suggest);
 		nextPlayer = new JButton("Next Player");
 		//Create the listener for the Next player button

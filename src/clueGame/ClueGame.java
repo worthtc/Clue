@@ -116,7 +116,7 @@ public class ClueGame extends JFrame {
 		menu.add(exit);
 		menuBar.add(menu);
 		
-		GameInterface gameControl = new GameInterface(players, gameBoard);
+		GameInterface gameControl = new GameInterface(players, gameBoard, this);
 		add(gameControl, BorderLayout.SOUTH);
 		CardDisplayPanel cardDisplay = new CardDisplayPanel(players.get(0).getCards());
 		add(cardDisplay, BorderLayout.EAST);
