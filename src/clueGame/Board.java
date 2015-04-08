@@ -67,7 +67,10 @@ public class Board extends JPanel implements MouseListener {
 	public void setCurrentIndex(int currentIndex) {
 		this.currentIndex = currentIndex;
 	}
-
+	
+	public int getCurrentIndex() {
+		return currentIndex;
+	}
 
 	public boolean isTargetSelected() {
 		return targetSelected;
