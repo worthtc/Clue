@@ -3,19 +3,6 @@ package clueGame;
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
-
-
-
-
-
-
-
-
-
-
-
-
-
 //????
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -41,7 +28,7 @@ public class GameInterface extends JPanel {
 	private ClueGame game;
 	private Board currentBoard;
 	private Set<BoardCell> targetSet;
-	JTextField guessField;
+	private JTextField guessField;
 	
 	
 	
@@ -81,22 +68,23 @@ public class GameInterface extends JPanel {
 		suggest = new JButton("Make a Suggestion");
 		class SuggestionListener implements ActionListener {
 			private ClueGame game;
-			
-			public SuggestionListener(ClueGame g){
-				g = game;
+			private GameInterface gameInt;
+			public SuggestionListener(ClueGame g, GameInterface gi){
+				game = g;
+				gameInt = gi;
 			}
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(currentBoard.getCellAt(game.getPlayers().get(currentBoard.getCurrentIndex()).getCurrentRow(),game.getPlayers().get(currentBoard.getCurrentIndex()).getCurrentCol()).isRoom() && ((HumanPlayer)game.getPlayers().get(currentBoard.getCurrentIndex())).isFinished()){
-					SuggestionPanel gui = new SuggestionPanel(game.getPlayers().get(currentBoard.getCurrentIndex()), currentBoard, game);
+					SuggestionPanel gui = new SuggestionPanel(game.getPlayers().get(currentBoard.getCurrentIndex()), currentBoard, game, gameInt);
 					gui.setVisible(true);
 				}
 				
 			}
 			
 		}
-		suggest.addActionListener(new SuggestionListener(game));
+		suggest.addActionListener(new SuggestionListener(game, this));
 		temp.add(suggest);
 		nextPlayer = new JButton("Next Player");
 		//Create the listener for the Next player button
@@ -219,6 +207,12 @@ public class GameInterface extends JPanel {
 		temp.add(suggestionResponse);
 		temp.setBorder(new TitledBorder(new EtchedBorder(), "What was the response?"));
 		return temp;
+	}
+	public void setSuggestionResponse(JTextField suggestionResponse) {
+		this.suggestionResponse = suggestionResponse;
+	}
+	public void setGuessField(JTextField guessField) {
+		this.guessField = guessField;
 	}	
 	
 }

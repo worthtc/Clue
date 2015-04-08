@@ -321,7 +321,7 @@ public class ClueGame extends JFrame {
 			currentPlayer++;
 		}
 		for(int i = 0; i<computers; i++){
-			players.add(new ComputerPlayer(referencePlayers.get(currentPlayer)));
+			players.add(new ComputerPlayer(referencePlayers.get(currentPlayer), cards));
 			currentPlayer++;
 		}
 	}

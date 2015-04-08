@@ -5,12 +5,21 @@ public class ComputerPlayer extends Player{
 	private char lastRoomVisited;
 	private Set<Card> masterListCards;
 	
-	public ComputerPlayer(String name, String color, int startRow, int startCol){
+	public ComputerPlayer(String name, String color, int startRow, int startCol, ArrayList<Card> gameCards){
 		super(name, color, startRow, startCol);
-		masterListCards = new HashSet<Card>();
+		Set<Card> cards = new HashSet<Card>();
+		for(Card c : gameCards){
+			cards.add(c);
+		}
+		masterListCards = cards;
 	}
-	public ComputerPlayer(Player player){
+	public ComputerPlayer(Player player, ArrayList<Card> gameCards){
 		super(player);
+		Set<Card> cards = new HashSet<Card>();
+		for(Card c : gameCards){
+			cards.add(c);
+		}
+		masterListCards = cards;
 	}
 	public BoardCell pickLocation(Set<BoardCell> targets){
 		// Check to see if one of the targets is a room that we were not just in
@@ -78,6 +87,12 @@ public class ComputerPlayer extends Player{
 	}
 	public void setMasterListCards(Set<Card> seenCards) {
 		this.masterListCards = seenCards;
+	}
+	
+	@Override
+	public void giveCard(Card c){
+		super.giveCard(c);
+		updateSeen(c);
 	}
 
 	@Override
