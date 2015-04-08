@@ -128,7 +128,7 @@ public class GameInterface extends JPanel {
 				
 				suggestionResponse.setText("");
 				guessField.setText("");
-				if( players.get(currentIndex).isComputer() && currentBoard.getCellAt(players.get(currentIndex).getCurrentCol(), players.get(currentIndex).getCurrentRow()).isRoom() ){
+				if( players.get(currentIndex).isComputer() && currentBoard.getCellAt(players.get(currentIndex).getCurrentRow(), players.get(currentIndex).getCurrentCol()).isRoom() ){
 					Set<Card> suggestion = ( (ComputerPlayer) players.get(currentIndex)).createSuggestion();
 					int i = currentIndex + 1;
 					while( i != currentIndex ){
