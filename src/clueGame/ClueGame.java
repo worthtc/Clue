@@ -46,7 +46,7 @@ public class ClueGame extends JFrame {
 		//Initialize the JFrame and all of the variables
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Magical Clue!"); // Note: title is a work in progress
-		setSize(500,500);
+		setSize(1000,1000);
 		rooms = new HashMap<Character,String>();
 		gameBoard = new Board();
 		this.boardName = boardName;
@@ -122,6 +122,13 @@ public class ClueGame extends JFrame {
 		JOptionPane.showMessageDialog(this, "You are Nicol Bolas, press the Next Player button to start!", "Clue Intro", JOptionPane.INFORMATION_MESSAGE);
 		//Set the frame to be visible
 		setVisible(true);
+		Set<Card> allCards = new HashSet<Card>();
+		allCards.addAll(cards);
+		for( Player p: players){
+			if( p.isComputer() ){
+				((ComputerPlayer)p).setMasterListCards(allCards);
+			}
+		}
 	}
    
    public void generateDeck(){

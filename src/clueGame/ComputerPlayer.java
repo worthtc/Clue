@@ -38,7 +38,7 @@ public class ComputerPlayer extends Player{
 		int choice = (int)(Math.random()*personOptions.size());
 		suggestion.add(personOptions.get(choice));
 		choice = (int)(Math.random()*roomOptions.size());
-		suggestion.add(roomOptions.get(choice));
+		suggestion.add(roomOptions.get(choice ));
 		choice = (int)(Math.random()*weaponOptions.size());
 		suggestion.add(weaponOptions.get(choice));
 		return suggestion;
@@ -92,4 +92,6 @@ public class ComputerPlayer extends Player{
 			lastRoomVisited = ((RoomCell)chosenCell).getInitial();
 		}
 	}
+
+	
 }

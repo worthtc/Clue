@@ -41,7 +41,7 @@ public class GameInterface extends JPanel {
 	private ClueGame game;
 	private Board currentBoard;
 	private Set<BoardCell> targetSet;
-	JTextField guessField;
+	private JTextField guessField;
 	
 	
 	
@@ -104,6 +104,7 @@ public class GameInterface extends JPanel {
 			private GameInterface game;
 			public void actionPerformed(ActionEvent e)
 			{
+				
 				currentBoard.setPlayers( players );
 				currentBoard.setCurrentIndex( currentIndex );
 				player.setText(players.get(currentIndex).toString());
@@ -136,11 +137,14 @@ public class GameInterface extends JPanel {
 				if( players.get(currentIndex).isHuman() && !(((HumanPlayer)players.get(currentIndex)).isFinished())){
 					return;
 				}
-				currentIndex = (currentIndex + 1)%players.size();
-				if( currentBoard.getCellAt(players.get(currentIndex).getCurrentCol() ,players.get(currentIndex).getCurrentRow()).isRoom() ){
+				
+				suggestionResponse.setText("");
+				guessField.setText("");
+				if( players.get(currentIndex).isComputer() && currentBoard.getCellAt(players.get(currentIndex).getCurrentCol(), players.get(currentIndex).getCurrentRow()).isRoom() ){
 					Set<Card> suggestion = ( (ComputerPlayer) players.get(currentIndex)).createSuggestion();
 					int i = currentIndex + 1;
 					while( i != currentIndex ){
+						i = i%players.size();
 						String weapon = "";
 						String room = "";
 						String person = "";
@@ -152,14 +156,23 @@ public class GameInterface extends JPanel {
 								weapon = c.getName();
 							}
 							else{
-								room = c.getName();
+								room = currentBoard.rooms.get( ((ComputerPlayer) players.get(currentIndex)).getLastRoomVisitied());
 							}
 						}
 						guessField.setText(person + "," + weapon +"," + room);
-						players.get(i).disproveSuggestion(person, room, weapon );
-						i = (i + 1)%players.size();
+						Card returnedCard = players.get(i).disproveSuggestion(person, room, weapon );
+						if ( returnedCard != null ){
+							suggestionResponse.setText(returnedCard.getName());
+							break;
+						}
+						else{
+							suggestionResponse.setText("None Found");
+						}
+						i++;
 					}
 				}
+				currentIndex = (currentIndex + 1)%players.size();
+				currentBoard.repaint();
 			}
 			
 			NextPlayerListener(GameInterface g){
