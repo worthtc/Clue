@@ -36,7 +36,6 @@ public class ClueGame extends JFrame {
 	private ArrayList<Player> referencePlayers;
 	private ArrayList<Player> players;
 	private Solution solution;
-
 	@SuppressWarnings("unused")
 	public static void main(String[] args){
 		ClueGame gui = new ClueGame("map/Clue Map2.txt","map/legend.txt","map/weaponLegend.txt","map/peopleLegend.txt");
@@ -63,7 +62,7 @@ public class ClueGame extends JFrame {
 		generateDeck();
 		add(gameBoard, BorderLayout.CENTER);
 		try{ //Tries to make a number of players. If that number exceeds the total number of possible players, an exception is thrown.
-			makePlayers(1,2);
+			makePlayers(1,5);
 		}catch(Exception e){
 			System.out.println(e);
 		}

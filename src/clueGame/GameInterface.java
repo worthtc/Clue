@@ -15,6 +15,7 @@ import javax.swing.border.TitledBorder;
 
 
 
+
 //????
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -40,6 +41,7 @@ public class GameInterface extends JPanel {
 	private ClueGame game;
 	private Board currentBoard;
 	private Set<BoardCell> targetSet;
+	JTextField guessField;
 	
 	
 	
@@ -61,6 +63,16 @@ public class GameInterface extends JPanel {
 		lowerLeftText.add(dieRollPanel);
 		suggestionResponsePanel = suggestionResponseSetup();
 		lowerLeftText.add(suggestionResponsePanel);
+		JPanel guessBox = new JPanel();
+		//guessBox.setLayout(new GridLayout(1,2));
+		guessBox.setLayout(new BorderLayout());
+		JLabel guessLabel = new JLabel("Guess");
+		guessField = new JTextField(10);
+		guessBox.setBorder(new TitledBorder(new EtchedBorder(), "Guess"));
+		guessField.setEditable(false);
+		guessBox.add(guessLabel, BorderLayout.WEST);
+		guessBox.add(guessField, BorderLayout.CENTER);
+		lowerLeftText.add(guessBox);
 		
 	}
 	private JPanel buttonLayoutSetup(){
@@ -125,7 +137,29 @@ public class GameInterface extends JPanel {
 					return;
 				}
 				currentIndex = (currentIndex + 1)%players.size();
-				
+				if( currentBoard.getCellAt(players.get(currentIndex).getCurrentCol() ,players.get(currentIndex).getCurrentRow()).isRoom() ){
+					Set<Card> suggestion = ( (ComputerPlayer) players.get(currentIndex)).createSuggestion();
+					int i = currentIndex + 1;
+					while( i != currentIndex ){
+						String weapon = "";
+						String room = "";
+						String person = "";
+						for( Card c: suggestion){
+							if( c.getType() == Card.CardType.PERSON){
+								person = c.getName();
+							}
+							else if( c.getType() == Card.CardType.WEAPON){
+								weapon = c.getName();
+							}
+							else{
+								room = c.getName();
+							}
+						}
+						guessField.setText(person + "," + weapon +"," + room);
+						players.get(i).disproveSuggestion(person, room, weapon );
+						i = (i + 1)%players.size();
+					}
+				}
 			}
 			
 			NextPlayerListener(GameInterface g){
@@ -175,6 +209,7 @@ public class GameInterface extends JPanel {
 	}
 	
 	private JPanel suggestionResponseSetup(){
+		
 		JPanel temp = new JPanel();
 		JLabel suggestionName = new JLabel("Response: ");
 		temp.setLayout(new GridLayout(1,2));
