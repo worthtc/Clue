@@ -11,19 +11,22 @@ import javax.swing.JTextField;
 
 import clueGame.Card.CardType;
 
+@SuppressWarnings("serial")
 public class SuggestionPanel extends JFrame{
 	
 	private Player player;
 	private Board board;
+	private ClueGame game;
 	private JComboBox<String> people;
 	private JComboBox<String> weapons;
 	private JButton submit;
 	private JButton cancel;
 	
 	
-	public SuggestionPanel(Player p, Board b){
+	public SuggestionPanel(Player p, Board b, ClueGame g){
 		player = p;
 		board = b;
+		game = g;
 		setLayout(new GridLayout(4,2));
 		people = peopleSetup();
 		weapons = weaponsSetup();
@@ -34,6 +37,7 @@ public class SuggestionPanel extends JFrame{
 		room.setEditable(false);
 		add(room);
 		JTextField person = new JTextField("Person:");
+		person.setEditable(false);
 		add(person);
 		add(people);
 		JTextField weapon = new JTextField("Weapon:");
@@ -44,6 +48,8 @@ public class SuggestionPanel extends JFrame{
 		cancel = cancelSetup();
 		add(submit);
 		add(cancel);
+		setTitle("Make a suggestion!");
+		setSize(250,250);
 	}
 	
 	private JComboBox<String> peopleSetup(){
@@ -65,29 +71,37 @@ public class SuggestionPanel extends JFrame{
 	private JButton submitSetup(){
 		JButton temp = new JButton("Submit");
 		class SubmitListener implements ActionListener{
+			SuggestionPanel sp;
 			
+			public SubmitListener(SuggestionPanel sp){
+				this.sp = sp;
+			}
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				
+				game.handleSuggestion((String)people.getSelectedItem(),board.getRooms().get(((RoomCell)board.getCellAt(player.getCurrentRow(),  player.getCurrentCol())).getInitial()),(String)weapons.getSelectedItem(), player);
+				//close the window!
 			}
 			
-		}
-		temp.addActionListener(new SubmitListener());
+		};
+		temp.addActionListener(new SubmitListener(this));
 		return temp;
 	}
 	
 	private JButton cancelSetup(){
 		JButton temp = new JButton();
 		class CancelListener implements ActionListener{
+			SuggestionPanel sp;//To allow closing the frame
 			
+			public CancelListener(SuggestionPanel sp){
+				this.sp = sp;
+			}
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				//close the window!
 			}
 			
-		}
-		temp.addActionListener(new CancelListener());
+		};
+		temp.addActionListener(new CancelListener(this));
 		return temp;
 	}
 }

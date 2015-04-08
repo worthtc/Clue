@@ -77,7 +77,7 @@ public class GameInterface extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(currentBoard.getCellAt(game.getPlayers().get(currentBoard.getCurrentIndex()).getCurrentRow(),game.getPlayers().get(currentBoard.getCurrentIndex()).getCurrentCol()).isRoom() && ((HumanPlayer)game.getPlayers().get(currentBoard.getCurrentIndex())).isFinished()){
-					SuggestionPanel gui = new SuggestionPanel(game.getPlayers().get(currentBoard.getCurrentIndex()), currentBoard);
+					SuggestionPanel gui = new SuggestionPanel(game.getPlayers().get(currentBoard.getCurrentIndex()), currentBoard, game);
 					gui.setVisible(true);
 				}
 				
