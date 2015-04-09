@@ -254,7 +254,6 @@ public class ClueGame extends JFrame {
 	//Checks the current solution to see if it matches the accusation
 	public boolean checkAccusation(Solution solution){
 		   if(solution.equals(this.solution)){
-			   
 			   return true;
 		   }
 		   else{

@@ -106,7 +106,7 @@ public class GameInterface extends JPanel {
 					String room = ((ComputerPlayer)players.get(currentIndex)).getWinningRoom();
 					if (currentClueGame.checkAccusation(((ComputerPlayer)players.get(currentIndex)).makeAccusation())){
 						JOptionPane.showMessageDialog(game, "Player " + players.get(currentIndex).getName() +" Wins with the guess of " + person + "," + weapon + "," + room, "Victory!", JOptionPane.INFORMATION_MESSAGE);
-						System.exit(0);
+						System.exit(1);
 					}
 					else{
 						((ComputerPlayer)players.get(currentIndex)).setAccusationFlag(false);
@@ -189,6 +189,7 @@ public class GameInterface extends JPanel {
 								((ComputerPlayer)players.get(j)).updateSeen(returnedCard);
 							}
 						}
+						System.out.println(((ComputerPlayer)players.get(currentIndex)).getMasterListCards());
 						suggestionResponse.setText(returnedCard.getName());
 					}
 				}

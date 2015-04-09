@@ -32,6 +32,7 @@ public class Board extends JPanel implements MouseListener {
 	private int currentIndex;
 	
 	private boolean humanFinished;
+	private boolean isSuggesting;
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
@@ -206,6 +207,7 @@ public class Board extends JPanel implements MouseListener {
 		addMouseListener(this);
 		humanFinished = false;
 		game = g;
+		isSuggesting = false;
 	}
 	public void fixSize(){
 		cellSize = new Dimension(1,1);
@@ -226,6 +228,14 @@ public class Board extends JPanel implements MouseListener {
 
 	public Dimension getCellSize() {
 		return cellSize;
+	}
+	
+	public void setIsSuggesting(boolean s){
+		isSuggesting = s;
+	}
+	
+	public boolean isSuggesting(){
+		return isSuggesting;
 	}
 	
 	public Map<Character, String> getRooms() {
@@ -340,7 +350,9 @@ public class Board extends JPanel implements MouseListener {
 				    	((HumanPlayer)players.get(currentIndex)).finishMove( b, targetList);
 				    	if(b.isRoom()){
 				    		JOptionPane.showMessageDialog(this, "Please make a suggestion!", "", JOptionPane.INFORMATION_MESSAGE);
+				    		isSuggesting = true;
 				    		SuggestionFrame gui = new SuggestionFrame(players.get(currentIndex),this, game, game.getGameInterface(), players);
+				    		
 				    		gui.setVisible(true);
 				    	}
 				    	repaint();
