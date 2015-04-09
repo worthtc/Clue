@@ -84,6 +84,7 @@ public class AccusationFrame extends JFrame{
 			}
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				System.out.println((String)people.getSelectedItem() + (String)weapons.getSelectedItem() + (String)room.getSelectedItem());
 				boolean check = game.checkAccusation(new Solution((String)people.getSelectedItem(),(String)weapons.getSelectedItem(),(String)room.getSelectedItem()));
 				if(check){
 					JOptionPane.showMessageDialog(null, "You have correctly guessed the solution!", "", JOptionPane.INFORMATION_MESSAGE);

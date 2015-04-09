@@ -157,7 +157,7 @@ public class ClueGame extends JFrame {
 	   String weaponChoice = ""; //Initialized to blank strings to satisfy compiler message regarding initialization in following loops.
 	   String personChoice = "";
 	   String roomChoice = "";
-	   int random =(int) Math.random()*weapons.size();
+	   int random =(int) (Math.random()*weapons.size());
 	   for(String s : weapons){
 		   if(weapons.indexOf(s) == random){ //guaranteed to enter this statement
 			   weaponChoice = s;
@@ -166,7 +166,7 @@ public class ClueGame extends JFrame {
 			   cardsLeft.add(new Card(s, Card.CardType.WEAPON));
 		   }
 	   }
-	   random =(int) Math.random()*characters.size();
+	   random =(int) (Math.random()*characters.size());
 	   for(String s : characters){
 		   if(characters.indexOf(s) == random){
 			   personChoice = s;
@@ -176,7 +176,7 @@ public class ClueGame extends JFrame {
 		   }
 	   }
 	   Set<Character> keys = rooms.keySet();
-	   random = (int) Math.random()*keys.size();
+	   random = (int) (Math.random()*keys.size());
 	   int count = 0;
 	   for(Character c : keys){
 		   if(c != 'W' && c != 'y'){
@@ -189,7 +189,9 @@ public class ClueGame extends JFrame {
 			   count++;
 		   }
 	   }
-	   solution = new Solution(weaponChoice, personChoice, roomChoice);
+	   solution = new Solution(personChoice, weaponChoice, roomChoice);
+	   System.out.println( weaponChoice + personChoice + roomChoice );
+	   System.out.println( roomChoice );
 	   int currentPlayer = 0;
 	   while(cardsLeft.size() != 0){
 		   int choice = (int)(Math.random()*cardsLeft.size());
@@ -346,7 +348,7 @@ public class ClueGame extends JFrame {
    
    /* Constructor for old tests to properly throw exceptions*/
    public ClueGame(String boardName, String legendName){
-	   gameBoard = new Board();
+	   gameBoard = new Board(this);
 	   	this.boardName = boardName;
 		boardLegend = legendName;
    }
