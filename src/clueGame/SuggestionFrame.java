@@ -81,6 +81,16 @@ public class SuggestionFrame extends JFrame{
 			}
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				for(Player p : game.getPlayers()){
+					if(p.getName().equals((String)people.getSelectedItem())){
+						board.getCellAt(p.getCurrentRow(), p.getCurrentCol()).setIsOccupied(false);
+						p.setCurrentRow(game.getPlayers().get(board.getCurrentIndex()).getCurrentRow());
+						p.setCurrentCol(game.getPlayers().get(board.getCurrentIndex()).getCurrentCol());
+						board.getCellAt(p.getCurrentRow(), p.getCurrentCol()).setPlayerColor(p.getColor());
+						board.getCellAt(p.getCurrentRow(), p.getCurrentCol()).setIsOccupied(true);
+					}
+				}
+				board.repaint();
 				Card a = game.handleSuggestion((String)people.getSelectedItem(),board.getRooms().get(((RoomCell)board.getCellAt(player.getCurrentRow(),  player.getCurrentCol())).getInitial()),(String)weapons.getSelectedItem(), player);
 				gameInt.getGuessField().setText((String)people.getSelectedItem() + "," + board.getRooms().get(((RoomCell)board.getCellAt(player.getCurrentRow(),  player.getCurrentCol())).getInitial()) + "," + (String)weapons.getSelectedItem());
 				gameInt.repaint();
