@@ -346,7 +346,7 @@ public class ClueGame extends JFrame {
    
    /* Constructor for old tests to properly throw exceptions*/
    public ClueGame(String boardName, String legendName){
-	   gameBoard = new Board();
+	    gameBoard = new Board(this);
 	   	this.boardName = boardName;
 		boardLegend = legendName;
    }

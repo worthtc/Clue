@@ -75,8 +75,9 @@ public class GameInterface extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(currentBoard.getCurrentIndex() == 0 && !((HumanPlayer)game.getPlayers().get(currentBoard.getCurrentIndex())).isFinished()){
+				if(currentBoard.getCurrentIndex() == 0 && !((HumanPlayer)game.getPlayers().get(currentBoard.getCurrentIndex())).isFinished() && !((HumanPlayer)game.getPlayers().get(currentBoard.getCurrentIndex())).hasAccused()){
 					AccusationFrame gui = new AccusationFrame(game);
+					((HumanPlayer)game.getPlayers().get(currentBoard.getCurrentIndex())).setHasAccused(true);
 					gui.setVisible(true);
 				}
 				else{
@@ -114,6 +115,7 @@ public class GameInterface extends JPanel {
 				}
 				if( players.get(currentIndex).isHuman() && currentBoard.isHumanFinished()){
 					currentBoard.repaint();
+					((HumanPlayer)players.get(currentIndex)).setHasAccused(false);
 					currentIndex = (currentIndex + 1)%players.size();
 					currentBoard.setHumanFinished(false);
 					for( BoardCell b: targetSet ){
