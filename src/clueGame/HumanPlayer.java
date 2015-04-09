@@ -5,6 +5,15 @@ import java.util.Set;
 
 public class HumanPlayer extends Player{
 	private boolean isFinished;
+	private boolean hasAccused;
+	
+	public boolean hasAccused(){
+		return hasAccused;
+	}
+	
+	public void setHasAccused(boolean a){
+		hasAccused = a;
+	}
 	
 	public boolean isFinished() {
 		return isFinished;
@@ -13,6 +22,7 @@ public class HumanPlayer extends Player{
 	public HumanPlayer(String name, String color, int startRow, int startCol){
 		super(name, color, startRow, startCol);
 		isFinished = true;
+		hasAccused = false;
 	}
 	public HumanPlayer(Player player){
 		super(player); 
