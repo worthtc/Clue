@@ -176,7 +176,7 @@ public class ClueGame extends JFrame {
 		   }
 	   }
 	   Set<Character> keys = rooms.keySet();
-	   random = (int) (Math.random()*keys.size());
+	   random = (int) (Math.random()*(keys.size() - 2)); // 2 keys are not valid rooms so we remove them from the random hcoice
 	   int count = 0;
 	   for(Character c : keys){
 		   if(c != 'W' && c != 'y'){
