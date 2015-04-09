@@ -63,7 +63,7 @@ public class ClueGame extends JFrame {
 		add(gameBoard, BorderLayout.CENTER);
 		try{ //Tries to make a number of players. If that number exceeds the total number of possible players, an exception is thrown.
 			makePlayers(1,5);
-			//makePlayers(0,6);
+			//makePlayers(0,6); //Debugging statement
 		}catch(Exception e){
 			System.out.println(e);
 		}
