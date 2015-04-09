@@ -31,9 +31,9 @@ public class GameInterface extends JPanel {
 	private Board currentBoard;
 	private Set<BoardCell> targetSet;
 	private JTextField guessField;
-	
-	
-	
+
+
+
 	public GameInterface( ArrayList<Player> playerList, Board board, ClueGame game){
 		players = playerList;
 		currentIndex = 0;
@@ -62,7 +62,7 @@ public class GameInterface extends JPanel {
 		guessBox.add(guessLabel, BorderLayout.WEST);
 		guessBox.add(guessField, BorderLayout.CENTER);
 		lowerLeftText.add(guessBox);
-		
+
 	}
 	private JPanel buttonLayoutSetup(){
 		JPanel temp = new JPanel();
@@ -73,7 +73,7 @@ public class GameInterface extends JPanel {
 			public AccusationListener(ClueGame g){
 				game = g;
 			}
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(currentBoard.getCurrentIndex() == 0 && !((HumanPlayer)game.getPlayers().get(currentBoard.getCurrentIndex())).isFinished() && !((HumanPlayer)game.getPlayers().get(currentBoard.getCurrentIndex())).hasAccused()){
@@ -86,7 +86,7 @@ public class GameInterface extends JPanel {
 					JOptionPane.showMessageDialog(null, "You can't make an accusation now!", "", JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
-			
+
 		}
 		suggest.addActionListener(new AccusationListener(game));
 		temp.add(suggest);
@@ -100,105 +100,106 @@ public class GameInterface extends JPanel {
 				if(currentBoard.isSuggesting()){
 					JOptionPane.showMessageDialog(null, "You need to finish your suggestion!", "", JOptionPane.INFORMATION_MESSAGE);
 				}
-				currentBoard.setPlayers( players );
-				currentBoard.setCurrentIndex( currentIndex );
-				player.setText(players.get(currentIndex).toString());
-				if( players.get(currentIndex).isComputer() && ((ComputerPlayer)players.get(currentIndex)).getAccusationFlag()){
-					String person = ((ComputerPlayer)players.get(currentIndex)).getWinningPerson();
-					String weapon = ((ComputerPlayer)players.get(currentIndex)).getWinningWeapon();
-					String room = ((ComputerPlayer)players.get(currentIndex)).getWinningRoom();
-					if (currentClueGame.checkAccusation(((ComputerPlayer)players.get(currentIndex)).makeAccusation())){
-						JOptionPane.showMessageDialog(game, "Player " + players.get(currentIndex).getName() +" Wins with the guess of " + person + "," + weapon + "," + room, "Victory!", JOptionPane.INFORMATION_MESSAGE);
-						System.exit(1);
-					}
-					else{
-						((ComputerPlayer)players.get(currentIndex)).setAccusationFlag(false);
-						JOptionPane.showMessageDialog(game, "Player " + players.get(currentIndex).getName() +" made an incorrect accusation of " + person + "," + weapon + "," + room, "Failure.", JOptionPane.INFORMATION_MESSAGE);
-					}
-				}
-				//If we are currently on a human player and that player is not finished we stop doing the action
-				if( players.get(currentIndex).isHuman() && !(((HumanPlayer)players.get(currentIndex)).isFinished())){
-					JOptionPane.showMessageDialog(game, "Please Choose a cell to move to!", "", JOptionPane.INFORMATION_MESSAGE);
-					return;
-				}
-				if( players.get(currentIndex).isHuman() && currentBoard.isHumanFinished()){
-					currentBoard.repaint();
-					((HumanPlayer)players.get(currentIndex)).setHasAccused(false);
-					currentIndex = (currentIndex + 1)%players.size();
-					currentBoard.setHumanFinished(false);
-					for( BoardCell b: targetSet ){
-						b.setHighlighted(false);
-					}
-					
-					return;
-				}
-				//Create a random integer for the dice roll
-				int roll = (int)(Math.random()*6 + 1);
-				dieRoll.setText((new Integer(roll).toString()) );
-				//Get the target list for the given dice roll
-				currentBoard.calcAdjacencies();
-				currentBoard.calcTargets(players.get(currentIndex).getCurrentRow(), players.get(currentIndex).getCurrentCol(), roll);
-				targetSet = currentBoard.getTargets();
-				//Set the last location the player was at to be unoccupied
-				currentBoard.getCellAt(players.get(currentIndex).getCurrentRow(), players.get(currentIndex).getCurrentCol()).setIsOccupied(false);
-				players.get(currentIndex).makeAMove(targetSet);
-				currentBoard.repaint();
-				//Before we increment we make sure that the current player is finished
-				if( players.get(currentIndex).isHuman() && !(((HumanPlayer)players.get(currentIndex)).isFinished())){
-					return;
-				}
-				
-				suggestionResponse.setText("");
-				guessField.setText("");
-				if( players.get(currentIndex).isComputer() && currentBoard.getCellAt(players.get(currentIndex).getCurrentRow(), players.get(currentIndex).getCurrentCol()).isRoom() ){
-					Set<Card> suggestion = ( (ComputerPlayer) players.get(currentIndex)).createSuggestion();
-					String weapon = "";
-					String room = "";
-					String person = "";
-					for( Card c: suggestion){
-						if( c.getType() == Card.CardType.PERSON){
-							person = c.getName();
-						}
-						else if( c.getType() == Card.CardType.WEAPON){
-							weapon = c.getName();
+				else{
+					currentBoard.setPlayers( players );
+					currentBoard.setCurrentIndex( currentIndex );
+					player.setText(players.get(currentIndex).toString());
+					if( players.get(currentIndex).isComputer() && ((ComputerPlayer)players.get(currentIndex)).getAccusationFlag()){
+						String person = ((ComputerPlayer)players.get(currentIndex)).getWinningPerson();
+						String weapon = ((ComputerPlayer)players.get(currentIndex)).getWinningWeapon();
+						String room = ((ComputerPlayer)players.get(currentIndex)).getWinningRoom();
+						if (currentClueGame.checkAccusation(((ComputerPlayer)players.get(currentIndex)).makeAccusation())){
+							JOptionPane.showMessageDialog(game, "Player " + players.get(currentIndex).getName() +" Wins with the guess of " + person + "," + weapon + "," + room, "Victory!", JOptionPane.INFORMATION_MESSAGE);
+							System.exit(1);
 						}
 						else{
-							room = currentBoard.rooms.get( ((ComputerPlayer) players.get(currentIndex)).getLastRoomVisitied());
+							((ComputerPlayer)players.get(currentIndex)).setAccusationFlag(false);
+							JOptionPane.showMessageDialog(game, "Player " + players.get(currentIndex).getName() +" made an incorrect accusation of " + person + "," + weapon + "," + room, "Failure.", JOptionPane.INFORMATION_MESSAGE);
 						}
 					}
-					for( Player p: players){
-						if( p.getName().equals( person )){
-							currentBoard.getCellAt(p.getCurrentRow(), p.getCurrentCol()).setIsOccupied(false);
-							p.setCurrentCol(players.get(currentIndex).getCurrentCol());
-							p.setCurrentRow(players.get(currentIndex).getCurrentRow());
-							//I don't know if we are supposed to set the teleported player's last room visited to the room they were teleported to, but I do it here
-							if( p.isComputer() ){
-								((ComputerPlayer)p).setLastRoomVisitied(currentBoard.getRoomCellAt(p.getCurrentRow(), p.getCurrentCol()).getInitial());
+					//If we are currently on a human player and that player is not finished we stop doing the action
+					if( players.get(currentIndex).isHuman() && !(((HumanPlayer)players.get(currentIndex)).isFinished())){
+						JOptionPane.showMessageDialog(game, "Please Choose a cell to move to!", "", JOptionPane.INFORMATION_MESSAGE);
+						return;
+					}
+					if( players.get(currentIndex).isHuman() && currentBoard.isHumanFinished()){
+						currentBoard.repaint();
+						((HumanPlayer)players.get(currentIndex)).setHasAccused(false);
+						currentIndex = (currentIndex + 1)%players.size();
+						currentBoard.setHumanFinished(false);
+						for( BoardCell b: targetSet ){
+							b.setHighlighted(false);
+						}
+
+						return;
+					}
+					//Create a random integer for the dice roll
+					int roll = (int)(Math.random()*6 + 1);
+					dieRoll.setText((new Integer(roll).toString()) );
+					//Get the target list for the given dice roll
+					currentBoard.calcAdjacencies();
+					currentBoard.calcTargets(players.get(currentIndex).getCurrentRow(), players.get(currentIndex).getCurrentCol(), roll);
+					targetSet = currentBoard.getTargets();
+					//Set the last location the player was at to be unoccupied
+					currentBoard.getCellAt(players.get(currentIndex).getCurrentRow(), players.get(currentIndex).getCurrentCol()).setIsOccupied(false);
+					players.get(currentIndex).makeAMove(targetSet);
+					currentBoard.repaint();
+					//Before we increment we make sure that the current player is finished
+					if( players.get(currentIndex).isHuman() && !(((HumanPlayer)players.get(currentIndex)).isFinished())){
+						return;
+					}
+
+					suggestionResponse.setText("");
+					guessField.setText("");
+					if( players.get(currentIndex).isComputer() && currentBoard.getCellAt(players.get(currentIndex).getCurrentRow(), players.get(currentIndex).getCurrentCol()).isRoom() ){
+						Set<Card> suggestion = ( (ComputerPlayer) players.get(currentIndex)).createSuggestion();
+						String weapon = "";
+						String room = "";
+						String person = "";
+						for( Card c: suggestion){
+							if( c.getType() == Card.CardType.PERSON){
+								person = c.getName();
+							}
+							else if( c.getType() == Card.CardType.WEAPON){
+								weapon = c.getName();
+							}
+							else{
+								room = currentBoard.rooms.get( ((ComputerPlayer) players.get(currentIndex)).getLastRoomVisitied());
 							}
 						}
-					}
-					Card returnedCard = currentClueGame.handleSuggestion(person, room, weapon, players.get(currentIndex));
-					guessField.setText(person + "," + weapon +"," + room);
-					if( returnedCard == null){
-						suggestionResponse.setText("No New Clue");
-						((ComputerPlayer)players.get(currentIndex)).setAccusationFlag(true);
-						((ComputerPlayer)players.get(currentIndex)).setWinningPerson( person );
-						((ComputerPlayer)players.get(currentIndex)).setWinningWeapon( weapon );
-						((ComputerPlayer)players.get(currentIndex)).setWinningRoom( room );
-					}
-					else{
-						for( int j = 0; j < players.size(); j++ ){
-							if( players.get(j).isComputer()){
-								((ComputerPlayer)players.get(j)).updateSeen(returnedCard);
+						for( Player p: players){
+							if( p.getName().equals( person )){
+								currentBoard.getCellAt(p.getCurrentRow(), p.getCurrentCol()).setIsOccupied(false);
+								p.setCurrentCol(players.get(currentIndex).getCurrentCol());
+								p.setCurrentRow(players.get(currentIndex).getCurrentRow());
+								//I don't know if we are supposed to set the teleported player's last room visited to the room they were teleported to, but I do it here
+								if( p.isComputer() ){
+									((ComputerPlayer)p).setLastRoomVisitied(currentBoard.getRoomCellAt(p.getCurrentRow(), p.getCurrentCol()).getInitial());
+								}
 							}
 						}
-						suggestionResponse.setText(returnedCard.getName());
+						Card returnedCard = currentClueGame.handleSuggestion(person, room, weapon, players.get(currentIndex));
+						guessField.setText(person + "," + weapon +"," + room);
+						if( returnedCard == null){
+							suggestionResponse.setText("No New Clue");
+							((ComputerPlayer)players.get(currentIndex)).setAccusationFlag(true);
+							((ComputerPlayer)players.get(currentIndex)).setWinningPerson( person );
+							((ComputerPlayer)players.get(currentIndex)).setWinningWeapon( weapon );
+							((ComputerPlayer)players.get(currentIndex)).setWinningRoom( room );
+						}
+						else{
+							for( int j = 0; j < players.size(); j++ ){
+								if( players.get(j).isComputer()){
+									((ComputerPlayer)players.get(j)).updateSeen(returnedCard);
+								}
+							}
+							suggestionResponse.setText(returnedCard.getName());
+						}
 					}
+					currentIndex = (currentIndex + 1)%players.size();
+					currentBoard.repaint();
 				}
-				currentIndex = (currentIndex + 1)%players.size();
-				currentBoard.repaint();
 			}
-			
 			NextPlayerListener(GameInterface g, ClueGame clueGame){
 				game = g;
 				currentClueGame = clueGame;
@@ -208,13 +209,13 @@ public class GameInterface extends JPanel {
 		temp.add(nextPlayer);
 		return temp;
 	}
-	
+
 	private JPanel messageLayoutSetup(){
 		JPanel temp = new JPanel();
 		temp.setLayout(new GridLayout(2,1));
 		return temp;	
 	}
-	
+
 	private JPanel createCurrentPlayerPanel(){
 		JPanel temp = new JPanel();
 		JLabel currentTurn = new JLabel("Current Player's Turn:");
@@ -226,14 +227,14 @@ public class GameInterface extends JPanel {
 		temp.setBorder(new TitledBorder(new EtchedBorder(), "Whose Turn?"));
 		return temp;
 	}
-	
+
 	private JPanel lowerLeftTextSetup() {
 		JPanel temp = new JPanel();
 		//GridBagLayout c = new GridBagLayout();LOOK INTO THIS
 		temp.setLayout(new GridLayout(1,2));
 		return temp;
 	}
-	
+
 	private JPanel dieRollSetup(){
 		JPanel temp = new JPanel();
 		JLabel rollName = new JLabel("Die Roll: ");
@@ -245,9 +246,9 @@ public class GameInterface extends JPanel {
 		temp.setBorder(new TitledBorder(new EtchedBorder(), "What did you roll?"));
 		return temp;
 	}
-	
+
 	private JPanel suggestionResponseSetup(){
-		
+
 		JPanel temp = new JPanel();
 		JLabel suggestionName = new JLabel("Response: ");
 		temp.setLayout(new GridLayout(1,2));
@@ -264,6 +265,6 @@ public class GameInterface extends JPanel {
 	public JTextField getGuessField() {
 		return guessField;
 	}	
-	
-	
+
+
 }
