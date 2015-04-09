@@ -3,6 +3,7 @@ package clueGame;
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+
 //????
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -98,7 +99,13 @@ public class GameInterface extends JPanel {
 				currentBoard.setCurrentIndex( currentIndex );
 				player.setText(players.get(currentIndex).toString());
 				if( players.get(currentIndex).isComputer() && ((ComputerPlayer)players.get(currentIndex)).getAccusationFlag()){
-					((ComputerPlayer)players.get(currentIndex)).makeAccusation();
+					if (currentClueGame.checkAccusation(((ComputerPlayer)players.get(currentIndex)).makeAccusation())){
+						JOptionPane.showMessageDialog(game, "Player " + players.get(currentIndex).getName() +" Wins!", "Victory!", JOptionPane.INFORMATION_MESSAGE);
+					}
+					else{
+						((ComputerPlayer)players.get(currentIndex)).setAccusationFlag(false);
+						JOptionPane.showMessageDialog(game, "Player " + players.get(currentIndex).getName() +" made an incorrect accusation.", "", JOptionPane.INFORMATION_MESSAGE);
+					}
 				}
 				//If we are currently on a human player and that player is not finished we stop doing the action
 				if( players.get(currentIndex).isHuman() && !(((HumanPlayer)players.get(currentIndex)).isFinished())){
@@ -155,6 +162,10 @@ public class GameInterface extends JPanel {
 							currentBoard.getCellAt(p.getCurrentRow(), p.getCurrentCol()).setIsOccupied(false);
 							p.setCurrentCol(players.get(currentIndex).getCurrentCol());
 							p.setCurrentRow(players.get(currentIndex).getCurrentRow());
+							//I don't know if we are supposed to set the teleported player's last room visited to the room they were teleported to, but I do it here
+							if( p.isComputer() ){
+								((ComputerPlayer)p).setLastRoomVisitied(currentBoard.getRoomCellAt(p.getCurrentRow(), p.getCurrentCol()).getInitial());
+							}
 						}
 					}
 					Card returnedCard = currentClueGame.handleSuggestion(person, room, weapon, players.get(currentIndex));

@@ -1,5 +1,6 @@
 package clueGame;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 public class HumanPlayer extends Player{
@@ -22,7 +23,17 @@ public class HumanPlayer extends Player{
 		return true;
 	}
 	public Card disproveSuggestion(String person, String room, String weapon){
-		return getCards().get(1); //TODO: gui prompt to return a disproving card
+		// We do not need a gui to pick a card here, we just return one of the cards of the human player
+		//return getCards().get(1); //TODO: gui prompt to return a disproving card
+		ArrayList<Card> matches = new ArrayList<Card>();
+		for (Card c : getCards()){
+			if(c.getName().equals(person) || c.getName().equals(room) || c.getName().equals(weapon)) matches.add(c);
+		}
+		if(matches.size() != 0){
+			int choice = (int)(Math.random()*matches.size());
+			return matches.get(choice);
+		}
+		else return null;
 	}
 	@Override
 	public void makeAMove(Set<BoardCell> targetSet) {
