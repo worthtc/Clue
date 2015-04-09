@@ -100,12 +100,15 @@ public class GameInterface extends JPanel {
 				currentBoard.setCurrentIndex( currentIndex );
 				player.setText(players.get(currentIndex).toString());
 				if( players.get(currentIndex).isComputer() && ((ComputerPlayer)players.get(currentIndex)).getAccusationFlag()){
+					String person = ((ComputerPlayer)players.get(currentIndex)).getWinningPerson();
+					String weapon = ((ComputerPlayer)players.get(currentIndex)).getWinningWeapon();
+					String room = ((ComputerPlayer)players.get(currentIndex)).getWinningRoom();
 					if (currentClueGame.checkAccusation(((ComputerPlayer)players.get(currentIndex)).makeAccusation())){
-						JOptionPane.showMessageDialog(game, "Player " + players.get(currentIndex).getName() +" Wins!", "Victory!", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(game, "Player " + players.get(currentIndex).getName() +" Wins with the guess of " + person + "," + weapon + "," + room, "Victory!", JOptionPane.INFORMATION_MESSAGE);
 					}
 					else{
 						((ComputerPlayer)players.get(currentIndex)).setAccusationFlag(false);
-						JOptionPane.showMessageDialog(game, "Player " + players.get(currentIndex).getName() +" made an incorrect accusation.", "", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(game, "Player " + players.get(currentIndex).getName() +" made an incorrect accusation of " + person + "," + weapon + "," + room, "Failure.", JOptionPane.INFORMATION_MESSAGE);
 					}
 				}
 				//If we are currently on a human player and that player is not finished we stop doing the action
@@ -144,7 +147,6 @@ public class GameInterface extends JPanel {
 				guessField.setText("");
 				if( players.get(currentIndex).isComputer() && currentBoard.getCellAt(players.get(currentIndex).getCurrentRow(), players.get(currentIndex).getCurrentCol()).isRoom() ){
 					Set<Card> suggestion = ( (ComputerPlayer) players.get(currentIndex)).createSuggestion();
-					int i = currentIndex + 1;
 					String weapon = "";
 					String room = "";
 					String person = "";
@@ -174,10 +176,10 @@ public class GameInterface extends JPanel {
 					guessField.setText(person + "," + weapon +"," + room);
 					if( returnedCard == null){
 						suggestionResponse.setText("No New Clue");
-						((ComputerPlayer)players.get(i)).setAccusationFlag(true);
-						((ComputerPlayer)players.get(i)).setWinningPerson( person );
-						((ComputerPlayer)players.get(i)).setWinningWeapon( weapon );
-						((ComputerPlayer)players.get(i)).setWinningRoom( room );
+						((ComputerPlayer)players.get(currentIndex)).setAccusationFlag(true);
+						((ComputerPlayer)players.get(currentIndex)).setWinningPerson( person );
+						((ComputerPlayer)players.get(currentIndex)).setWinningWeapon( weapon );
+						((ComputerPlayer)players.get(currentIndex)).setWinningRoom( room );
 					}
 					else{
 						for( int j = 0; j < players.size(); j++ ){

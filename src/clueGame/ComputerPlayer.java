@@ -133,6 +133,15 @@ public class ComputerPlayer extends Player{
 		return new Solution( winningPerson, winningWeapon, winningRoom);
 		
 	}
+	public String getWinningPerson() {
+		return winningPerson;
+	}
+	public String getWinningWeapon() {
+		return winningWeapon;
+	}
+	public String getWinningRoom() {
+		return winningRoom;
+	}
 	
 	
 	
