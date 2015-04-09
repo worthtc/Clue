@@ -23,6 +23,7 @@ public class Board extends JPanel implements MouseListener {
 	Map<Character,String> rooms; 
 	private Map<BoardCell, LinkedList<BoardCell>> adjacencies;
 	private Set<BoardCell> targetList;
+	private ClueGame game;
 
 	private Dimension cellSize;
 	private boolean targetSelected;
@@ -196,7 +197,7 @@ public class Board extends JPanel implements MouseListener {
 		return rooms;
 	}
 
-	public Board() {
+	public Board(ClueGame g) {
 		rooms = new HashMap<Character,String>();
 		adjacencies = new HashMap<BoardCell, LinkedList<BoardCell>>();
 		targetList = new HashSet<BoardCell>();
@@ -204,6 +205,7 @@ public class Board extends JPanel implements MouseListener {
 		currentIndex = 0;
 		addMouseListener(this);
 		humanFinished = false;
+		game = g;
 	}
 	public void fixSize(){
 		cellSize = new Dimension(1,1);
@@ -336,6 +338,11 @@ public class Board extends JPanel implements MouseListener {
 						getCellAt(players.get(currentIndex).getCurrentRow(), players.get(currentIndex).getCurrentCol()).setIsOccupied(false);
 						humanFinished = true;
 				    	((HumanPlayer)players.get(currentIndex)).finishMove( b, targetList);
+				    	if(b.isRoom()){
+				    		JOptionPane.showMessageDialog(this, "Please make a suggestion!", "", JOptionPane.INFORMATION_MESSAGE);
+				    		SuggestionFrame gui = new SuggestionFrame(players.get(currentIndex),this, game, game.getGameInterface());
+				    		gui.setVisible(true);
+				    	}
 				    	repaint();
 				    	return;
 				    }

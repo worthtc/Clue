@@ -9,6 +9,7 @@ public abstract class Player {
 	private Color color;
 	private ArrayList<Card> myCards;
 	private int currentCol, currentRow;
+	private boolean isTurn;
 	
 	//Generic constructor.
 	public Player(String name, String color, int startRow, int startCol){
@@ -25,7 +26,7 @@ public abstract class Player {
 		currentRow = player.getCurrentRow();
 		currentCol = player.getCurrentCol();
 		myCards = new ArrayList<Card>();
-		
+		isTurn = false;
 	}
 	
 	public Color convertColor(String strColor) {
@@ -92,6 +93,9 @@ public abstract class Player {
 	}
 	public void clearCards(){
 		myCards = new ArrayList<Card>();
+	}
+	public boolean isTurn(){
+		return isTurn;
 	}
 	public abstract void makeAMove(Set<BoardCell> targetSet);
 	

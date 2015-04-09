@@ -66,26 +66,26 @@ public class GameInterface extends JPanel {
 	private JPanel buttonLayoutSetup(){
 		JPanel temp = new JPanel();
 		temp.setLayout(new GridLayout(2,1));
-		suggest = new JButton("Make a Suggestion");
-		class SuggestionListener implements ActionListener {
+		suggest = new JButton("Make an Accusation");
+		class AccusationListener implements ActionListener {
 			private ClueGame game;
-			private GameInterface gameInt;
-			public SuggestionListener(ClueGame g, GameInterface gi){
+			public AccusationListener(ClueGame g){
 				game = g;
-				gameInt = gi;
 			}
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(currentBoard.getCellAt(game.getPlayers().get(currentBoard.getCurrentIndex()).getCurrentRow(),game.getPlayers().get(currentBoard.getCurrentIndex()).getCurrentCol()).isRoom() && ((HumanPlayer)game.getPlayers().get(currentBoard.getCurrentIndex())).isFinished()){
-					SuggestionPanel gui = new SuggestionPanel(game.getPlayers().get(currentBoard.getCurrentIndex()), currentBoard, game, gameInt);
+				if(currentBoard.getCurrentIndex() == 0 && !((HumanPlayer)game.getPlayers().get(currentBoard.getCurrentIndex())).isFinished()){
+					AccusationFrame gui = new AccusationFrame(game);
 					gui.setVisible(true);
 				}
-				
+				else{
+					JOptionPane.showMessageDialog(null, "You can't make an accusation now!", "", JOptionPane.INFORMATION_MESSAGE);
+				}
 			}
 			
 		}
-		suggest.addActionListener(new SuggestionListener(game, this));
+		suggest.addActionListener(new AccusationListener(game));
 		temp.add(suggest);
 		nextPlayer = new JButton("Next Player");
 		//Create the listener for the Next player button
@@ -251,11 +251,11 @@ public class GameInterface extends JPanel {
 		temp.setBorder(new TitledBorder(new EtchedBorder(), "What was the response?"));
 		return temp;
 	}
-	public void setSuggestionResponse(JTextField suggestionResponse) {
-		this.suggestionResponse = suggestionResponse;
+	public JTextField getSuggestionResponse() {
+		return suggestionResponse;
 	}
-	public void setGuessField(JTextField guessField) {
-		this.guessField = guessField;
+	public JTextField getGuessField() {
+		return guessField;
 	}	
 	
 	

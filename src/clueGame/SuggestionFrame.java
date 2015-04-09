@@ -13,7 +13,7 @@ import javax.swing.JTextField;
 import clueGame.Card.CardType;
 
 @SuppressWarnings("serial")
-public class SuggestionPanel extends JFrame{
+public class SuggestionFrame extends JFrame{
 	
 	private Player player;
 	private Board board;
@@ -25,7 +25,7 @@ public class SuggestionPanel extends JFrame{
 	private JButton cancel;
 	
 	
-	public SuggestionPanel(Player p, Board b, ClueGame g, GameInterface gi){
+	public SuggestionFrame(Player p, Board b, ClueGame g, GameInterface gi){
 		player = p;
 		board = b;
 		game = g;
@@ -74,17 +74,15 @@ public class SuggestionPanel extends JFrame{
 	private JButton submitSetup(){
 		JButton temp = new JButton("Submit");
 		class SubmitListener implements ActionListener{
-			SuggestionPanel sp;
+			SuggestionFrame sp;
 			
-			public SubmitListener(SuggestionPanel sp){
+			public SubmitListener(SuggestionFrame sp){
 				this.sp = sp;
 			}
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				Card a = game.handleSuggestion((String)people.getSelectedItem(),board.getRooms().get(((RoomCell)board.getCellAt(player.getCurrentRow(),  player.getCurrentCol())).getInitial()),(String)weapons.getSelectedItem(), player);
-				JTextField temp = new JTextField((String)people.getSelectedItem() + " " + board.getRooms().get(((RoomCell)board.getCellAt(player.getCurrentRow(),  player.getCurrentCol())).getInitial()) + " " + (String)weapons.getSelectedItem());
-				temp.setEditable(false);
-				gameInt.setGuessField(temp);
+				gameInt.getGuessField().setText((String)people.getSelectedItem() + "," + board.getRooms().get(((RoomCell)board.getCellAt(player.getCurrentRow(),  player.getCurrentCol())).getInitial()) + "," + (String)weapons.getSelectedItem());
 				gameInt.repaint();
 				if(a == null){
 					int reply = JOptionPane.showConfirmDialog(null, "Would you like to make this suggestion an accusation?", "", JOptionPane.YES_NO_OPTION);
@@ -95,14 +93,12 @@ public class SuggestionPanel extends JFrame{
 							System.exit(0);
 						}
 						else{
-							JOptionPane.showMessageDialog(null, "You have incorrectly guessed the solution!", "", JOptionPane.INFORMATION_MESSAGE);
+							JOptionPane.showMessageDialog(null, "You have incorrectly guessed the solution. Better luck next time!", "", JOptionPane.INFORMATION_MESSAGE);
 						}
 					}
 				}
 				else{
-					temp = new JTextField(a.getName());
-					temp.setEditable(false);
-					gameInt.setSuggestionResponse(temp);
+					gameInt.getSuggestionResponse().setText(a.getName());
 					gameInt.repaint();
 				}
 				sp.dispose();
@@ -116,9 +112,9 @@ public class SuggestionPanel extends JFrame{
 	private JButton cancelSetup(){
 		JButton temp = new JButton("Cancel");
 		class CancelListener implements ActionListener{
-			SuggestionPanel sp;//To allow closing the frame
+			SuggestionFrame sp;//To allow closing the frame
 			
-			public CancelListener(SuggestionPanel sp){
+			public CancelListener(SuggestionFrame sp){
 				this.sp = sp;
 			}
 			@Override
