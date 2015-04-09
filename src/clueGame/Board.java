@@ -340,7 +340,7 @@ public class Board extends JPanel implements MouseListener {
 				    	((HumanPlayer)players.get(currentIndex)).finishMove( b, targetList);
 				    	if(b.isRoom()){
 				    		JOptionPane.showMessageDialog(this, "Please make a suggestion!", "", JOptionPane.INFORMATION_MESSAGE);
-				    		SuggestionFrame gui = new SuggestionFrame(players.get(currentIndex),this, game, game.getGameInterface());
+				    		SuggestionFrame gui = new SuggestionFrame(players.get(currentIndex),this, game, game.getGameInterface(), players);
 				    		gui.setVisible(true);
 				    	}
 				    	repaint();

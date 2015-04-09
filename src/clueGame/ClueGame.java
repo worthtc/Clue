@@ -190,8 +190,6 @@ public class ClueGame extends JFrame {
 		   }
 	   }
 	   solution = new Solution(personChoice, weaponChoice, roomChoice);
-	   System.out.println( weaponChoice + personChoice + roomChoice );
-	   System.out.println( roomChoice );
 	   int currentPlayer = 0;
 	   while(cardsLeft.size() != 0){
 		   int choice = (int)(Math.random()*cardsLeft.size());

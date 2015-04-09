@@ -3,6 +3,7 @@ package clueGame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -14,7 +15,7 @@ import clueGame.Card.CardType;
 
 @SuppressWarnings("serial")
 public class SuggestionFrame extends JFrame{
-	
+	private ArrayList<Player> players;
 	private Player player;
 	private Board board;
 	private ClueGame game;
@@ -25,7 +26,8 @@ public class SuggestionFrame extends JFrame{
 	private JButton cancel;
 	
 	
-	public SuggestionFrame(Player p, Board b, ClueGame g, GameInterface gi){
+	public SuggestionFrame(Player p, Board b, ClueGame g, GameInterface gi, ArrayList<Player> gamePlayers){
+		players = gamePlayers;
 		player = p;
 		board = b;
 		game = g;
@@ -81,10 +83,11 @@ public class SuggestionFrame extends JFrame{
 			}
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				Card a = game.handleSuggestion((String)people.getSelectedItem(),board.getRooms().get(((RoomCell)board.getCellAt(player.getCurrentRow(),  player.getCurrentCol())).getInitial()),(String)weapons.getSelectedItem(), player);
+				Card returnedCard = game.handleSuggestion((String)people.getSelectedItem(),board.getRooms().get(((RoomCell)board.getCellAt(player.getCurrentRow(),  player.getCurrentCol())).getInitial()),(String)weapons.getSelectedItem(), player);
 				gameInt.getGuessField().setText((String)people.getSelectedItem() + "," + board.getRooms().get(((RoomCell)board.getCellAt(player.getCurrentRow(),  player.getCurrentCol())).getInitial()) + "," + (String)weapons.getSelectedItem());
 				gameInt.repaint();
-				if(a == null){
+				if(returnedCard == null){
+					gameInt.getSuggestionResponse().setText("No New Clue");
 					int reply = JOptionPane.showConfirmDialog(null, "Would you like to make this suggestion an accusation?", "", JOptionPane.YES_NO_OPTION);
 					if(reply != 0){
 						boolean check = game.checkAccusation(new Solution((String)people.getSelectedItem(),board.getRooms().get(((RoomCell)board.getCellAt(player.getCurrentRow(),  player.getCurrentCol())).getInitial()),(String)weapons.getSelectedItem()));
@@ -98,7 +101,12 @@ public class SuggestionFrame extends JFrame{
 					}
 				}
 				else{
-					gameInt.getSuggestionResponse().setText(a.getName());
+					for( int j = 0; j < players.size(); j++ ){
+						if( players.get(j).isComputer()){
+							((ComputerPlayer)players.get(j)).updateSeen(returnedCard);
+						}
+					}
+					gameInt.getSuggestionResponse().setText(returnedCard.getName());
 					gameInt.repaint();
 				}
 				sp.dispose();

@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
+
 //????
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -105,6 +106,7 @@ public class GameInterface extends JPanel {
 					String room = ((ComputerPlayer)players.get(currentIndex)).getWinningRoom();
 					if (currentClueGame.checkAccusation(((ComputerPlayer)players.get(currentIndex)).makeAccusation())){
 						JOptionPane.showMessageDialog(game, "Player " + players.get(currentIndex).getName() +" Wins with the guess of " + person + "," + weapon + "," + room, "Victory!", JOptionPane.INFORMATION_MESSAGE);
+						System.exit(0);
 					}
 					else{
 						((ComputerPlayer)players.get(currentIndex)).setAccusationFlag(false);
