@@ -36,6 +36,7 @@ public class ClueGame extends JFrame {
 	private ArrayList<Player> referencePlayers;
 	private ArrayList<Player> players;
 	private Solution solution;
+	private GameInterface gameControl;
 	@SuppressWarnings("unused")
 	public static void main(String[] args){
 		ClueGame gui = new ClueGame("map/Clue Map2.txt","map/legend.txt","map/weaponLegend.txt","map/peopleLegend.txt");
@@ -48,7 +49,7 @@ public class ClueGame extends JFrame {
 		setTitle("Magical Clue!"); // Note: title is a work in progress
 		setSize(1000,1000);
 		rooms = new HashMap<Character,String>();
-		gameBoard = new Board();
+		gameBoard = new Board(this);
 		this.boardName = boardName;
 		boardLegend = legendName;
 		this.weaponLegend = weaponLegend;
@@ -115,7 +116,7 @@ public class ClueGame extends JFrame {
 		menu.add(exit);
 		menuBar.add(menu);
 		
-		GameInterface gameControl = new GameInterface(players, gameBoard, this);
+		gameControl = new GameInterface(players, gameBoard, this);
 		add(gameControl, BorderLayout.SOUTH);
 		CardDisplayPanel cardDisplay = new CardDisplayPanel(players.get(0).getCards());
 		add(cardDisplay, BorderLayout.EAST);
@@ -240,6 +241,10 @@ public class ClueGame extends JFrame {
 	
 	public Solution getSolution() {
 		return solution;
+	}
+	
+	public GameInterface getGameInterface(){
+		return gameControl;
 	}
 	
 	public void setSolution(Solution solution) {
