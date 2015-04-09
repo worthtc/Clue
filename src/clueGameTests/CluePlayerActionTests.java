@@ -64,10 +64,10 @@ public class CluePlayerActionTests {
 		a = game.handleSuggestion("Sorin Markov","Batterskull","Dominaria",game.getPlayers().get(2));
 		assertEquals(a, null);
 	}
-	//Testing the valid targets for player 1 (Urza, who begins at position (15,8))
+	//Testing the valid targets for player 4 (Urza, who begins at position (15,8))
 	@Test
 	public void testPlayerTargeting(){
-		game.getBoard().calcTargets(game.getPlayers().get(1).getCurrentRow(), game.getPlayers().get(1).getCurrentCol(), 1);
+		game.getBoard().calcTargets(game.getPlayers().get(4).getCurrentRow(), game.getPlayers().get(4).getCurrentCol(), 1);
 		Set<BoardCell> tar = game.getBoard().getTargets();
 		BoardCell bc;
 		ArrayList<BoardCell> valids = new ArrayList<BoardCell>();
@@ -75,11 +75,11 @@ public class CluePlayerActionTests {
 		valids.add(game.getBoard().getCellAt(14, 8));
 		valids.add(game.getBoard().getCellAt(15, 9));
 		for (int i = 0; i < 100; i++){
-			bc = ((ComputerPlayer) game.getPlayers().get(1)).pickLocation(tar);
+			bc = ((ComputerPlayer) game.getPlayers().get(4)).pickLocation(tar);
 			assertTrue(valids.contains(bc));
 		}
 		
-		game.getBoard().calcTargets(game.getPlayers().get(1).getCurrentRow(), game.getPlayers().get(1).getCurrentCol(), 3);
+		game.getBoard().calcTargets(game.getPlayers().get(4).getCurrentRow(), game.getPlayers().get(4).getCurrentCol(), 3);
 		tar = game.getBoard().getTargets();
 		valids = new ArrayList<BoardCell>();
 		valids.add(game.getBoard().getCellAt(15,5));
@@ -95,15 +95,15 @@ public class CluePlayerActionTests {
 		valids.add(game.getBoard().getCellAt(14, 10));
 		valids.add(game.getBoard().getCellAt(15, 11));
 		for (int i = 0; i < 100; i++){
-			bc = ((ComputerPlayer) game.getPlayers().get(1)).pickLocation(tar);
+			bc = ((ComputerPlayer) game.getPlayers().get(4)).pickLocation(tar);
 			assertTrue(valids.contains(bc));
 		}
 		
 		((ComputerPlayer) game.getPlayers().get(1)).setLastRoomVisitied('d');
-		game.getBoard().calcTargets(game.getPlayers().get(1).getCurrentRow(), game.getPlayers().get(1).getCurrentCol(), 3);
+		game.getBoard().calcTargets(game.getPlayers().get(4).getCurrentRow(), game.getPlayers().get(4).getCurrentCol(), 3);
 		tar = game.getBoard().getTargets();
 		for (int i = 0; i < 100; i++){
-			bc = ((ComputerPlayer) game.getPlayers().get(1)).pickLocation(tar);
+			bc = ((ComputerPlayer) game.getPlayers().get(4)).pickLocation(tar);
 			assertTrue(valids.contains(bc));
 		}
 	}

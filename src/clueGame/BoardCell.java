@@ -64,6 +64,13 @@ public abstract class BoardCell {
 	 * roomCells draw themselves slightly differently, in that specific cells are tagged in the legend files to print the name of the room to which they belong. 
 	 */
 	public abstract void Draw(Graphics g, Board b, int currentRow, int currentColumn);
+
+	@Override
+	public String toString() {
+		return "BoardCell [row=" + row + ", column=" + column + "]";
+	}
+	
+	
 	
 		
 }

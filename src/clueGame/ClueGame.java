@@ -338,4 +338,11 @@ public class ClueGame extends JFrame {
    public void loadRoomConfig() throws BadConfigFormatException {
 	  gameBoard.loadBoardConfig( boardName, boardLegend);
    }
+   
+   /* Constructor for old tests to properly throw exceptions*/
+   public ClueGame(String boardName, String legendName){
+	   gameBoard = new Board();
+	   	this.boardName = boardName;
+		boardLegend = legendName;
+   }
 }

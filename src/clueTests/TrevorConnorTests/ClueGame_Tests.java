@@ -58,12 +58,14 @@ public class ClueGame_Tests {
 	
 	@Test (expected = BadConfigFormatException.class) 
 	public void testBadColums() throws BadConfigFormatException, FileNotFoundException {
-		ClueGame game = new ClueGame("map/ClueBadMap.txt", "map/legend.txt","map/weaponLegend.txt","map/peopleLegend.txt");
+		ClueGame game = new ClueGame("map/ClueBadMap.txt", "map/legend.txt");
+		//ClueGame game = new ClueGame("map/ClueBadMap.txt", "map/legend.txt","map/weaponLegend.txt","map/peopleLegend.txt");
 		game.loadRoomConfig();
 	}
 	@Test (expected = BadConfigFormatException.class)
 	public void testBadRoomsFormat() throws BadConfigFormatException, FileNotFoundException{
-		ClueGame game = new ClueGame("map/Clue Map.txt", "map/Badlegend.txt","map/weaponLegend.txt","map/peopleLegend.txt");
+		//ClueGame game = new ClueGame("map/Clue Map.txt", "map/Badlegend.txt","map/weaponLegend.txt","map/peopleLegend.txt");
+		ClueGame game = new ClueGame("map/Clue Map.txt", "map/Badlegend.txt");
 		game.loadRoomConfig();
 	}
 	
