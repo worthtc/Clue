@@ -91,6 +91,8 @@ public class AccusationFrame extends JFrame{
 					System.exit(0);
 				}
 				else{
+					((HumanPlayer)game.getPlayers().get(0)).setFinished(true);
+					game.getBoard().setHumanFinished(true);
 					JOptionPane.showMessageDialog(null, "You have incorrectly guessed the solution. Better luck next time!", "", JOptionPane.INFORMATION_MESSAGE);
 				}
 				ap.dispose();

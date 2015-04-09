@@ -59,4 +59,10 @@ public class HumanPlayer extends Player{
 		chosenCell.setIsOccupied(true);
 		isFinished = true;
 	}
+
+	public void setFinished(boolean isFinished) {
+		this.isFinished = isFinished;
+	}
+	
 }
+	
