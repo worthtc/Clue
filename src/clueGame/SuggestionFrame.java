@@ -81,6 +81,7 @@ public class SuggestionFrame extends JFrame{
 			}
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				board.setIsSuggesting(false);
 				for(Player p : game.getPlayers()){
 					if(p.getName().equals((String)people.getSelectedItem())){
 						board.getCellAt(p.getCurrentRow(), p.getCurrentCol()).setIsOccupied(false);
