@@ -192,7 +192,6 @@ public class GameInterface extends JPanel {
 								((ComputerPlayer)players.get(j)).updateSeen(returnedCard);
 							}
 						}
-						System.out.println(((ComputerPlayer)players.get(currentIndex)).getMasterListCards());
 						suggestionResponse.setText(returnedCard.getName());
 					}
 				}
