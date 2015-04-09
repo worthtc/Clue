@@ -23,6 +23,7 @@ public class Board extends JPanel implements MouseListener {
 	Map<Character,String> rooms; 
 	private Map<BoardCell, LinkedList<BoardCell>> adjacencies;
 	private Set<BoardCell> targetList;
+	private ClueGame game;
 
 	private Dimension cellSize;
 	private boolean targetSelected;
@@ -31,6 +32,7 @@ public class Board extends JPanel implements MouseListener {
 	private int currentIndex;
 	
 	private boolean humanFinished;
+	private boolean isSuggesting;
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
@@ -40,6 +42,13 @@ public class Board extends JPanel implements MouseListener {
 		g.fillRect(0, 0, (int)(getCellSize().getWidth()*numColumns),(int)( getCellSize().getHeight()*numRows));
 		g.setColor(Color.BLACK);
 		g.drawRect(0, 0, (int)(getCellSize().getWidth()*numColumns),(int)( getCellSize().getHeight()*numRows));
+		//Set all the cells with players in them to be Occupied
+		if( players != null){
+			for( Player p: players){
+				layout[p.getCurrentRow()][p.getCurrentCol()].setIsOccupied(true);
+				layout[p.getCurrentRow()][p.getCurrentCol()].setPlayerColor(p.getColor());
+			}
+		}
 		//Then we have every room cell draw itself
 		for(int i = 0; i<layout.length; i++){
 			for(int j = 0; j<layout[i].length; j++){
@@ -67,7 +76,10 @@ public class Board extends JPanel implements MouseListener {
 	public void setCurrentIndex(int currentIndex) {
 		this.currentIndex = currentIndex;
 	}
-
+	
+	public int getCurrentIndex() {
+		return currentIndex;
+	}
 
 	public boolean isTargetSelected() {
 		return targetSelected;
@@ -186,7 +198,7 @@ public class Board extends JPanel implements MouseListener {
 		return rooms;
 	}
 
-	public Board() {
+	public Board(ClueGame g) {
 		rooms = new HashMap<Character,String>();
 		adjacencies = new HashMap<BoardCell, LinkedList<BoardCell>>();
 		targetList = new HashSet<BoardCell>();
@@ -194,6 +206,8 @@ public class Board extends JPanel implements MouseListener {
 		currentIndex = 0;
 		addMouseListener(this);
 		humanFinished = false;
+		game = g;
+		isSuggesting = false;
 	}
 	public void fixSize(){
 		cellSize = new Dimension(1,1);
@@ -216,6 +230,14 @@ public class Board extends JPanel implements MouseListener {
 		return cellSize;
 	}
 	
+	public void setIsSuggesting(boolean s){
+		isSuggesting = s;
+	}
+	
+	public boolean isSuggesting(){
+		return isSuggesting;
+	}
+	
 	public Map<Character, String> getRooms() {
 		return rooms;
 	}
@@ -236,7 +258,7 @@ public class Board extends JPanel implements MouseListener {
 					//this if statement makes sure that we are either not currently in a room or that we are currently in a door way and the door is facing in the correct direction
 					if( !(getCellAt(i,j).isRoom()) || ((getCellAt(i,j).isDoorWay()) && getRoomCellAt(i,j).getDoorDirection() == RoomCell.DoorDirection.UP)||getCellAt(i-1,j).isDoorWay()){
 						//Finally we make sure that the room we are moving to is not occupied, if it is not, we add it to the adjacency list
-						if(!getCellAt(i-1, j).getIsOccupied()) adjList.add(getCellAt(i-1,j));
+						adjList.add(getCellAt(i-1,j));
 					}
 				}
 				//This if statement check to see if the cell at j-1 is either not a room or is a door way with the door facing in the correct direction
@@ -244,7 +266,7 @@ public class Board extends JPanel implements MouseListener {
 					//this if statement makes sure that we are either not currently in a room or that we are currently in a door way and the door is facing in the correct direction
 					if( !(getCellAt(i,j).isRoom()) || ((getCellAt(i,j).isDoorWay()) && getRoomCellAt(i,j).getDoorDirection() == RoomCell.DoorDirection.LEFT)||getCellAt(i,j-1).isDoorWay()){
 						//Finally we make sure that the room we are moving to is not occupied, if it is not, we add it to the adjacency list
-						if(!getCellAt(i, j-1).getIsOccupied()) adjList.add( getCellAt(i,j-1));
+						adjList.add( getCellAt(i,j-1));
 					}
 				}
 				//This if statement check to see if the cell at i+1 is either not a room or is a door way with the door facing in the correct direction
@@ -252,7 +274,7 @@ public class Board extends JPanel implements MouseListener {
 					//this if statement makes sure that we are either not currently in a room or that we are currently in a door way and the door is facing in the correct direction
 					if( !(getCellAt(i,j).isRoom()) || ((getCellAt(i,j).isDoorWay()) && getRoomCellAt(i,j).getDoorDirection() == RoomCell.DoorDirection.DOWN)||getCellAt(i+1,j).isDoorWay()){
 						//Finally we make sure that the room we are moving to is not occupied, if it is not, we add it to the adjacency list
-						if(!getCellAt(i+1, j).getIsOccupied()) adjList.add( getCellAt(i+1,j));
+						adjList.add( getCellAt(i+1,j));
 					}
 				}
 				//This if statement check to see if the cell at j+1 is either not a room or is a door way with the door facing in the correct direction
@@ -260,7 +282,7 @@ public class Board extends JPanel implements MouseListener {
 					//this if statement makes sure that we are either not currently in a room or that we are currently in a door way and the door is facing in the correct direction
 					if(!(getCellAt(i,j).isRoom()) || ((getCellAt(i,j).isDoorWay()) && getRoomCellAt(i,j).getDoorDirection() == RoomCell.DoorDirection.RIGHT)|| getCellAt(i,j+1).isDoorWay()){
 						//Finally we make sure that the room we are moving to is not occupied, if it is not, we add it to the adjacency list
-						if(!getCellAt(i, j+1).getIsOccupied()) adjList.add( getCellAt(i,j+1));
+						adjList.add( getCellAt(i,j+1));
 					}
 				}
 				adjacencies.put( layout[i][j], adjList);	
@@ -323,8 +345,16 @@ public class Board extends JPanel implements MouseListener {
 				repaint();
 				for( BoardCell b: targetList ){
 					if (new Rectangle((int)(b.getColumn()*getCellSize().getWidth()),(int)(b.getRow()*getCellSize().getHeight()), (int)(getCellSize().getWidth()),(int)(getCellSize().getHeight())).contains(e.getX(), e.getY())) {
-				    	humanFinished = true;
+						getCellAt(players.get(currentIndex).getCurrentRow(), players.get(currentIndex).getCurrentCol()).setIsOccupied(false);
+						humanFinished = true;
 				    	((HumanPlayer)players.get(currentIndex)).finishMove( b, targetList);
+				    	if(b.isRoom()){
+				    		JOptionPane.showMessageDialog(this, "Please make a suggestion!", "", JOptionPane.INFORMATION_MESSAGE);
+				    		isSuggesting = true;
+				    		SuggestionFrame gui = new SuggestionFrame(players.get(currentIndex),this, game, game.getGameInterface(), players);
+				    		
+				    		gui.setVisible(true);
+				    	}
 				    	repaint();
 				    	return;
 				    }

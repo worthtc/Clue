@@ -36,7 +36,7 @@ public class ClueGame extends JFrame {
 	private ArrayList<Player> referencePlayers;
 	private ArrayList<Player> players;
 	private Solution solution;
-
+	private GameInterface gameControl;
 	@SuppressWarnings("unused")
 	public static void main(String[] args){
 		ClueGame gui = new ClueGame("map/Clue Map2.txt","map/legend.txt","map/weaponLegend.txt","map/peopleLegend.txt");
@@ -47,9 +47,9 @@ public class ClueGame extends JFrame {
 		//Initialize the JFrame and all of the variables
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Magical Clue!"); // Note: title is a work in progress
-		setSize(500,500);
+		setSize(1000,1000);
 		rooms = new HashMap<Character,String>();
-		gameBoard = new Board();
+		gameBoard = new Board(this);
 		this.boardName = boardName;
 		boardLegend = legendName;
 		this.weaponLegend = weaponLegend;
@@ -63,7 +63,8 @@ public class ClueGame extends JFrame {
 		generateDeck();
 		add(gameBoard, BorderLayout.CENTER);
 		try{ //Tries to make a number of players. If that number exceeds the total number of possible players, an exception is thrown.
-			makePlayers(1,2);
+			makePlayers(1,5);
+			//makePlayers(0,6); //Debugging statement
 		}catch(Exception e){
 			System.out.println(e);
 		}
@@ -116,13 +117,20 @@ public class ClueGame extends JFrame {
 		menu.add(exit);
 		menuBar.add(menu);
 		
-		GameInterface gameControl = new GameInterface(players, gameBoard);
+		gameControl = new GameInterface(players, gameBoard, this);
 		add(gameControl, BorderLayout.SOUTH);
 		CardDisplayPanel cardDisplay = new CardDisplayPanel(players.get(0).getCards());
 		add(cardDisplay, BorderLayout.EAST);
 		JOptionPane.showMessageDialog(this, "You are Nicol Bolas, press the Next Player button to start!", "Clue Intro", JOptionPane.INFORMATION_MESSAGE);
 		//Set the frame to be visible
 		setVisible(true);
+		Set<Card> allCards = new HashSet<Card>();
+		allCards.addAll(cards);
+		for( Player p: players){
+			if( p.isComputer() ){
+				((ComputerPlayer)p).setMasterListCards(allCards);
+			}
+		}
 	}
    
    public void generateDeck(){
@@ -134,7 +142,7 @@ public class ClueGame extends JFrame {
 	   }
 	   HashSet<Character> keys = new HashSet<Character>(rooms.keySet());
 	   for(Character c : keys){//For every element in the rooms map (generated in Board), make a ROOM card
-		   if (c != 'W'){
+		   if (c != 'W' && c!= 'y'){
 			   cards.add(new Card(rooms.get(c), Card.CardType.ROOM));
 		   }
 	   }
@@ -149,7 +157,7 @@ public class ClueGame extends JFrame {
 	   String weaponChoice = ""; //Initialized to blank strings to satisfy compiler message regarding initialization in following loops.
 	   String personChoice = "";
 	   String roomChoice = "";
-	   int random =(int) Math.random()*weapons.size();
+	   int random =(int) (Math.random()*weapons.size());
 	   for(String s : weapons){
 		   if(weapons.indexOf(s) == random){ //guaranteed to enter this statement
 			   weaponChoice = s;
@@ -158,7 +166,7 @@ public class ClueGame extends JFrame {
 			   cardsLeft.add(new Card(s, Card.CardType.WEAPON));
 		   }
 	   }
-	   random =(int) Math.random()*characters.size();
+	   random =(int) (Math.random()*characters.size());
 	   for(String s : characters){
 		   if(characters.indexOf(s) == random){
 			   personChoice = s;
@@ -168,18 +176,20 @@ public class ClueGame extends JFrame {
 		   }
 	   }
 	   Set<Character> keys = rooms.keySet();
-	   random = (int) Math.random()*keys.size();
+	   random = (int) (Math.random()*(keys.size() - 2)); // 2 keys are not valid rooms so we remove them from the random hcoice
+	   int count = 0;
 	   for(Character c : keys){
-		   if (c != 'W'){
-			   if(characters.indexOf(rooms.get(c)) == random){
+		   if(c != 'W' && c != 'y'){
+			   if(count == random){
 				   roomChoice = rooms.get(c);
 			   }
 			   else{
 				   cardsLeft.add(new Card(rooms.get(c), Card.CardType.ROOM));
 			   }
+			   count++;
 		   }
 	   }
-	   solution = new Solution(weaponChoice, personChoice, roomChoice);
+	   solution = new Solution(personChoice, weaponChoice, roomChoice);
 	   int currentPlayer = 0;
 	   while(cardsLeft.size() != 0){
 		   int choice = (int)(Math.random()*cardsLeft.size());
@@ -232,6 +242,10 @@ public class ClueGame extends JFrame {
 	
 	public Solution getSolution() {
 		return solution;
+	}
+	
+	public GameInterface getGameInterface(){
+		return gameControl;
 	}
 	
 	public void setSolution(Solution solution) {
@@ -320,12 +334,19 @@ public class ClueGame extends JFrame {
 			currentPlayer++;
 		}
 		for(int i = 0; i<computers; i++){
-			players.add(new ComputerPlayer(referencePlayers.get(currentPlayer)));
+			players.add(new ComputerPlayer(referencePlayers.get(currentPlayer), cards));
 			currentPlayer++;
 		}
 	}
 	
    public void loadRoomConfig() throws BadConfigFormatException {
 	  gameBoard.loadBoardConfig( boardName, boardLegend);
+   }
+   
+   /* Constructor for old tests to properly throw exceptions*/
+   public ClueGame(String boardName, String legendName){
+	    gameBoard = new Board(this);
+	   	this.boardName = boardName;
+		boardLegend = legendName;
    }
 }

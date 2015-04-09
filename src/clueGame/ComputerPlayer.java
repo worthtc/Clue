@@ -4,13 +4,28 @@ import java.util.*;
 public class ComputerPlayer extends Player{
 	private char lastRoomVisited;
 	private Set<Card> masterListCards;
+	private boolean AccusationFlag;
+	private String winningPerson;
+	private String winningWeapon;
+	private String winningRoom;
 	
-	public ComputerPlayer(String name, String color, int startRow, int startCol){
+	public ComputerPlayer(String name, String color, int startRow, int startCol, ArrayList<Card> gameCards){
 		super(name, color, startRow, startCol);
-		masterListCards = new HashSet<Card>();
+		Set<Card> cards = new HashSet<Card>();
+		for(Card c : gameCards){
+			cards.add(c);
+		}
+		masterListCards = cards;
+		AccusationFlag = false;
 	}
-	public ComputerPlayer(Player player){
+	public ComputerPlayer(Player player, ArrayList<Card> gameCards){
 		super(player);
+		Set<Card> cards = new HashSet<Card>();
+		for(Card c : gameCards){
+			cards.add(c);
+		}
+		masterListCards = cards;
+		AccusationFlag = false;
 	}
 	public BoardCell pickLocation(Set<BoardCell> targets){
 		// Check to see if one of the targets is a room that we were not just in
@@ -38,7 +53,7 @@ public class ComputerPlayer extends Player{
 		int choice = (int)(Math.random()*personOptions.size());
 		suggestion.add(personOptions.get(choice));
 		choice = (int)(Math.random()*roomOptions.size());
-		suggestion.add(roomOptions.get(choice));
+		suggestion.add(roomOptions.get(choice ));
 		choice = (int)(Math.random()*weaponOptions.size());
 		suggestion.add(weaponOptions.get(choice));
 		return suggestion;
@@ -79,6 +94,12 @@ public class ComputerPlayer extends Player{
 	public void setMasterListCards(Set<Card> seenCards) {
 		this.masterListCards = seenCards;
 	}
+	
+	@Override
+	public void giveCard(Card c){
+		super.giveCard(c);
+		updateSeen(c);
+	}
 
 	@Override
 	public void makeAMove(Set<BoardCell> targetSet) {
@@ -92,4 +113,37 @@ public class ComputerPlayer extends Player{
 			lastRoomVisited = ((RoomCell)chosenCell).getInitial();
 		}
 	}
+	public boolean getAccusationFlag() {
+		return AccusationFlag;
+	}
+	public void setAccusationFlag(boolean accusationFlag) {
+		AccusationFlag = accusationFlag;
+	}
+	
+	public void setWinningPerson(String winningPerson) {
+		this.winningPerson = winningPerson;
+	}
+	public void setWinningWeapon(String winningWeapon) {
+		this.winningWeapon = winningWeapon;
+	}
+	public void setWinningRoom(String winningRoom) {
+		this.winningRoom = winningRoom;
+	}
+	public Solution makeAccusation() {
+		return new Solution( winningPerson, winningWeapon, winningRoom);
+		
+	}
+	public String getWinningPerson() {
+		return winningPerson;
+	}
+	public String getWinningWeapon() {
+		return winningWeapon;
+	}
+	public String getWinningRoom() {
+		return winningRoom;
+	}
+	
+	
+	
+	
 }

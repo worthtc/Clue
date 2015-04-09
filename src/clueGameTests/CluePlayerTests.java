@@ -12,12 +12,12 @@ import clueGame.*;
 
 public class CluePlayerTests {
 	private static ClueGame game;
-	private final int NUM_CARDS = 22; //Number of cards, determined by legend
+	private final int NUM_CARDS = 21; //Number of cards, determined by legend
 	private final int NUM_WEAPONS = 6; //determined by legend
 	private final int NUM_PEOPLE = 6;//determined by legend
-	private final int NUM_PLAYERS = 3; //determined by legend
+	private final int NUM_PLAYERS = 6; //determined by legend
 	private final int NUM_HUMAN_PLAYERS = 1;
-	private final int NUM_COMPUTER_PLAYERS = 2;
+	private final int NUM_COMPUTER_PLAYERS = 5;
 	
 	private Solution sol;
 	
@@ -25,9 +25,9 @@ public class CluePlayerTests {
 	public static void init(){
 		game = new ClueGame("map/Clue Map2.txt","map/legend.txt","map/weaponLegend.txt","map/peopleLegend.txt");
 		//game.loadConfigFiles();
-		game.generateDeck();
+		//game.generateDeck();
 		//game.makePlayers();
-		game.deal();
+		//game.deal();
 	}
 	//Total cards generated must match the number of cards specified in the legend
 	@Test
@@ -80,10 +80,11 @@ public class CluePlayerTests {
 	@Test
 	public void testDeal(){
 		ArrayList<Player> players = game.getPlayers();
-		assertEquals(7, players.get(0).getCards().size());
-		assertEquals(6, players.get(1).getCards().size(), players.get(2).getCards().size());
-		assertEquals(19, players.get(0).getCards().size() + players.get(1).getCards().size() + players.get(2).getCards().size());
-		for (int i = 0; i < 6; i++){
+		assertEquals(3, players.get(0).getCards().size());
+		assertEquals(3, players.get(1).getCards().size());
+		assertEquals(3, players.get(2).getCards().size());
+		assertEquals(9, players.get(0).getCards().size() + players.get(1).getCards().size() + players.get(2).getCards().size());
+		for (int i = 0; i < 3; i++){
 			assertFalse(players.get(0).getCards().get(i).getName().equals(players.get(1).getCards().get(i).getName()));
 			assertFalse(players.get(1).getCards().get(i).getName().equals(players.get(2).getCards().get(i).getName()));
 			assertFalse(players.get(0).getCards().get(i).getName().equals(players.get(2).getCards().get(i).getName()));
