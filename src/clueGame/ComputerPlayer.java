@@ -4,6 +4,10 @@ import java.util.*;
 public class ComputerPlayer extends Player{
 	private char lastRoomVisited;
 	private Set<Card> masterListCards;
+	private boolean AccusationFlag;
+	private String winningPerson;
+	private String winningWeapon;
+	private String winningRoom;
 	
 	public ComputerPlayer(String name, String color, int startRow, int startCol, ArrayList<Card> gameCards){
 		super(name, color, startRow, startCol);
@@ -12,6 +16,7 @@ public class ComputerPlayer extends Player{
 			cards.add(c);
 		}
 		masterListCards = cards;
+		AccusationFlag = false;
 	}
 	public ComputerPlayer(Player player, ArrayList<Card> gameCards){
 		super(player);
@@ -20,6 +25,7 @@ public class ComputerPlayer extends Player{
 			cards.add(c);
 		}
 		masterListCards = cards;
+		AccusationFlag = false;
 	}
 	public BoardCell pickLocation(Set<BoardCell> targets){
 		// Check to see if one of the targets is a room that we were not just in
@@ -107,6 +113,27 @@ public class ComputerPlayer extends Player{
 			lastRoomVisited = ((RoomCell)chosenCell).getInitial();
 		}
 	}
-
+	public boolean getAccusationFlag() {
+		return AccusationFlag;
+	}
+	public void setAccusationFlag(boolean accusationFlag) {
+		AccusationFlag = accusationFlag;
+	}
+	
+	public void setWinningPerson(String winningPerson) {
+		this.winningPerson = winningPerson;
+	}
+	public void setWinningWeapon(String winningWeapon) {
+		this.winningWeapon = winningWeapon;
+	}
+	public void setWinningRoom(String winningRoom) {
+		this.winningRoom = winningRoom;
+	}
+	public Solution makeAccusation() {
+		return new Solution( winningPerson, winningWeapon, winningRoom);
+		
+	}
+	
+	
 	
 }

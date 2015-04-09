@@ -90,12 +90,16 @@ public class GameInterface extends JPanel {
 		//Create the listener for the Next player button
 		class NextPlayerListener implements ActionListener {
 			private GameInterface game;
+			private ClueGame currentClueGame;
 			public void actionPerformed(ActionEvent e)
 			{
 				
 				currentBoard.setPlayers( players );
 				currentBoard.setCurrentIndex( currentIndex );
 				player.setText(players.get(currentIndex).toString());
+				if( players.get(currentIndex).isComputer() && ((ComputerPlayer)players.get(currentIndex)).getAccusationFlag()){
+					((ComputerPlayer)players.get(currentIndex)).makeAccusation();
+				}
 				//If we are currently on a human player and that player is not finished we stop doing the action
 				if( players.get(currentIndex).isHuman() && !(((HumanPlayer)players.get(currentIndex)).isFinished())){
 					JOptionPane.showMessageDialog(game, "Please Choose a cell to move to!", "", JOptionPane.INFORMATION_MESSAGE);
@@ -131,43 +135,48 @@ public class GameInterface extends JPanel {
 				if( players.get(currentIndex).isComputer() && currentBoard.getCellAt(players.get(currentIndex).getCurrentRow(), players.get(currentIndex).getCurrentCol()).isRoom() ){
 					Set<Card> suggestion = ( (ComputerPlayer) players.get(currentIndex)).createSuggestion();
 					int i = currentIndex + 1;
-					while( i != currentIndex ){
-						i = i%players.size();
-						String weapon = "";
-						String room = "";
-						String person = "";
-						for( Card c: suggestion){
-							if( c.getType() == Card.CardType.PERSON){
-								person = c.getName();
-							}
-							else if( c.getType() == Card.CardType.WEAPON){
-								weapon = c.getName();
-							}
-							else{
-								room = currentBoard.rooms.get( ((ComputerPlayer) players.get(currentIndex)).getLastRoomVisitied());
-							}
+					String weapon = "";
+					String room = "";
+					String person = "";
+					for( Card c: suggestion){
+						if( c.getType() == Card.CardType.PERSON){
+							person = c.getName();
 						}
-						guessField.setText(person + "," + weapon +"," + room);
-						Card returnedCard = players.get(i).disproveSuggestion(person, room, weapon );
-						if ( returnedCard != null ){
-							suggestionResponse.setText(returnedCard.getName());
-							break;
+						else if( c.getType() == Card.CardType.WEAPON){
+							weapon = c.getName();
 						}
 						else{
-							suggestionResponse.setText("None Found");
+							room = currentBoard.rooms.get( ((ComputerPlayer) players.get(currentIndex)).getLastRoomVisitied());
 						}
-						i++;
+					}
+					Card returnedCard = currentClueGame.handleSuggestion(person, room, weapon, players.get(currentIndex));
+					guessField.setText(person + "," + weapon +"," + room);
+					if( returnedCard == null){
+						suggestionResponse.setText("No New Clue");
+						((ComputerPlayer)players.get(i)).setAccusationFlag(true);
+						((ComputerPlayer)players.get(i)).setWinningPerson( person );
+						((ComputerPlayer)players.get(i)).setWinningWeapon( weapon );
+						((ComputerPlayer)players.get(i)).setWinningRoom( room );
+					}
+					else{
+						for( int j = 0; j < players.size(); j++ ){
+							if( players.get(j).isComputer()){
+								((ComputerPlayer)players.get(j)).updateSeen(returnedCard);
+							}
+						}
+						suggestionResponse.setText(returnedCard.getName());
 					}
 				}
 				currentIndex = (currentIndex + 1)%players.size();
 				currentBoard.repaint();
 			}
 			
-			NextPlayerListener(GameInterface g){
+			NextPlayerListener(GameInterface g, ClueGame clueGame){
 				game = g;
+				currentClueGame = clueGame;
 			}
 		}
-		nextPlayer.addActionListener(new NextPlayerListener(this));
+		nextPlayer.addActionListener(new NextPlayerListener(this, game));
 		temp.add(nextPlayer);
 		return temp;
 	}
@@ -227,5 +236,6 @@ public class GameInterface extends JPanel {
 	public void setGuessField(JTextField guessField) {
 		this.guessField = guessField;
 	}	
+	
 	
 }
