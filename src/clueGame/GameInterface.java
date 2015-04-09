@@ -112,6 +112,7 @@ public class GameInterface extends JPanel {
 					for( BoardCell b: targetSet ){
 						b.setHighlighted(false);
 					}
+					
 					return;
 				}
 				//Create a random integer for the dice roll
@@ -147,6 +148,13 @@ public class GameInterface extends JPanel {
 						}
 						else{
 							room = currentBoard.rooms.get( ((ComputerPlayer) players.get(currentIndex)).getLastRoomVisitied());
+						}
+					}
+					for( Player p: players){
+						if( p.getName().equals( person )){
+							currentBoard.getCellAt(p.getCurrentRow(), p.getCurrentCol()).setIsOccupied(false);
+							p.setCurrentCol(players.get(currentIndex).getCurrentCol());
+							p.setCurrentRow(players.get(currentIndex).getCurrentRow());
 						}
 					}
 					Card returnedCard = currentClueGame.handleSuggestion(person, room, weapon, players.get(currentIndex));

@@ -33,6 +33,7 @@ public class HumanPlayer extends Player{
 		
 	}
 	public void finishMove(BoardCell chosenCell, Set<BoardCell> targetSet){
+		
 		setCurrentRow(chosenCell.getRow());
 		setCurrentCol(chosenCell.getColumn());
 		chosenCell.setPlayerColor(getColor());
