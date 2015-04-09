@@ -77,6 +77,7 @@ public class GameInterface extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(currentBoard.getCurrentIndex() == 0 && !((HumanPlayer)game.getPlayers().get(currentBoard.getCurrentIndex())).isFinished() && !((HumanPlayer)game.getPlayers().get(currentBoard.getCurrentIndex())).hasAccused()){
+					currentBoard.setIsSuggesting(true);
 					AccusationFrame gui = new AccusationFrame(game);
 					((HumanPlayer)game.getPlayers().get(currentBoard.getCurrentIndex())).setHasAccused(true);
 					gui.setVisible(true);
@@ -96,7 +97,9 @@ public class GameInterface extends JPanel {
 			private ClueGame currentClueGame;
 			public void actionPerformed(ActionEvent e)
 			{
-				
+				if(currentBoard.isSuggesting()){
+					JOptionPane.showMessageDialog(null, "You need to finish your suggestion!", "", JOptionPane.INFORMATION_MESSAGE);
+				}
 				currentBoard.setPlayers( players );
 				currentBoard.setCurrentIndex( currentIndex );
 				player.setText(players.get(currentIndex).toString());
