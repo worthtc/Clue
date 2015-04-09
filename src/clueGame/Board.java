@@ -44,6 +44,7 @@ public class Board extends JPanel implements MouseListener {
 		if( players != null){
 			for( Player p: players){
 				layout[p.getCurrentRow()][p.getCurrentCol()].setIsOccupied(true);
+				layout[p.getCurrentRow()][p.getCurrentCol()].setPlayerColor(p.getColor());
 			}
 		}
 		//Then we have every room cell draw itself
